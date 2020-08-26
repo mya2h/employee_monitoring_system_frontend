@@ -19,28 +19,17 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SideNav from './sideNav'
+import CustomInput from './custom'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+  
   },
   toolbarIcon: {
     display: 'flex',
@@ -55,6 +44,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    backgroundColor: 'rgb(255, 255, 255)',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -65,17 +55,35 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   menuButton: {
-    marginRight: 36,
+   float: 'left'
+  },
+  notifyicon:{
+    float: "right"
   },
   menuButtonHidden: {
     display: 'none',
   },
   title: {
-    flexGrow: 1,
+    color:"#fff",
+    fontSize: '18px',
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+    fontWeight: 400,
+    lineHeight: '30px'
+    // text-transform: uppercase;
+    // text-decoration: none;
+    // background-color: transparent;
+  },
+  span:{
+    color: "#00bbff",
+    fontSize: 23,
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+    fontWeight: 400,
+    lineHeight: '30px'
   },
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
+    backgroundColor: 'rgba(52, 49, 76, 1)',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -93,25 +101,27 @@ const useStyles = makeStyles(theme => ({
       width: theme.spacing(9),
     },
   },
-  appBarSpacer: theme.mixins.toolbar,
+  // appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
   },
   container: {
-    paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240,
+    minHeight: 570,
   },
+  icon:{
+    color: 'white'
+  }
 }));
 
 const Dashboard =()=> {
@@ -121,7 +131,12 @@ const Dashboard =()=> {
     setOpen(true);
   };
   const handleDrawerClose = () => {
-    setOpen(false);
+    if(open == true){
+      setOpen(false);
+    }
+    else{
+      setOpen(true)
+    }
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -132,23 +147,22 @@ const Dashboard =()=> {
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
-            color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
             <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          </IconButton> 
+          {/* <Typography component="h1" variant="h6"  noWrap className={classes.title}>
             Dashboard
-          </Typography>
-          <IconButton color="inherit">
+          </Typography> */}
+          <IconButton style={{marginLeft:'90%'}}>
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
         </Toolbar>
-      </AppBar>
+      </AppBar> 
       <Drawer
         variant="permanent"
         classes={{
@@ -157,34 +171,23 @@ const Dashboard =()=> {
         open={open}
       >
         <div className={classes.toolbarIcon}>
+        <Typography component="h1" variant="h6"  noWrap className={classes.title}>
+            Employee<span className={classes.span}>Track</span>
+
+          </Typography>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon className={classes.icon}/>
           </IconButton>
         </div>
-        <Divider />
+        <Divider light/>
+    
       <SideNav />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
+        <div>
+          content here 
+        </div>
       </main>
     </div>
   )

@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   sideNav: {
     width: '100%',
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+   color: '#ffffff',
   },
   nested:{
     paddingLeft: 44
@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  icon: {
+    color: '#fff'
+  }
 }));
 
 const SideNav = ()=> {
@@ -54,17 +57,19 @@ const SideNav = ()=> {
       component="nav"
       aria-labelledby="nested-list-subheader"
       className={classes.sideNav}
+      activeClassName="active"
     >
       <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
-        <ListItem button>
-          <ListItemIcon>
+        <ListItem button 
+        className={classes.listitem}>
+          <ListItemIcon className={classes.icon}>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
       </Link>
-        <ListItem button onClick={handleOrder}>
-          <ListItemIcon>
+        <ListItem button onClick={handleOrder} className={classes.listitem}>
+          <ListItemIcon className={classes.icon}>
             <LibraryBooksIcon />
           </ListItemIcon>
           <ListItemText primary="Reports" />
@@ -73,8 +78,8 @@ const SideNav = ()=> {
       <Collapse in={openReport} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
         <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
+          <ListItem button className={classes.nested} >
+            <ListItemIcon className={classes.icon}>
                 <TodayIcon/>
             </ListItemIcon>
             <ListItemText primary="Daily Report" />
@@ -82,7 +87,7 @@ const SideNav = ()=> {
           </Link> 
           <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
           <ListItem button className={classes.nested}>
-            <ListItemIcon>
+            <ListItemIcon className={classes.icon}>
               <ViewWeekIcon />
             </ListItemIcon>
             <ListItemText primary="Weekly Report" />
@@ -90,7 +95,7 @@ const SideNav = ()=> {
           </Link>
           <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
           <ListItem button className={classes.nested}>
-            <ListItemIcon>
+            <ListItemIcon className={classes.icon}>
               <DateRangeIcon />
             </ListItemIcon>
             <ListItemText primary="Monthly Report" />
@@ -99,27 +104,27 @@ const SideNav = ()=> {
         </List>
       </Collapse>
       <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
-      <ListItem button>
-        <ListItemIcon>
+      <ListItem button className={classes.listitem}>
+        <ListItemIcon className={classes.icon}>
           <FileCopyIcon />
         </ListItemIcon>
         <ListItemText primary="Resources" />
       </ListItem>
       </Link>
-      <ListItem button>
-        <ListItemIcon>
+      <ListItem button className={classes.listitem}>
+        <ListItemIcon className={classes.icon}>
           <DevicesOtherIcon />
         </ListItemIcon>
         <ListItemText primary="Devices" />
       </ListItem>
-      <ListItem button>
-        <ListItemIcon>
+      <ListItem button className={classes.listitem}>
+        <ListItemIcon className={classes.icon}>
           <LocalActivityIcon />
         </ListItemIcon>
         <ListItemText primary="Activities" />
       </ListItem>
-      <ListItem button onClick={handleClick}>
-        <ListItemIcon>
+      <ListItem button onClick={handleClick} className={classes.listitem}>
+        <ListItemIcon className={classes.icon}>
           <SettingsIcon />
         </ListItemIcon>
         <ListItemText primary="Settings" />
@@ -129,7 +134,7 @@ const SideNav = ()=> {
         <List component="div" disablePadding>
           <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
           <ListItem button className={classes.nested}>
-            <ListItemIcon>
+            <ListItemIcon className={classes.icon}>
               <CategoryIcon/>
             </ListItemIcon>
             <ListItemText primary="Categories" />
@@ -137,7 +142,7 @@ const SideNav = ()=> {
           </Link>
           <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
           <ListItem button className={classes.nested}>
-            <ListItemIcon>
+            <ListItemIcon className={classes.icon}>
               <NotInterestedIcon />
             </ListItemIcon>
             <ListItemText primary="Do Not Track" />
@@ -146,7 +151,7 @@ const SideNav = ()=> {
         </List>
       </Collapse>
       <ListItem button>
-        <ListItemIcon>
+        <ListItemIcon className={classes.icon}>
           <AttachMoneyIcon />
         </ListItemIcon>
         <ListItemText primary="Account" />

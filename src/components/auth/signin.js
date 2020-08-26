@@ -72,6 +72,7 @@ const SignIn = () =>{
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          <Link to = "/side" style={{ color: 'inherit', textDecoration: 'inherit'}}>
           <Button
             type="submit"
             fullWidth
@@ -81,6 +82,7 @@ const SignIn = () =>{
           >
             Sign In
           </Button>
+              </Link>
           <Grid container>
             <Grid item xs>
                 Forgot password?
