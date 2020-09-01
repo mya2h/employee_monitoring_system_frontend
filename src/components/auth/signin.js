@@ -95,7 +95,7 @@ const SignIn = () =>{
             style={{marginRight:'50px'}}
           />
           <br/>
-          <Link to = "/side" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+          <Link to = "/admin" style={{ color: 'inherit', textDecoration: 'inherit'}}>
           <Button
             type="submit"
             // fullWidth

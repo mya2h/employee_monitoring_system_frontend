@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   toolbar: {
-  
+
   },
   toolbarIcon: {
     display: 'flex',
@@ -57,16 +57,16 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   menuButton: {
-   float: 'left'
+    float: 'left'
   },
-  notifyicon:{
+  notifyicon: {
     float: "right"
   },
   menuButtonHidden: {
     display: 'none',
   },
   title: {
-    color:"#fff",
+    color: "#fff",
     fontSize: '18px',
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
     fontWeight: 400,
@@ -75,7 +75,7 @@ const useStyles = makeStyles(theme => ({
     // text-decoration: none;
     // background-color: transparent;
   },
-  span:{
+  span: {
     color: "#00bbff",
     fontSize: 23,
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
-    backgroundColor: 'rgba(52, 49, 76, 1)',
+    backgroundColor: '#1A2038',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -105,10 +105,11 @@ const useStyles = makeStyles(theme => ({
   },
   // appBarSpacer: theme.mixins.toolbar,
   content: {
-    marginTop: '400px',
     flexGrow: 1,
     height: '100vh',
+    paddingTop:theme.spacing(9),
     overflow: 'auto',
+    backgroundColor: 'rgba(65, 63, 63, 0.030)'
   },
   container: {
     paddingBottom: theme.spacing(4),
@@ -122,30 +123,31 @@ const useStyles = makeStyles(theme => ({
   fixedHeight: {
     minHeight: 570,
   },
-  icon:{
+  icon: {
     color: 'white'
   }
 }));
-const switchRoute = (
-  <Switch>
-    <Route exact path = "/admin/dashboard" component = {GraphInfo}/>
-   
-  </Switch>
-)
-const Dashboard =()=> {
+
+const Dashboard = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+  const switchRoute = (
+    <Switch>
+      <Route exact path="/admin/dashboard" component={GraphInfo} />
+    </Switch>
+  );
   const handleDrawerClose = () => {
-    if(open == true){
+    if (open == true) {
       setOpen(false);
     }
-    else{
+    else {
       setOpen(true)
     }
   };
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -160,17 +162,17 @@ const Dashboard =()=> {
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
             <MenuIcon />
-          </IconButton> 
+          </IconButton>
           {/* <Typography component="h1" variant="h6"  noWrap className={classes.title}>
             Dashboard
           </Typography> */}
-          <IconButton style={{marginLeft:'90%'}}>
+          <IconButton style={{ marginLeft: '90%' }}>
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
         </Toolbar>
-      </AppBar> 
+      </AppBar>
       <Drawer
         variant="permanent"
         classes={{
@@ -179,24 +181,24 @@ const Dashboard =()=> {
         open={open}
       >
         <div className={classes.toolbarIcon}>
-        <Typography component="h1" variant="h6"  noWrap className={classes.title}>
+          <Typography component="h1" variant="h6" noWrap className={classes.title}>
             Employee<span className={classes.span}>Track</span>
 
           </Typography>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon className={classes.icon}/>
+            <ChevronLeftIcon className={classes.icon} />
           </IconButton>
         </div>
-        <Divider light/>
-    
-      <SideNav />
+        <Divider light />
+
+        <SideNav />
       </Drawer>
       <main className={classes.content}>
         <div>
-        {switchRoute}
+          {switchRoute}
         </div>
       </main>
     </div>
   )
-    }
- export default Dashboard   
+}
+export default Dashboard   

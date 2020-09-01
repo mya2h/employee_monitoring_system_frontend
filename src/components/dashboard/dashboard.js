@@ -4,7 +4,7 @@ import React from 'react'
 const GraphInfo = () =>{
     return(
         <div>
-          alsjdasjdklad
+        Dashboard
         </div>    
     )
 }

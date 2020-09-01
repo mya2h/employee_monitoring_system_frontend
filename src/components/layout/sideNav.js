@@ -68,7 +68,7 @@ const SideNav = ()=> {
           <ListItemText primary="Dashboard" />
         </ListItem>
       </Link>
-      <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
+      <Link style={{ color: 'inherit', textDecoration: 'inherit'}} to = "/admin/dashboard">
       <ListItem button className={classes.listitem}>
         <ListItemIcon className={classes.icon}>
           <FileCopyIcon />
