@@ -59,7 +59,7 @@ const SideNav = ()=> {
       className={classes.sideNav}
       activeClassName="active"
     >
-      <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
+      <Link to = "/admin/dashboard" style={{ color: 'inherit', textDecoration: 'inherit'}}>
         <ListItem button 
         className={classes.listitem}>
           <ListItemIcon className={classes.icon}>
@@ -68,7 +68,27 @@ const SideNav = ()=> {
           <ListItemText primary="Dashboard" />
         </ListItem>
       </Link>
-        <ListItem button onClick={handleOrder} className={classes.listitem}>
+      <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
+      <ListItem button className={classes.listitem}>
+        <ListItemIcon className={classes.icon}>
+          <FileCopyIcon />
+        </ListItemIcon>
+        <ListItemText primary="Resources" />
+      </ListItem>
+      </Link>
+      <ListItem button className={classes.listitem}>
+        <ListItemIcon className={classes.icon}>
+          <DevicesOtherIcon />
+        </ListItemIcon>
+        <ListItemText primary="Devices" />
+      </ListItem>
+      <ListItem button className={classes.listitem}>
+        <ListItemIcon className={classes.icon}>
+          <LocalActivityIcon />
+        </ListItemIcon>
+        <ListItemText primary="Activities" />
+      </ListItem>
+      <ListItem button onClick={handleOrder} className={classes.listitem}>
           <ListItemIcon className={classes.icon}>
             <LibraryBooksIcon />
           </ListItemIcon>
@@ -103,26 +123,6 @@ const SideNav = ()=> {
           </Link>
         </List>
       </Collapse>
-      <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
-      <ListItem button className={classes.listitem}>
-        <ListItemIcon className={classes.icon}>
-          <FileCopyIcon />
-        </ListItemIcon>
-        <ListItemText primary="Resources" />
-      </ListItem>
-      </Link>
-      <ListItem button className={classes.listitem}>
-        <ListItemIcon className={classes.icon}>
-          <DevicesOtherIcon />
-        </ListItemIcon>
-        <ListItemText primary="Devices" />
-      </ListItem>
-      <ListItem button className={classes.listitem}>
-        <ListItemIcon className={classes.icon}>
-          <LocalActivityIcon />
-        </ListItemIcon>
-        <ListItemText primary="Activities" />
-      </ListItem>
       <ListItem button onClick={handleClick} className={classes.listitem}>
         <ListItemIcon className={classes.icon}>
           <SettingsIcon />

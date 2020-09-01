@@ -15,11 +15,13 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
+import { Switch, Redirect, Route } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SideNav from './sideNav'
 import CustomInput from './custom'
+import GraphInfo from '../dashboard/dashboard'
 
 
 const drawerWidth = 260;
@@ -103,6 +105,7 @@ const useStyles = makeStyles(theme => ({
   },
   // appBarSpacer: theme.mixins.toolbar,
   content: {
+    marginTop: '400px',
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
@@ -123,7 +126,12 @@ const useStyles = makeStyles(theme => ({
     color: 'white'
   }
 }));
-
+const switchRoute = (
+  <Switch>
+    <Route exact path = "/admin/dashboard" component = {GraphInfo}/>
+   
+  </Switch>
+)
 const Dashboard =()=> {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -184,9 +192,8 @@ const Dashboard =()=> {
       <SideNav />
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
         <div>
-          content here 
+        {switchRoute}
         </div>
       </main>
     </div>

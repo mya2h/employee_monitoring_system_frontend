@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import image from '../../assets/images/admin.png'
 import Checkbox from '@material-ui/core/Checkbox';
 import {Link} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
@@ -11,46 +12,66 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Paper } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: '12%',
+    paddingRight: theme.spacing(8),
+    paddingLeft:theme.spacing(8),
+    paddingBottom:theme.spacing(9),
+    width:'37%',
+   borderRadius:'15px'
+    
+  },
+  logo:{
+    width:'170px',
+    height:'180px',
+    marginTop:theme.spacing(7)
+  },
+  // avatar: {
+  //   margin: theme.spacing(1),
+  //   backgroundColor: theme.palette.secondary.main,
+  // },
+  form: {
+    width: '83%', // Fix IE 11 issue.
+    marginLeft:'18%',
+    marginTop:'3%',
+  
+    // marginRight:'3%'
+  },
+  submit: {
+    marginRight:theme.spacing(22),
+    backgroundColor: '#1976d2'
+  },
+  main:{
+    backgroundColor: '#1A2038',
+    height: '650px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+  }
 }));
 
 const SignIn = () =>{
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate>
+    <div className={classes.main}>
+      <Paper className={classes.paper}>
+      <Grid container>
+            <Grid item xs={4}>
+                <img src={image} alt="logo" className={classes.logo} />
+            </Grid>
+            <Grid item xs={8}>
+              <form className={classes.form} noValidate>
           <TextField
-            variant="outlined"
+            variant="outlined"  
             margin="normal"
+
             required
             fullWidth
+            
             id="email"
             label="Email Address"
             name="email"
@@ -71,11 +92,13 @@ const SignIn = () =>{
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
+            style={{marginRight:'50px'}}
           />
+          <br/>
           <Link to = "/side" style={{ color: 'inherit', textDecoration: 'inherit'}}>
           <Button
             type="submit"
-            fullWidth
+            // fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
@@ -83,19 +106,13 @@ const SignIn = () =>{
             Sign In
           </Button>
               </Link>
-          <Grid container>
-            <Grid item xs>
-                Forgot password?
-            </Grid>
-            <Grid item>
-              <Link to = "/signup" style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                {"Don't have an account? Sign Up"}
-              </Link>
+          
+        </form>
             </Grid>
           </Grid>
-        </form>
-      </div>
-    </Container>
+       
+      </Paper>
+    </div>
   );
 }
 export default SignIn
