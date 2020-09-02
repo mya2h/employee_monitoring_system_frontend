@@ -29,7 +29,10 @@ const useStyles = makeStyles(theme => ({
   clear: {
     margin: theme.spacing(3, 0, 2),
     padding: theme.spacing(1),
-    backgroundColor: '#1A2038'
+    backgroundColor: '#1A2038',
+    '&:hover': {
+      background: "rgb(87, 95, 126)",
+    },
   },
   label:{
     margin: theme.spacing(2),
@@ -37,7 +40,10 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     padding: theme.spacing(1),
-    backgroundColor: '#1976d2'
+    backgroundColor: '#1976d2',
+    '&:hover': {
+      background: "#6ca7e2",
+    },
   },
   // radio:{
   //   float : "left"
