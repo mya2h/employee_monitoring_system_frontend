@@ -22,7 +22,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import SideNav from './sideNav'
 import CustomInput from './custom'
 import GraphInfo from '../dashboard/dashboard'
-
+import Account from '../account/account'
 
 const drawerWidth = 260;
 
@@ -137,6 +137,7 @@ const Dashboard = () => {
   const switchRoute = (
     <Switch>
       <Route exact path="/admin/dashboard" component={GraphInfo} />
+      <Route exact path = "/admin/account" component = {Account} />
     </Switch>
   );
   const handleDrawerClose = () => {
