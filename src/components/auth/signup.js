@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
   },
   label:{
     margin: theme.spacing(2),
+    color:'#1A2038',
+    fontWeight:'bold',
+    fontSize:30
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -45,9 +48,6 @@ const useStyles = makeStyles(theme => ({
       background: "#6ca7e2",
     },
   },
-  // radio:{
-  //   float : "left"
-  // }
 }));
 
 const SignUp = () => {
@@ -61,9 +61,6 @@ const SignUp = () => {
   return (
     <div >
       <Paper className={classes.paper}>
-          {/* <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar> */}
         <Typography component="h1" variant="h5" className = {classes.label}>
           Register User
         </Typography>
@@ -78,7 +75,7 @@ const SignUp = () => {
                 fullWidth
                 id="firstName"
                 label="First Name"
-                autoFocus
+
               />
             </Grid>
             <Grid item xs={12} sm={6}>

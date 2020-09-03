@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react'
 import Grid from '@material-ui/core/Grid';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import PaymentIcon from '@material-ui/icons/Payment';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
@@ -22,17 +18,7 @@ const useStyles = makeStyles((theme) => ({
   count:{
     borderRadius:'12px'
   },
-  grid1: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '& > *': {
-      marginLeft: theme.spacing(1),
-      marginTop: theme.spacing(5),
-      marginBottom: theme.spacing(5)
-    },
 
-
-  },
   icon:{
    marginTop: 25,
    paddingLeft:27,
@@ -47,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
 
   },
   amount: {
-    fontSize: 40,
+    fontSize: 32,
     fontFamily: 'Times New Roman Georgia',
     marginTop:theme.spacing(2),
     color: 'inherit',
-    fontStyle:'bold',
+    fontWeight:'bold',
     lineHeight: '1.1'
   },
 }));

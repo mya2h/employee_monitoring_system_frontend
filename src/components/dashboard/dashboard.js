@@ -1,7 +1,9 @@
-import React from 'react'
-import Label from './topLables'
+import React,{useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Label from './topLables'
+import BarGraph from './barGraph'
+import LowerLabel from './lowerLable'
 const useStyles = makeStyles(theme => ({
     all: {
       marginTop: theme.spacing(4),
@@ -16,11 +18,14 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 const GraphInfo = () =>{
+
     const classes = useStyles()
     return(
         <div className = {classes.all}>
            <h3 className = {classes.title}>Dashboard</h3>
         <Label/>
+        <BarGraph/>
+        <LowerLabel/>
         </div>    
     )
 }

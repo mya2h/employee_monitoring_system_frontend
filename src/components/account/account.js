@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import { forwardRef } from 'react';
@@ -94,6 +94,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Account = () => {
+  // useEffect(() => {
+  //   window.scrollTo(0, 0)
+  // }, [])
   const classes = useStyles();
   const [value, setValue] = React.useState('')
   const [selectedValue, setSelectedValue] = React.useState('a');

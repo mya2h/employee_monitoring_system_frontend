@@ -138,6 +138,7 @@ const Dashboard = () => {
     <Switch>
       <Route exact path="/admin/dashboard" component={GraphInfo} />
       <Route exact path = "/admin/account" component = {Account} />
+      <Redirect from ='/admin' to ='/admin/dashboard'/>
     </Switch>
   );
   const handleDrawerClose = () => {
