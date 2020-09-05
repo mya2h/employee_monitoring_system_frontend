@@ -29,7 +29,7 @@ import CustomInput from "./custom";
 import GraphInfo from "../dashboard/dashboard";
 import Device from "../devices/devices";
 import Reports from "../reports/reports";
-import { Report } from "@material-ui/icons";
+import Account from "../account/account";
 
 const drawerWidth = 260;
 
@@ -142,8 +142,12 @@ const Dashboard = () => {
   const switchRoute = (
     <Switch>
       <Route exact path="/admin/dashboard" component={GraphInfo} />
+
       <Route exact path="/admin/device" component={Device} />
       <Route exact path="/admin/report" component={Reports} />
+
+      <Route exact path="/admin/account" component={Account} />
+      <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
   );
   const handleDrawerClose = () => {

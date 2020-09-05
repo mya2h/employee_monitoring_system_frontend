@@ -164,12 +164,14 @@ const SideNav = () => {
           </Link>
         </List>
       </Collapse>
+      <Link to = "/admin/account" style={{ color: 'inherit', textDecoration: 'inherit'}}>
       <ListItem button>
         <ListItemIcon className={classes.icon}>
           <AttachMoneyIcon />
         </ListItemIcon>
         <ListItemText primary="Account" />
       </ListItem>
+      </Link>
     </List>
   );
 };

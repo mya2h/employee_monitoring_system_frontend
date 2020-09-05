@@ -4,7 +4,7 @@ import SignIn from "./components/auth/signin";
 import SignUp from "./components/auth/signup";
 import SideNav from "./components/layout/sideNav";
 import Dashboard from "./components/layout/landing";
-import Device from "./components/devices/devices";
+import ScrollToTop from "./components/layout/scroll";
 import "./App.css";
 
 function App() {
@@ -15,7 +15,6 @@ function App() {
           <Route exact path="/" component={SignIn} />
           <Route exact path="/signUp" component={SignUp} />
           <Route path="/admin" component={Dashboard} />
-          {/* <Route path="/device" component={Device} /> */}
         </Switch>
       </Router>
     </div>
