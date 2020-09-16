@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import image from '../../assets/images/admin.png'
 import Checkbox from '@material-ui/core/Checkbox';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -18,33 +18,27 @@ const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: '12%',
     paddingRight: theme.spacing(8),
-    paddingLeft:theme.spacing(8),
-    paddingBottom:theme.spacing(9),
-    width:'37%',
-   borderRadius:'15px'
-    
+    paddingLeft: theme.spacing(8),
+    paddingBottom: theme.spacing(9),
+    width: '37%',
+    borderRadius: '15px'
+
   },
-  logo:{
-    width:'170px',
-    height:'180px',
-    marginTop:theme.spacing(7)
+  logo: {
+    width: '170px',
+    height: '180px',
+    marginTop: theme.spacing(7)
   },
-  // avatar: {
-  //   margin: theme.spacing(1),
-  //   backgroundColor: theme.palette.secondary.main,
-  // },
   form: {
     width: '83%', // Fix IE 11 issue.
-    marginLeft:'18%',
-    marginTop:'3%',
-  
-    // marginRight:'3%'
+    marginLeft: '18%',
+    marginTop: '3%',
   },
   submit: {
-    marginRight:theme.spacing(22),
+    marginRight: theme.spacing(22),
     backgroundColor: '#1976d2'
   },
-  main:{
+  main: {
     backgroundColor: '#1A2038',
     height: '650px',
     display: 'flex',
@@ -53,64 +47,72 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn = () =>{
+const SignIn = () => {
   const classes = useStyles();
-
+  const [value, setValue] = React.useState({
+    email: '',
+    password: ''
+  })
+  const handleChange = (e) => {
+    console.log(e.target.value)
+    setValue({ ...value, [e.target.name]: e.target.value })
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(value)
+  }
   return (
     <div className={classes.main}>
       <Paper className={classes.paper}>
-      <Grid container>
-            <Grid item xs={4}>
-                <img src={image} alt="logo" className={classes.logo} />
-            </Grid>
-            <Grid item xs={8}>
-              <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"  
-            margin="normal"
-
-            required
-            fullWidth
-            
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-            style={{marginRight:'50px'}}
-          />
-          <br/>
-          <Link to = "/admin" style={{ color: 'inherit', textDecoration: 'inherit'}}>
-          <Button
-            type="submit"
-            // fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
+        <Grid container>
+          <Grid item xs={4}>
+            <img src={image} alt="logo" className={classes.logo} />
+          </Grid>
+          <Grid item xs={8}>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                onChange={handleChange}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+                style={{ marginRight: '50px' }}
+              />
+              <br />
+              <Link to="/admin" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                <Button
+                  type="submit"
+                  // fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Sign In
           </Button>
               </Link>
-          
-        </form>
-            </Grid>
+
+            </form>
           </Grid>
-       
+        </Grid>
+
       </Paper>
     </div>
   );

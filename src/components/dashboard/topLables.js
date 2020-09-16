@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop:theme.spacing(2),
     color: 'inherit',
     fontWeight:'bold',
+    color:'rgba(52, 49, 76, 1)',
     lineHeight: '1.1'
   },
 }));

@@ -34,11 +34,11 @@ const useStyles = makeStyles(theme => ({
       background: "rgb(87, 95, 126)",
     },
   },
-  label:{
+  label: {
     margin: theme.spacing(2),
-    color:'#1A2038',
-    fontWeight:'bold',
-    fontSize:30
+    color: '#1A2038',
+    fontWeight: 'bold',
+    fontSize: 30
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -53,67 +53,97 @@ const useStyles = makeStyles(theme => ({
 const SignUp = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState('')
-  const [selectedValue, setSelectedValue] = React.useState('a');
+  const [user, setUser] = React.useState({
+    firstName: '',
+    lastName: '',
+    userName: '',
+    role: '',
+    email: '',
+    password: '',
+    consirmPassword: ''
+  })
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    console.log(event.target.value)
+    setUser({ ...user, [event.target.name]: event.target.value })
   };
+  const handelRadioChange = (event) => {
+    setUser({ ...user, role: event.target.value })
+    setValue(event.target.value);
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(user)
+  }
+  const clearData = () => {
+    setUser({
+      firstName: '',
+      lastName: '',
+      userName: '',
+      role: '',
+      email: '',
+      password: '',
+      consirmPassword: ''
+    })
+    setValue('')
+  }
   return (
     <div >
       <Paper className={classes.paper}>
-        <Typography component="h1" variant="h5" className = {classes.label}>
+        <Typography component="h1" variant="h5" className={classes.label}>
           Register User
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
                 name="firstName"
-                // variant="outlined"
+                value = {user.firstName}
                 required
                 fullWidth
                 id="firstName"
                 label="First Name"
-
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                // variant="outlined"
                 required
                 fullWidth
                 id="lastName"
                 label="Last Name"
+                value = {user.lastName}
                 name="lastName"
                 autoComplete="lname"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                // variant="outlined"
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
+                value = {user.email}
                 name="email"
-                autoComplete="email"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                // variant="outlined"
                 required
                 fullWidth
                 id="userName"
                 label="User Name"
+                value = {user.userName}
                 name="userName"
-                autoComplete="email"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
               <FormControl component="fieldset">
-                <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange} row>
+                <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handelRadioChange} row>
                   <FormControlLabel value="superAdmin" control={<Radio />} label="Super Admin" className={classes.radio} />
                   <FormControlLabel value="hrPersonnel" control={<Radio />} label="HR Personnel" className={classes.radio} />
                 </RadioGroup>
@@ -121,26 +151,26 @@ const SignUp = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                // variant="outlined"
                 required
                 fullWidth
                 name="password"
                 label="Password"
+                value = {user.password}
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                // variant="outlined"
                 required
                 fullWidth
-                name="password"
+                name="consirmPassword"
                 label="Confirm Password"
+                value = {user.consirmPassword}
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={2}>
@@ -151,7 +181,7 @@ const SignUp = () => {
                 color="primary"
                 className={classes.submit}
               >
-                <Telegram/> Register
+                <Telegram /> Register
           </Button>
             </Grid>
             <Grid item xs={2}>
@@ -161,8 +191,9 @@ const SignUp = () => {
                 variant="contained"
                 color="primary"
                 className={classes.clear}
+                onClick={clearData}
               >
-                <Telegram/> Clear
+                <Telegram /> Clear
           </Button>
             </Grid>
           </Grid>
