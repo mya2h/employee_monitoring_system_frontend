@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export default function (state = initialState, actions) {
-    const { type, payload } = action
+    const { type, payload } = actions
     switch (type) {
         case USER_LOADED_SUCCESS:
             return {

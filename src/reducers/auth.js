@@ -1,4 +1,4 @@
-import { AUTH_SUCCESS, AUTH_FAIL } from '../actions/types'
+import { AUTH_SUCCESS, AUTH_FAIL, LOGOUT } from '../actions/types'
 
 const initialState = {
     token: localStorage.getItem('token'),
