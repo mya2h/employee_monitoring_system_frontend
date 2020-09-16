@@ -56,3 +56,45 @@ export const getAllUsers = () => async dispatch => {
         })
     }
 }
+export const editUser = async (value) => {
+    const body = JSON.stringify(value)
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.put('', body, config)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const activateUser = async (value) => {
+    const body = JSON.stringify(value)
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.post('', body, config)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const deactivateUser = async (value) => {
+    const body = JSON.stringify(value)
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.post('', body, config)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}

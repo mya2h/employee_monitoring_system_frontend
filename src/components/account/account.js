@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import { forwardRef } from 'react';
@@ -70,17 +70,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(10)
   },
-  // paper: {
-  //   marginTop: theme.spacing(8),
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  // },
   avatar: {
     margin: theme.spacing(2),
     backgroundColor: theme.palette.secondary.main,
   },
-  label:{
+  label: {
     margin: theme.spacing(2),
   },
   submit: {
@@ -88,22 +82,24 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     backgroundColor: '#1976d2'
   },
-  // radio:{
-  //   float : "left"
-  // }
 }));
 
 const Account = () => {
-  // useEffect(() => {
-  //   window.scrollTo(0, 0)
-  // }, [])
   const classes = useStyles();
   const [value, setValue] = React.useState('')
   const [selectedValue, setSelectedValue] = React.useState('a');
-
+  const [data, setData] = React.useState([
+    { firstName: 'Kalkidan', lastName: 'Mesfin', email: 'kal@gmail', userName: 'kal234', role: 'Super Admin', activated: true },
+    { firstName: 'Melkam', lastName: 'Beyene', email: 'melkam@gmail', userName: 'melkam12we', role: 'HR Personnel', activated: false },
+    { firstName: 'G/tsadik', lastName: 'Alebel', email: 'gebre@gmail', userName: 'Gebre34', role: 'Super Admin', activated: true },
+    { firstName: 'Kalkidan', lastName: 'Getinet', email: 'kalG@gmail', userName: 'kalG34', role: 'HR Personnel', activated: false },
+  ])
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  const handleActivation = (data) => {
+    console.log(data)
+  }
   return (
     <div className={classes.all}>
       <div className={classes.table}>
@@ -112,47 +108,36 @@ const Account = () => {
           columns={[
             { title: 'First Name', field: 'firstName' },
             { title: 'Last Name', field: 'lastName' },
-            { title: 'Email', field: 'email'},
-            { title: 'User Name', field: 'userName'},
-            { title: 'Role', field: 'role'}
+            { title: 'Email', field: 'email' },
+            { title: 'User Name', field: 'userName' },
+            { title: 'Role', field: 'role' }
           ]}
-          data={[
-            { firstName: 'Kalkidan', lastName: 'Mesfin', email: 'kal@gmail', userName: 'kal234',role:'Super Admin' },
-            { firstName: 'Melkam', lastName: 'Beyene', email: 'melkam@gmail', userName: 'melkam12we',role:'HR Personnel' },
-            { firstName: 'G/tsadik', lastName: 'Alebel', email: 'gebre@gmail', userName: 'Gebre34',role:'Super Admin' },
-            { firstName: 'Kalkidan', lastName: 'Getinet', email: 'kalG@gmail', userName: 'kalG34',role:'HR Personnel' },
-          ]}
-          // options={{
-          //   headerStyle: {
-          //     backgroundColor: '#be8582',
-          //     color: '#FFF'
-          //   }
-          // }}
+          data={data}
           actions={[
             {
               icon: () => <BlockIcon style={{
                 color: '#e64f47',
-              }}/>,
+              }} />,
               tooltip: 'activate/deactivate User',
-              onClick: (event, rowData) => alert("You saved " + rowData.name)
+              onClick: (event, rowData) => handleActivation(rowData)
             }
           ]}
           editable={{
             onRowUpdate: (newData, oldData) =>
               new Promise(resolve => {
                 setTimeout(() => {
+                  const dataUpdate = [...data];
+                  const index = oldData.tableData.id;
+                  dataUpdate[index] = newData;
+                  setData([...dataUpdate]);
                   resolve();
                 }, 600);
               }),
-            // onRowDelete: oldData =>
-            //   new Promise((resolve, reject) => {
-            //     resolve();
-            //   }),
           }}
           icons={tableIcons}
         />
       </div>
-<SignUp/>
+      <SignUp />
     </div>
 
   );
