@@ -146,7 +146,7 @@ const SideNav = () => {
       </ListItem>
       <Collapse in={openSide} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <Link style={{ color: "inherit", textDecoration: "inherit" }}>
+          <Link to = "/admin/categories" style={{ color: "inherit", textDecoration: "inherit" }}>
             <ListItem button className={classes.nested}>
               <ListItemIcon className={classes.icon}>
                 <CategoryIcon />

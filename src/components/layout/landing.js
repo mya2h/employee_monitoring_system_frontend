@@ -30,7 +30,7 @@ import GraphInfo from "../dashboard/dashboard";
 import Device from "../devices/devices";
 import Reports from "../reports/reports";
 import Account from "../account/account";
-
+import Categories from "../settings/categories"
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     // background-color: transparent;
   },
   span: {
-    color: "#00bbff",
+    color: "#10cfbd",
     fontSize: 23,
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
     fontWeight: 400,
@@ -145,7 +145,7 @@ const Dashboard = () => {
 
       <Route exact path="/admin/device" component={Device} />
       <Route exact path="/admin/report" component={Reports} />
-
+      <Route exact path ="/admin/categories" component={Categories}/>
       <Route exact path="/admin/account" component={Account} />
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
