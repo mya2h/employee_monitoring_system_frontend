@@ -52,6 +52,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     backgroundColor: "rgb(255, 255, 255)",
+    // borderBottom: "1px solid rgba(0, 0, 0, 0.18)",
+    
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -74,18 +76,20 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     fontSize: "18px",
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-    fontWeight: 400,
+    fontWeight: "normal",
     lineHeight: "30px",
+       color: "#fff",
     // text-transform: uppercase;
     // text-decoration: none;
     // background-color: transparent;
   },
   span: {
-    color: "#10cfbd",
-    fontSize: 23,
+    // color: "#66b3ff",
+    fontSize: 33,
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
     fontWeight: 400,
     lineHeight: "30px",
+    color: "#b3d8fd",
   },
   drawerPaper: {
     position: "relative",
@@ -164,6 +168,7 @@ const Dashboard = () => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+      //  elevation={0}
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
@@ -209,7 +214,7 @@ const Dashboard = () => {
             <ChevronLeftIcon className={classes.icon} />
           </IconButton>
         </div>
-        <Divider light />
+        {/* <Divider light style={{backgroundColor:"#c5c5c5ad",marginBottom:"18px",marginTop:"5px"}} /> */}
 
         <SideNav />
       </Drawer>

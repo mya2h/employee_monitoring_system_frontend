@@ -36,7 +36,12 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     marginRight: theme.spacing(22),
-    backgroundColor: '#1976d2'
+    // paddingLeft:theme.spacing(2),
+    // paddingRight:theme.spacing(2),
+    background: "#47d6fd",
+    '&:hover': {
+        background: "#61dafb",
+    },
   },
   main: {
     backgroundColor: '#1A2038',

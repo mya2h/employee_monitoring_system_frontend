@@ -25,7 +25,7 @@ import SignUp from '../auth/signup'
 
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check style={{
-    color: '#156c94'
+    color: '#2b94b1'
   }} {...props} ref={ref} />),
   Block: forwardRef((props, ref) => <BlockIcon style={{
     color: '#156c94'
@@ -38,7 +38,7 @@ const tableIcons = {
     color: '#e64f47',
   }} {...props} ref={ref} />),
   Edit: forwardRef((props, ref) => <Edit style={{
-    color: '#156c94',
+    color: '#5a98d6',
   }} {...props} ref={ref} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
@@ -80,7 +80,10 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     padding: theme.spacing(1),
-    backgroundColor: '#1976d2'
+    background: "#61dafb",
+    '&:hover': {
+        background: "#b3d8fd",
+    },
   },
 }));
 

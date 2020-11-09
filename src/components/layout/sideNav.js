@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -20,12 +21,34 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import CategoryIcon from "@material-ui/icons/Category";
 import { Link } from "react-router-dom";
-
+const theme = createMuiTheme({
+  typography: {
+    // In Chinese and Japanese the characters are usually larger,
+    // so a smaller fontsize may be appropriate.
+    fontSize: 13,
+    fontFamily: [
+      // '-apple-system',
+      // 'BlinkMacSystemFont',
+      // '"Segoe UI"',
+      'Roboto',
+      // '"Helvetica Neue"',
+      // 'Arial',
+      'sans-serif',
+      // '"Apple Color Emoji"',
+      // '"Segoe UI Emoji"',
+      // '"Segoe UI Symbol"',
+    ].join(','),
+  },
+  flexGrow: 1,
+    flexshrink: 1,
+    flexBasis: 'auto'
+});
 const useStyles = makeStyles((theme) => ({
   sideNav: {
     width: "100%",
     maxWidth: 360,
-    color: "#ffffff",
+    marginTop:42,
+    color: "#d1d1d1",
   },
   nested: {
     paddingLeft: 44,
@@ -37,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   icon: {
-    color: "#fff",
+    color: "#d1d1d1",
   },
 }));
 
@@ -45,7 +68,7 @@ const SideNav = () => {
   const classes = useStyles();
   const [openSide, setOpenSide] = React.useState(null);
   const [openReport, setOpenReport] = React.useState(null);
-
+  const [selectedIndex,setSelected] = React.useState(0)
   const handleClick = () => {
     setOpenSide(!openSide);
   };
@@ -53,7 +76,8 @@ const SideNav = () => {
     setOpenReport(!openReport);
   };
   return (
-    <List
+    <MuiThemeProvider theme={theme}>
+      <List
       component="nav"
       aria-labelledby="nested-list-subheader"
       className={classes.sideNav}
@@ -173,6 +197,8 @@ const SideNav = () => {
       </ListItem>
       </Link>
     </List>
+    </MuiThemeProvider>
+    
   );
 };
 export default SideNav;
