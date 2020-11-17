@@ -109,6 +109,64 @@ const SideNav = () => {
       <Collapse in={openReport} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <Link
+            to="/admin/report/topwebsite"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            <ListItem button className={classes.nested}>
+              <ListItemIcon className={classes.icon}>
+                <TodayIcon />
+              </ListItemIcon>
+              <ListItemText primary="Top Websites" />
+            </ListItem>
+          </Link>
+          <Link
+            to="/admin/report/topapplication"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            <ListItem button className={classes.nested}>
+              <ListItemIcon className={classes.icon}>
+                <TodayIcon />
+              </ListItemIcon>
+              <ListItemText primary="Top Application" />
+            </ListItem>
+          </Link>
+
+          <Link
+            to="/admin/report/topusers"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            <ListItem button className={classes.nested}>
+              <ListItemIcon className={classes.icon}>
+                <TodayIcon />
+              </ListItemIcon>
+              <ListItemText primary="Top Users" />
+            </ListItem>
+          </Link>
+
+          <Link
+            to="/admin/report"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            <ListItem button className={classes.nested}>
+              <ListItemIcon className={classes.icon}>
+                <TodayIcon />
+              </ListItemIcon>
+              <ListItemText primary="Activity Log" />
+            </ListItem>
+          </Link>
+          <Link
+            to="/admin/report"
+            style={{ color: "inherit", textDecoration: "inherit" }}
+          >
+            <ListItem button className={classes.nested}>
+              <ListItemIcon className={classes.icon}>
+                <TodayIcon />
+              </ListItemIcon>
+              <ListItemText primary="Working Hours" />
+            </ListItem>
+          </Link>
+
+          <Link
             to="/admin/report"
             style={{ color: "inherit", textDecoration: "inherit" }}
           >
@@ -119,6 +177,7 @@ const SideNav = () => {
               <ListItemText primary="Daily Report" />
             </ListItem>
           </Link>
+
           <Link style={{ color: "inherit", textDecoration: "inherit" }}>
             <ListItem button className={classes.nested}>
               <ListItemIcon className={classes.icon}>
@@ -164,13 +223,16 @@ const SideNav = () => {
           </Link>
         </List>
       </Collapse>
-      <Link to = "/admin/account" style={{ color: 'inherit', textDecoration: 'inherit'}}>
-      <ListItem button>
-        <ListItemIcon className={classes.icon}>
-          <AttachMoneyIcon />
-        </ListItemIcon>
-        <ListItemText primary="Account" />
-      </ListItem>
+      <Link
+        to="/admin/account"
+        style={{ color: "inherit", textDecoration: "inherit" }}
+      >
+        <ListItem button>
+          <ListItemIcon className={classes.icon}>
+            <AttachMoneyIcon />
+          </ListItemIcon>
+          <ListItemText primary="Account" />
+        </ListItem>
       </Link>
     </List>
   );

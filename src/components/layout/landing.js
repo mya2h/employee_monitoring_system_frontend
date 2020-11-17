@@ -29,7 +29,10 @@ import CustomInput from "./custom";
 import GraphInfo from "../dashboard/dashboard";
 import Device from "../devices/devices";
 import Reports from "../reports/reports";
+import TopWebsite from "../reports/top_website"
+import TopApplications from "../reports/top_application"
 import Account from "../account/account";
+import TopUsers from "../reports/top_users";
 
 const drawerWidth = 260;
 
@@ -145,19 +148,23 @@ const Dashboard = () => {
 
       <Route exact path="/admin/device" component={Device} />
       <Route exact path="/admin/report" component={Reports} />
+      <Route exact path="/admin/report/topwebsite" component={TopWebsite}/>
+      <Route exact path ="/admin/report/topapplication" component={TopApplications}/>
+      <Route exact pathe="/admin/report/topusers" component={TopUsers}/>
+
 
       <Route exact path="/admin/account" component={Account} />
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
   );
   const handleDrawerClose = () => {
+    console.log(window.location.pathname)
     if (open == true) {
       setOpen(false);
     } else {
       setOpen(true);
     }
   };
-
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -167,6 +174,7 @@ const Dashboard = () => {
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
+      {/* <p>title</p> */}
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
