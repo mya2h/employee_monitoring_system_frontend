@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import SignIn from "./components/auth/signin";
+import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import SignUp from "./components/auth/signup";
 import SideNav from "./components/layout/sideNav";
 import { Provider } from 'react-redux'
@@ -12,6 +13,7 @@ import "./App.css";
 function App() {
   return (
     <Provider store={store}>
+      
       <div className="App">
         <Router>
           <Switch>

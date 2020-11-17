@@ -33,6 +33,7 @@ import TopWebsite from "../reports/top_website"
 import TopApplications from "../reports/top_application"
 import Account from "../account/account";
 import TopUsers from "../reports/top_users";
+import Categories from "../settings/categories"
 
 const drawerWidth = 260;
 
@@ -55,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     backgroundColor: "rgb(255, 255, 255)",
+    // borderBottom: "1px solid rgba(0, 0, 0, 0.18)",
+    
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -77,18 +80,20 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     fontSize: "18px",
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-    fontWeight: 400,
+    fontWeight: "normal",
     lineHeight: "30px",
+       color: "#fff",
     // text-transform: uppercase;
     // text-decoration: none;
     // background-color: transparent;
   },
   span: {
-    color: "#00bbff",
-    fontSize: 23,
+    // color: "#66b3ff",
+    fontSize: 33,
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
     fontWeight: 400,
     lineHeight: "30px",
+    color: "#b3d8fd",
   },
   drawerPaper: {
     position: "relative",
@@ -148,11 +153,11 @@ const Dashboard = () => {
 
       <Route exact path="/admin/device" component={Device} />
       <Route exact path="/admin/report" component={Reports} />
+
       <Route exact path="/admin/report/topwebsite" component={TopWebsite}/>
       <Route exact path ="/admin/report/topapplication" component={TopApplications}/>
       <Route exact pathe="/admin/report/topusers" component={TopUsers}/>
-
-
+      <Route exact path ="/admin/categories" component={Categories}/>
       <Route exact path="/admin/account" component={Account} />
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
@@ -171,6 +176,7 @@ const Dashboard = () => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+      //  elevation={0}
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
@@ -217,7 +223,7 @@ const Dashboard = () => {
             <ChevronLeftIcon className={classes.icon} />
           </IconButton>
         </div>
-        <Divider light />
+        {/* <Divider light style={{backgroundColor:"#c5c5c5ad",marginBottom:"18px",marginTop:"5px"}} /> */}
 
         <SideNav />
       </Drawer>
