@@ -156,7 +156,7 @@ const Dashboard = () => {
 
       <Route exact path="/admin/report/topwebsite" component={TopWebsite}/>
       <Route exact path ="/admin/report/topapplication" component={TopApplications}/>
-      <Route exact pathe="/admin/report/topusers" component={TopUsers}/>
+      <Route exact path="/admin/report/topusers" component={TopUsers}/>
       <Route exact path ="/admin/categories" component={Categories}/>
       <Route exact path="/admin/account" component={Account} />
       <Redirect from="/admin" to="/admin/dashboard" />

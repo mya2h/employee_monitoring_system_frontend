@@ -102,7 +102,7 @@ const SignIn = () => {
                 style={{ marginRight: '50px' }}
               />
               <br />
-              <Link to="/admin/dashboard" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+              <Link to="/admin" style={{ color: 'inherit', textDecoration: 'inherit' }}>
                 <Button
                   type="submit"
                   // fullWidth
