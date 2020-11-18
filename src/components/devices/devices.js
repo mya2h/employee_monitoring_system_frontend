@@ -50,7 +50,9 @@ const Devices = () => {
       title="Devices "
       columns={[
         { title: "User Name", field: "username" },
-        { title: "Devic Name", field: "devicename" },
+        { title: "Computer device Name", field: "devicename" },
+        { title:"Active Time",field:"activetime"},
+        {title:"Passive Time",field:"passivetime"}
       ]}
       data={[
         { username: "Melkam", devicename: "WINDOWS-5AUTJS3" },
