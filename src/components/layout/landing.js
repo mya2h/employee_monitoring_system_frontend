@@ -11,10 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper"
-import Link from "@material-ui/core/Link";
 import {
   BrowserRouter as Router,
   Switch,
@@ -35,6 +31,7 @@ import Account from "../account/account";
 import TopUsers from "../reports/top_users";
 import Categories from "../settings/categories"
 import DoNotTrack from "../settings/donottrack"
+import SuspiciousActivities from '../activities/suspiciousActivities'
 
 const drawerWidth = 260;
 
@@ -154,6 +151,7 @@ const Dashboard = () => {
       <Route exact path ="/admin/categories" component={Categories}/>
       <Route exact path="/admin/account" component={Account} />
       <Route exact path ="/admin/donottrack" component={DoNotTrack}/>
+      <Route exact path = "/admin/suspiciousActvities" component={SuspiciousActivities}/>
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
   );
