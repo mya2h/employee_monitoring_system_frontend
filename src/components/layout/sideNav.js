@@ -209,7 +209,7 @@ const SideNav = () => {
               <ListItemText primary="Categories" />
             </ListItem>
           </Link>
-          <Link style={{ color: "inherit", textDecoration: "inherit" }}>
+          <Link to = "/admin/donottrack" style={{ color: "inherit", textDecoration: "inherit" }}>
             <ListItem button className={classes.nested}>
               <ListItemIcon className={classes.icon}>
                 <NotInterestedIcon />

@@ -34,6 +34,7 @@ import TopApplications from "../reports/top_application"
 import Account from "../account/account";
 import TopUsers from "../reports/top_users";
 import Categories from "../settings/categories"
+import DoNotTrack from "../settings/donottrack"
 
 const drawerWidth = 260;
 
@@ -83,12 +84,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "normal",
     lineHeight: "30px",
        color: "#fff",
-    // text-transform: uppercase;
-    // text-decoration: none;
-    // background-color: transparent;
   },
   span: {
-    // color: "#66b3ff",
     fontSize: 33,
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
     fontWeight: 400,
@@ -116,7 +113,6 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9),
     },
   },
-  // appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     height: "100vh",
@@ -150,15 +146,14 @@ const Dashboard = () => {
   const switchRoute = (
     <Switch>
       <Route exact path="/admin/dashboard" component={GraphInfo} />
-
       <Route exact path="/admin/device" component={Device} />
       <Route exact path="/admin/report" component={Reports} />
-
       <Route exact path="/admin/report/topwebsite" component={TopWebsite}/>
       <Route exact path ="/admin/report/topapplication" component={TopApplications}/>
       <Route exact path="/admin/report/topusers" component={TopUsers}/>
       <Route exact path ="/admin/categories" component={Categories}/>
       <Route exact path="/admin/account" component={Account} />
+      <Route exact path ="/admin/donottrack" component={DoNotTrack}/>
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
   );
