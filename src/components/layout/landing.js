@@ -28,9 +28,13 @@ import SideNav from "./sideNav";
 import CustomInput from "./custom";
 import GraphInfo from "../dashboard/dashboard";
 import Device from "../devices/devices";
+import Resource from "../resources/resources"
+import DoNotTrack from "../settings/donottrack"
+import  Settings from "../settings/settings"
 import Reports from "../reports/reports";
 import TopWebsite from "../reports/top_website"
 import TopApplications from "../reports/top_application"
+import TopCategories from "../reports/top_categories"
 import Account from "../account/account";
 import TopUsers from "../reports/top_users";
 import Categories from "../settings/categories"
@@ -153,11 +157,14 @@ const Dashboard = () => {
 
       <Route exact path="/admin/device" component={Device} />
       <Route exact path="/admin/report" component={Reports} />
-
+      <Route exact path="/admin/resource" component={Resource}/>
+      <Route exact path="/admin/setting/donottrack" component={DoNotTrack}/>
+      <Route exact  path="/admin/setting" component={Settings}/>
       <Route exact path="/admin/report/topwebsite" component={TopWebsite}/>
       <Route exact path ="/admin/report/topapplication" component={TopApplications}/>
-      <Route exact pathe="/admin/report/topusers" component={TopUsers}/>
-      <Route exact path ="/admin/categories" component={Categories}/>
+      <Route exact path="/admin/report/topusers" component={TopUsers}/>
+      <Route exact path="/admin/report/topcategories" component={TopCategories}/>
+      <Route exact path ="/admin/setting/categories" component={Categories}/>
       <Route exact path="/admin/account" component={Account} />
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>

@@ -115,25 +115,11 @@ const TopApplications=()=>{
        
       </FormControl>
 
-      <FormControl className={classes.formControl}>                                                                                                                                
-       
-        <NativeSelect
-          defaultValue={30}
-          inputProps={{
-            name: 'name',
-            id: 'uncontrolled-native',
-          }}
-        >
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </NativeSelect>
-        
-      </FormControl>
+     
 
-      <Button className={classes.formControl} variant="outlined" >  <IconButton aria-label="delete">
+      <Button className={classes.formControl} variant="outlined" >  
         <RefreshIcon />
-      </IconButton>Refresh</Button>
+    Refresh</Button>
  
           </Grid>
           <Grid item xs={6}>

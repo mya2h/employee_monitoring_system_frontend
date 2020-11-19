@@ -8,6 +8,7 @@ import Telegram from '@material-ui/icons/Telegram';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import Radio from '@material-ui/core/Radio';
+import FormLabel from '@material-ui/core/FormLabel'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -83,7 +84,7 @@ const SignUp = () => {
       role: '',
       email: '',
       password: '',
-      consirmPassword: ''
+      confirmPassword: ''
     })
     setValue('')
   }
@@ -142,8 +143,11 @@ const SignUp = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl component="fieldset">
-                <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handelRadioChange} row>
+              <FormControl  component="fieldset">
+              <FormLabel component="legend">Role</FormLabel>
+                <RadioGroup  aria-label="role" name="role" value={value} onChange={handelRadioChange} row>
+              
+              
                   <FormControlLabel value="superAdmin" control={<Radio />} label="Super Admin" className={classes.radio} />
                   <FormControlLabel value="hrPersonnel" control={<Radio />} label="HR Personnel" className={classes.radio} />
                 </RadioGroup>

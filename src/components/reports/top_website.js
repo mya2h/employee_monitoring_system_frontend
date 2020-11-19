@@ -25,6 +25,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import RefreshIcon from '@material-ui/icons/Refresh';
+
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { Button } from '@material-ui/core';
 
@@ -113,23 +115,9 @@ const TopWebsite=()=>{
        
       </FormControl>
 
-      <FormControl className={classes.formControl}>
-       
-        <NativeSelect
-          defaultValue={30}
-          inputProps={{
-            name: 'name',
-            id: 'uncontrolled-native',
-          }}
-        >
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </NativeSelect>
-        
-      </FormControl>
+      
 
-      <Button className={classes.formControl} variant="outlined" >Refresh</Button>
+      <Button className={classes.formControl} variant="outlined" > <RefreshIcon  />Refresh</Button>
       
       <MaterialTable
       title="Reports "
