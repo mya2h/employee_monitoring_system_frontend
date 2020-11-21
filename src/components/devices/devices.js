@@ -111,6 +111,7 @@ const Devices = () => {
   { title: "Device Name", field: "devicename" },
   { title: "User Name", field: "username" },
   { title:"Registered Date",field:"date"},
+  {title:"Active Time",field:"activetime"},
   {title:"Passive Time",field:"passivetime"}
 ]}
           data={data}
