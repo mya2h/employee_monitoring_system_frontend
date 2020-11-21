@@ -115,6 +115,9 @@ const Account = () => {
             { title: 'User Name', field: 'userName' },
             { title: 'Role', field: 'role' }
           ]}
+          options={{
+            headerStyle: { backgroundColor:'rgba(221, 221, 221, 0.863)' },
+          }}
           data={data}
           actions={[
             {

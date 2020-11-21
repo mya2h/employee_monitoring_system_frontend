@@ -4,9 +4,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
+import { Link } from 'react-router-dom';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Person from '@material-ui/icons/Person';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
@@ -32,7 +36,7 @@ import TopUsers from "../reports/top_users";
 import Categories from "../settings/categories"
 import DoNotTrack from "../settings/donottrack"
 import SuspiciousActivities from '../activities/suspiciousActivities'
-
+import RegisterSuspiciousActivities from '../activities/registerSuspiciousActivities'
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +50,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     padding: "0 8px",
     ...theme.mixins.toolbar,
+  },
+  side: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -93,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     whiteSpace: "nowrap",
     backgroundColor: "#1A2038",
+    height: '100vh',
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
@@ -152,6 +162,7 @@ const Dashboard = () => {
       <Route exact path="/admin/account" component={Account} />
       <Route exact path ="/admin/donottrack" component={DoNotTrack}/>
       <Route exact path = "/admin/suspiciousActvities" component={SuspiciousActivities}/>
+      <Route exact path = "/admin/registerActivity" component ={RegisterSuspiciousActivities}/>
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
   );
@@ -163,17 +174,21 @@ const Dashboard = () => {
       setOpen(true);
     }
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleProfile = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-      //  elevation={0}
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
-      {/* <p>title</p> */}
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -186,14 +201,30 @@ const Dashboard = () => {
           >
             <MenuIcon />
           </IconButton>
-          {/* <Typography component="h1" variant="h6"  noWrap className={classes.title}>
-            Dashboard
-          </Typography> */}
           <IconButton style={{ marginLeft: "90%" }}>
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <IconButton onClick={handleProfile}>
+              <br />
+              <div className={classes.title}>
+              </div>
+              <Person /><ArrowDropDownIcon />
+            </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+
+            <MenuItem >Profile</MenuItem>
+            <Link to="/" variant='body2' style={{ color: 'inherit', textDecoration: 'inherit' }}>
+              <MenuItem>Logout</MenuItem>
+              </Link>
+            </Menu>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -216,9 +247,9 @@ const Dashboard = () => {
             <ChevronLeftIcon className={classes.icon} />
           </IconButton>
         </div>
-        {/* <Divider light style={{backgroundColor:"#c5c5c5ad",marginBottom:"18px",marginTop:"5px"}} /> */}
-
+        <div className={classes.side}>
         <SideNav />
+        </div>
       </Drawer>
       <main className={classes.content}>
         <div>{switchRoute}</div>

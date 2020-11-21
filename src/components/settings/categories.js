@@ -6,6 +6,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import Container from '@material-ui/core/Container';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -268,8 +269,9 @@ const Categories = () => {
                                             </ListItemIcon>
                                             <ListItemText > <div className={classes.listProp}>{data.name}</div> </ListItemText>
                                             <ListItemSecondaryAction>
-                                                <Edit className={classes.editButton} />
-                                                <Delete className={classes.remove} />
+                                                <IconButton><Edit className={classes.editButton} /></IconButton>
+                                                <IconButton><Delete className={classes.remove} /></IconButton>
+ 
                                             </ListItemSecondaryAction>
                                         </ListItem>
                                     ))}
@@ -294,7 +296,7 @@ const Categories = () => {
                                             </ListItemIcon>
                                             <ListItemText > <div className={classes.listProp}>{data}</div> </ListItemText>
                                             <ListItemSecondaryAction>
-                                                <Delete className={classes.remove} />
+                                                <IconButton><Delete className={classes.remove} /></IconButton>
                                             </ListItemSecondaryAction>
                                         </ListItem>
                                     ))}
