@@ -11,10 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper"
-import Link from "@material-ui/core/Link";
 import {
   BrowserRouter as Router,
   Switch,
@@ -38,6 +34,9 @@ import TopCategories from "../reports/top_categories"
 import Account from "../account/account";
 import TopUsers from "../reports/top_users";
 import Categories from "../settings/categories"
+import ActivityLog from "../reports/activity_log"
+
+import SuspiciousActivities from '../activities/suspiciousActivities'
 
 const drawerWidth = 260;
 
@@ -87,12 +86,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "normal",
     lineHeight: "30px",
        color: "#fff",
-    // text-transform: uppercase;
-    // text-decoration: none;
-    // background-color: transparent;
   },
   span: {
-    // color: "#66b3ff",
     fontSize: 33,
     fontFamily: "Roboto, Helvetica, Arial, sans-serif",
     fontWeight: 400,
@@ -120,7 +115,6 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9),
     },
   },
-  // appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     height: "100vh",
@@ -154,9 +148,9 @@ const Dashboard = () => {
   const switchRoute = (
     <Switch>
       <Route exact path="/admin/dashboard" component={GraphInfo} />
-
       <Route exact path="/admin/device" component={Device} />
       <Route exact path="/admin/report" component={Reports} />
+
       <Route exact path="/admin/resource" component={Resource}/>
       <Route exact path="/admin/setting/donottrack" component={DoNotTrack}/>
       <Route exact  path="/admin/setting" component={Settings}/>
@@ -164,8 +158,17 @@ const Dashboard = () => {
       <Route exact path ="/admin/report/topapplication" component={TopApplications}/>
       <Route exact path="/admin/report/topusers" component={TopUsers}/>
       <Route exact path="/admin/report/topcategories" component={TopCategories}/>
+      {/* <Route exact path="/admin/report/activitylog" component={ActivityLog}/> */}
       <Route exact path ="/admin/setting/categories" component={Categories}/>
+
+      <Route exact path="/admin/report/topwebsite" component={TopWebsite}/>
+      <Route exact path ="/admin/report/topapplication" component={TopApplications}/>
+      <Route exact path="/admin/report/topusers" component={TopUsers}/>
+      <Route exact path ="/admin/categories" component={Categories}/>
+
       <Route exact path="/admin/account" component={Account} />
+      <Route exact path ="/admin/donottrack" component={DoNotTrack}/>
+      <Route exact path = "/admin/suspiciousActvities" component={SuspiciousActivities}/>
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
   );
