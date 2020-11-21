@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   selected: {},
   formControl: {
-    marginRight: theme.spacing(3),
+    marginleft: theme.spacing(3),
     marginBottom:theme.spacing(8),
     minWidth: 120,
     float:"left"
@@ -419,10 +419,10 @@ const TopApplications = () => {
             <Table className={classes.table} size="small" aria-label="simple table" selectable= {true} elevation={0} >
               <TableHead>
                 <TableRow >
-                  <StyledTableCell align="right">Application</StyledTableCell>
-                  <StyledTableCell align="right">Duration&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">%&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">Date&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">Application</StyledTableCell>
+                  <StyledTableCell align="left">Duration&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">%&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">Date&nbsp;</StyledTableCell>
                 </TableRow>
               </TableHead>
               <input type="text" name="group" placeholder="Filter Titles" style={{
@@ -441,10 +441,10 @@ const TopApplications = () => {
                   hover
                   key={row.id}
                   onClick={(event) => onRowSelection(event, row)}>
-                    <TableCell align="right" className={classes.tableCell}>{row.application}</TableCell>
-                    <TableCell align="right" className={classes.tableCell}>{row.duration}</TableCell>
-                    <TableCell align="right" className={classes.tableCell}>{row.percent}</TableCell>
-                    <TableCell align="right" className={classes.tableCell}>{row.date}</TableCell>
+                    <TableCell align="left" className={classes.tableCell}>{row.application}</TableCell>
+                    <TableCell align="left" className={classes.tableCell}>{row.duration}</TableCell>
+                    <TableCell align="left" className={classes.tableCell}>{row.percent}</TableCell>
+                    <TableCell align="left" className={classes.tableCell}>{row.date}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -461,9 +461,9 @@ const TopApplications = () => {
             <Table className={classes.table} aria-label="simple table" size="small">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="right">Title</StyledTableCell>
-                  <StyledTableCell align="right">Duration&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">%&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">Title</StyledTableCell>
+                  <StyledTableCell align="left">Duration&nbsp;</StyledTableCell>
+                  <StyledTableCell align="left">%&nbsp;</StyledTableCell>
                 </TableRow>
               </TableHead>
               <input type="text" name="group" placeholder="Filter Titles" style={{
@@ -476,9 +476,9 @@ const TopApplications = () => {
               <TableBody>
                 {detailData.map((row) => (
                   <TableRow  >
-                    <TableCell align="right">{row.Title}</TableCell>
-                    <TableCell align="right">{row.Duration}</TableCell>
-                    <TableCell align="right">{row.Percent}</TableCell>
+                    <TableCell align="left">{row.Title}</TableCell>
+                    <TableCell align="left">{row.Duration}</TableCell>
+                    <TableCell align="left">{row.Percent}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
