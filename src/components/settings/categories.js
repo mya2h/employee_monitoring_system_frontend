@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Categories = () => {
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([0]);
+    const [checked, setChecked] = React.useState([]);
     const [groupView, setGroupView] = React.useState(false)
     const [compuserList, setCompUserList] = React.useState([
         {
@@ -152,6 +152,7 @@ const Categories = () => {
     const [open, setOpen] = React.useState(false);
     const [selectedIndex, setSelected] = React.useState(null)
     const [selectedComp, setSelectedComp] = React.useState(null)
+    const [newGroup,setNewGroup] = React.useState('')
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -179,15 +180,28 @@ const Categories = () => {
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
-
         if (currentIndex === -1) {
             newChecked.push(value);
         } else {
             newChecked.splice(currentIndex, 1);
         }
-
         setChecked(newChecked);
+        console.log(value)
+        console.log(checked)
     };
+    const handleChange = (e) => {
+        console.log(e.target.value)
+        setNewGroup(e.target.value)
+    }
+    const handleSubmit= (e)=>{
+        e.preventDefault()
+        console.log(newGroup)
+        setNewGroup('')
+    }
+    const handleMemberSubmit = ()=>{
+        console.log("it is working")
+        console.log(checked)
+    }
     return (
         <div className={classes.all}>
             {groupView == false && (
@@ -201,8 +215,10 @@ const Categories = () => {
                 <div className={classes.addGroup}>
                     <div className={classes.title}>Add New Group</div>
 
-                    <form>
-                        <input type="text" name="group" placeholder="Group Name" style={{
+                    <form onSubmit={handleSubmit}>
+                        <input type="text" 
+                        onChange={handleChange}
+                        name="group" placeholder="Group Name" style={{
                             width: "400px",
                             padding: "8px 10px",
                             margin: "8px 0",
@@ -210,7 +226,7 @@ const Categories = () => {
                         }} />
                         <br />
                         <div className={classes.groupButton}>
-                            <Button elevation={0} onClick={handleClose} className={classes.button}>
+                            <Button elevation={0} type="submit" className={classes.button}>
                                 Add
           </Button>
                             <Button elevation={0} onClick={handleGroupViewClose} className={classes.cancelButton}>
@@ -348,7 +364,7 @@ const Categories = () => {
 
                 </DialogContent>
                 <DialogActions>
-                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.button} style={{ width: "400px",height:"80" }}>
+                    <Button elevation={0} onClick={handleMemberSubmit} color="primary" className={classes.button} style={{ width: "400px",height:"80" }}>
                         Create Group
           </Button>
                     <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px",height:"80" }}>

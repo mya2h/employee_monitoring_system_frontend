@@ -1,7 +1,9 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { RadioGroup, Paper } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Telegram from '@material-ui/icons/Telegram';
@@ -9,7 +11,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import Radio from '@material-ui/core/Radio';
 import FormLabel from '@material-ui/core/FormLabel'
-import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import {register} from '../../actions/auth'
 
 const useStyles = makeStyles(theme => ({
   all: {
@@ -51,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignUp = () => {
+const SignUp = ({register}) => {
   const classes = useStyles();
   const [value, setValue] = React.useState('')
   const [user, setUser] = React.useState({
@@ -61,7 +64,7 @@ const SignUp = () => {
     role: '',
     email: '',
     password: '',
-    consirmPassword: ''
+    confirmPassword: ''
   })
 
   const handleChange = (event) => {
@@ -75,6 +78,17 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(user)
+    register(user)
+    setUser({
+      firstName: '',
+      lastName: '',
+      userName: '',
+      role: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    })
+    setValue('')
   }
   const clearData = () => {
     setUser({
@@ -146,8 +160,6 @@ const SignUp = () => {
               <FormControl  component="fieldset">
               <FormLabel component="legend">Role</FormLabel>
                 <RadioGroup  aria-label="role" name="role" value={value} onChange={handelRadioChange} row>
-              
-              
                   <FormControlLabel value="superAdmin" control={<Radio />} label="Super Admin" className={classes.radio} />
                   <FormControlLabel value="hrPersonnel" control={<Radio />} label="HR Personnel" className={classes.radio} />
                 </RadioGroup>
@@ -215,4 +227,7 @@ const SignUp = () => {
 
   );
 }
-export default SignUp
+SignUp.propTypes={
+  register:PropTypes.func.isRequired
+}
+export default connect(null,{register})(SignUp);
