@@ -7,13 +7,14 @@ import SideNav from "./components/layout/sideNav";
 import { Provider } from 'react-redux'
 import store from './store'
 import Dashboard from "./components/layout/landing";
+import DisplayAlert from "./components/layout/alert"
 import ScrollToTop from "./components/layout/scroll";
 import "./App.css";
 
 function App() {
   return (
     <Provider store={store}>
-      
+      <DisplayAlert/>
       <div className="App">
         <Router>
           <Switch>

@@ -46,7 +46,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
   sideNav: {
     width: "100%",
-    maxWidth: 360,
+    maxWidth: 300,
     marginTop: 42,
     color: "#d1d1d1",
   },

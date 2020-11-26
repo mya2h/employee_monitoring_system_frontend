@@ -1,18 +1,22 @@
 import axios from 'axios'
 import { USER_LOADED_SUCCESS, USER_LOADED_FAIL, AUTH_SUCCESS, AUTH_FAIL } from './types'
-
-export const register = async (value) => {
+import {setAlert} from './alert'
+export const register = (value) => async dispatch => {
     const body = JSON.stringify(value)
+    console.log(body)
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
     try {
-        const res = await axios.post('', body, config)
+        const res = await axios.post('http://localhost:5000/api/users/register', body, config)
+        console.log(res.data)
+        dispatch(setAlert('registered successfully','success'))
     }
     catch (err) {
-        console.log(err)
+        console.log(err.response)
+        dispatch(setAlert('unable to register user','error'))
     }
 }
 export const authenticate = (value) => async dispatch => {
