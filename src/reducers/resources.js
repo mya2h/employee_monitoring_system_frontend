@@ -1,7 +1,7 @@
 import { Casino, TramRounded } from "@material-ui/icons"
 import {VIEW_REGISTER_RESOURCE_FAIL,VIEW_REGISTER_RESOURCE_SUCCESS} from "../actions/types"
 
-intialState={
+const intialState={
     registered_resource:[],
     itemLoaded:null,
     loading:true
@@ -10,7 +10,7 @@ intialState={
 function resourceReducer(state=intialState,actions){
     const {type,payload}=actions
 
-    switch(actions.type){
+    switch(type){
         case VIEW_REGISTER_RESOURCE_SUCCESS:
             return{
                 ...state,

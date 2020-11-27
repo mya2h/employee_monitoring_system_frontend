@@ -24,6 +24,8 @@ function topWebsiteReportReducer(state=initialState,actions){
                itemLoaded:false
                 
             }
+        default:
+            return state
     }
 
 
