@@ -157,19 +157,6 @@ const SideNav = () => {
                 <ListItemText primary="Top Application" />
               </ListItem>
             </Link>
-
-            <Link
-              to="/admin/report/topusers"
-              style={{ color: "inherit", textDecoration: "inherit" }}
-            >
-              <ListItem button className={classes.nested}>
-                <ListItemIcon className={classes.icon}>
-                  <TodayIcon />
-                </ListItemIcon>
-                <ListItemText primary="Top Users" />
-              </ListItem>
-            </Link>
-
             <Link
               to="/admin/report"
               style={{ color: "inherit", textDecoration: "inherit" }}
@@ -178,7 +165,7 @@ const SideNav = () => {
                 <ListItemIcon className={classes.icon}>
                   <TodayIcon />
                 </ListItemIcon>
-                <ListItemText primary="Activity Log" />
+                <ListItemText primary="Top Files" />
               </ListItem>
             </Link>
             <Link
