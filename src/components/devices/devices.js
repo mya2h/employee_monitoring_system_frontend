@@ -7,7 +7,8 @@ import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Edit from '@material-ui/icons/Edit';
 import FilterList from '@material-ui/icons/FilterList';
 import BlockIcon from '@material-ui/icons/Block';
@@ -20,7 +21,7 @@ import Check from '@material-ui/icons/Check';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
-import SignUp from '../auth/signup'
+import {getDeviceList} from '../../actions/devices'
 
 
 const tableIcons = {
@@ -82,19 +83,23 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     background: "#61dafb",
     '&:hover': {
-        background: "#b3d8fd",
+      background: "#b3d8fd",
     },
   },
 }));
 
-const Devices = () => {
+const Devices = ({getDeviceList,device:{deviceList,loading}}) => {
+  useEffect(() => {
+    getDeviceList()
+  }, [])
+
   const classes = useStyles();
   const [value, setValue] = React.useState('')
   const [selectedValue, setSelectedValue] = React.useState('a');
   const [data, setData] = React.useState([
-      { username: "Hp123a", devicename: "WINDOWS-5AUTJS3",date:"12/4/3" },
-  { username: "Melkam2eb", devicename: "WINDOWS-5AUTJS3",date:"21/3/4" },
-  { username: "Mac231", devicename: "WINDOWS-5AUTJS3",date:"10/5/4 "},
+    { username: "Hp123a", devicename: "WINDOWS-5AUTJS3", date: "12/4/3", activeStatus: 'online' },
+    { username: "Melkam2eb", devicename: "WINDOWS-5AUTJS3", date: "21/3/4", activeStatus: 'offline' },
+    { username: "Mac231", devicename: "WINDOWS-5AUTJS3", date: "10/5/4 ", activeStatus: 'online' },
   ])
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -106,27 +111,20 @@ const Devices = () => {
     <div className={classes.all}>
       <div className={classes.table}>
         <MaterialTable
-          title="Devices List"
-       columns={[
-  { title: "Device Name", field: "devicename" },
-  { title: "User Name", field: "username" },
-  { title:"Registered Date",field:"date"},
-  {title:"Active Time",field:"activetime"},
-  {title:"Passive Time",field:"passivetime"}
-]}
-          data={data}
-          options={{
-            headerStyle: { backgroundColor:'rgba(221, 221, 221, 0.863)' },
-          }}
-          actions={[
-            {
-              icon: () => <Delete style={{
-                color: '#e64f47',
-              }} />,
-              tooltip: 'remove device',
-              onClick: (event, rowData) => handleActivation(rowData)
-            }
+          title="Registered Devices List"
+          columns={[
+            { title: "Device Name", field: "deviceName" },
+            { title: "User Name", field: "userName" },
+            { title: "Registered Date", field: "date" },
+            { title: "Active", field: "online" },
           ]}
+          data={deviceList}
+          options={{
+            // headerStyle: { backgroundColor: 'rgba(221, 221, 221, 0.863)' },
+            rowStyle: {
+              backgroundColor: 'rgb(226, 233, 122)',
+            }
+          }}
           icons={tableIcons}
         />
       </div>
@@ -134,4 +132,11 @@ const Devices = () => {
 
   );
 }
-export default Devices
+Devices.propTypes={
+  getDeviceList:PropTypes.func.isRequired,
+  device:PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+  device: state.device
+})
+export default connect(mapStateToProps,{getDeviceList})(Devices)

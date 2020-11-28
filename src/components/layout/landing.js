@@ -3,34 +3,32 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
+import Divider from '@material-ui/core/Divider';
+import Popover from '@material-ui/core/Popover';
+import image from '../../assets/images/2.jpg'
 import { Link } from 'react-router-dom';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import Person from '@material-ui/icons/Person';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Redirect,
-  Route,
-} from "react-router-dom";
+import {BrowserRouter as Router,Switch,Redirect,Route,} from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import Avatar from '@material-ui/core/Avatar';
 import SideNav from "./sideNav";
-import CustomInput from "./custom";
 import GraphInfo from "../dashboard/dashboard";
 import Device from "../devices/devices";
 import Resource from "../resources/resources"
 import DoNotTrack from "../settings/donottrack"
-import  Settings from "../settings/settings"
+import Settings from "../settings/settings"
 import Reports from "../reports/reports";
 import TopWebsite from "../reports/top_website"
 import TopApplications from "../reports/top_application"
@@ -38,8 +36,6 @@ import TopCategories from "../reports/top_categories"
 import Account from "../account/account";
 import TopUsers from "../reports/top_users";
 import Categories from "../settings/categories"
-import ActivityLog from "../reports/activity_log"
-
 import SuspiciousActivities from '../activities/suspiciousActivities'
 import RegisterSuspiciousActivities from '../activities/registerSuspiciousActivities'
 const drawerWidth = 260;
@@ -48,6 +44,26 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+  rootNotification: {
+    flexGrow: 1,
+    overflow: 'hidden',
+    padding: theme.spacing(0, 3),
+  },
+  paperNotification: {
+    maxWidth: 400,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+    backgroundColor:'rgba(65, 63, 63, 0.030)'
+  },
+  paperNotificationSeen: {
+    maxWidth: 400,
+    margin: `${theme.spacing(1)}px auto`,
+    padding: theme.spacing(2),
+    // backgroundColor:'rgba(65, 63, 63, 0.030)'
+  },
+  // popup:{
+  //   backgroundColor:'rgba(65, 63, 63, 0.030)'
+  // },
   toolbar: {},
   toolbarIcon: {
     display: "flex",
@@ -60,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
+    // overflowY:'hidden'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -135,6 +152,13 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingBottom: theme.spacing(4),
   },
+  margin: {
+ 
+  },
+  customBadge: {
+    backgroundColor: "rgb(255, 175, 56)",
+    color: "white"
+  },
   paper: {
     padding: theme.spacing(1),
     display: "flex",
@@ -199,6 +223,37 @@ const Dashboard = () => {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorNotification, setAnchorNotififcation] = React.useState(null);
+  const [notification,setNotification] = React.useState([
+    {
+      message:`Truncation should be conditionally applicable on this long line of text
+      as this is a much longer line than what the container can support.`,
+      seen:false
+    },
+    {
+      message:`Truncation should be conditionally applicable on this long line of text
+      as this is a much longer line than what the container can support.`,
+      seen:false
+    },
+    {
+      message:`Truncation should be conditionally applicable on this long line of text
+      as this is a much longer line than what the container can support.`,
+      seen:true
+    }
+  ])
+  const handleClick = (event) => {
+    setAnchorNotififcation(event.currentTarget);
+  };
+
+  const handleNotificationClose = () => {
+    setAnchorNotififcation(null);
+  };
+  const handleNotification = (item,index) =>{
+    notification[index].seen = true
+    console.log(notification)
+  }
+  const openNotification = Boolean(anchorNotification);
+  const id = openNotification ? 'simple-popover' : undefined;
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -218,16 +273,74 @@ const Dashboard = () => {
           >
             <MenuIcon />
           </IconButton>
-          <IconButton style={{ marginLeft: "90%" }}>
-            <Badge badgeContent={4} color="secondary">
+          <IconButton style={{ marginLeft: "90%" }} onClick={handleClick}>
+            <Badge badgeContent={4} color="primary" 
+            classes={{ badge: classes.customBadge }}
+        className={classes.margin} >
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <Popover
+        id={id}
+        anchorReference="anchorPosition"
+       
+        open={openNotification}
+        anchorPosition={{ top: 30, left: 850 }}
+        anchorEl={anchorNotification}
+        onClose={handleNotificationClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <div  className={classes.popup}>
+        {notification.length > 0 && notification.map((item,index)=>(
+          <div>
+               {item.seen == true && 
+               <div>
+                      <Link style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}>
+                      <Paper className={classes.paperNotificationSeen} elevation={0}>
+                          <Grid container wrap="nowrap" spacing={2}>
+                           <Grid item xs>
+                             <Typography>{item.message}</Typography>
+                           </Grid>
+                          
+                         </Grid>
+                       </Paper>
+                      </Link>
+                        <Divider light/>
+                        </div>
+               }
+               {item.seen == false && 
+               <div>
+               <Link style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}>
+                      <Paper className={classes.paperNotification} elevation={0}>
+                          <Grid container wrap="nowrap" spacing={2}>
+                           <Grid item xs>
+                             <Typography>{item.message}</Typography>
+                           </Grid>
+                          
+                         </Grid>
+                       </Paper>
+                      </Link>
+                        <Divider light/>
+                        </div>
+               }
+              </div>
+            
+        ))}
+          </div>
+      </Popover>
           <IconButton onClick={handleProfile}>
               <br />
               <div className={classes.title}>
               </div>
-              <Person /><ArrowDropDownIcon />
+              {/* <Person /><ArrowDropDownIcon /> */}
+              <Avatar alt="Remy Sharp" src={image} />
             </IconButton>
             <Menu
               id="simple-menu"

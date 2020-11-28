@@ -1,7 +1,9 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Button, Paper, } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import GroupIcon from '@material-ui/icons/Group';
 import Container from '@material-ui/core/Container';
 import Edit from '@material-ui/icons/Edit';
@@ -25,7 +27,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import {getDeviceList} from '../../actions/devices'
 const useStyles = makeStyles((theme) => ({
     root: {
         maxHeight: "500px",
@@ -114,10 +116,16 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         float: "left"
+    },
+    space:{
+        marginRight:100
     }
 
 }));
-const Categories = () => {
+const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
+    useEffect(() => {
+        getDeviceList()
+      }, [])    
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
     const [groupView, setGroupView] = React.useState(false)
@@ -343,8 +351,19 @@ const Categories = () => {
                             </CardActions>
                         <CardContent>
                             <List aria-label="contacts">
-                                {listItems.map(value => (
+                                {deviceList.map(value => (
                                     <ListItem button className={classes.list} key={value} onClick={handleToggle(value)}>
+                                        {/* <Grid container>
+                                            <Grid xs={4}>
+                                                kal
+                                            </Grid>
+                                            <Grid xs={4}>
+                                                kal
+                                            </Grid>
+                                            <Grid xs={4}>
+                                                kal
+                                            </Grid>
+                                        </Grid> */}
                                         <ListItemIcon className={classes.listIcon}>
                                             <Checkbox
                                                  edge="start"
@@ -354,7 +373,13 @@ const Categories = () => {
                                                 //  inputProps={{ 'aria-labelledby': labelId }}
                                             />
                                         </ListItemIcon>
-                                        <ListItemText > <div className={classes.listProp}>{value.name}</div> </ListItemText>
+                                        <ListItemText > 
+                                            {value.deviceName}
+                                            
+                                             </ListItemText>
+                                             <ListItemSecondaryAction>
+                                             {value.userName} 
+                  </ListItemSecondaryAction>
                                     </ListItem>
                                 ))}
                             </List>
@@ -375,5 +400,12 @@ const Categories = () => {
         </div>
     )
 }
-
-export default Categories
+Categories.propTypes={
+    getDeviceList:PropTypes.func.isRequired,
+    device:PropTypes.object.isRequired
+  }
+const mapStateToProps = state => ({
+   device: state.device
+})
+export default connect(mapStateToProps,{getDeviceList})(Categories)
+  

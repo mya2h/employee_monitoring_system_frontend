@@ -1,6 +1,28 @@
-import {DEVICE_GROUP_SUCCESS,DEVICE_GROUP_FAIL,DO_NOT_TRACK_LIST_SUCCESS,DO_NOT_TRACK_LIST_FAIL} from './types'
+import {DEVICE_GROUP_SUCCESS,DEVICE_GROUP_FAIL,DEVICE_LIST_SUCCESS,DEVICE_LIST_FAIL,DO_NOT_TRACK_LIST_SUCCESS,DO_NOT_TRACK_LIST_FAIL} from './types'
 import axios from 'axios'
 
+export const getDeviceList = () => async dispatch =>{
+    console.log("kal")
+    const config = {
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.get('http://localhost:5000/api/deviceUsers', config)
+        dispatch({
+            type: DEVICE_LIST_SUCCESS,
+            payload: res.data
+        })
+        console.log(res.data)
+    }
+    catch (err) {
+        console.log(err)
+        dispatch({
+            type: DEVICE_LIST_FAIL,
+        })
+    }
+}
 export const addNewGroup = async (value)=>{
     const body = JSON.stringify(value)
     const config ={
