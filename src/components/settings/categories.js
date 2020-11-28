@@ -1,11 +1,14 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Button, Paper, } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import MaterialTable from 'material-table';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import GroupIcon from '@material-ui/icons/Group';
 import Container from '@material-ui/core/Container';
+import Check from '@material-ui/icons/Check';
+import BlockIcon from '@material-ui/icons/Block';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
@@ -27,7 +30,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {getDeviceList} from '../../actions/devices'
+import { getDeviceList } from '../../actions/devices'
 const useStyles = makeStyles((theme) => ({
     root: {
         maxHeight: "500px",
@@ -62,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
         height: 50,
         backgroundColor: 'rgba(221, 221, 221, 0.863)',
     },
+    table: {
+        minHeight: "400px"
+    },
     button: {
         float: "left",
         background: "#1976d2",
@@ -92,6 +98,10 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "12px",
         textTransform: 'capitalize',
     },
+    paper: {
+        minWidth: "900px",
+        minHeight: "580px"
+    },
     remove: {
         color: "#f55753",
         textTransform: 'capitalize',
@@ -117,18 +127,30 @@ const useStyles = makeStyles((theme) => ({
     title: {
         float: "left"
     },
-    space:{
-        marginRight:100
+    space: {
+        marginRight: 100
+    },
+    check: {
+        color: "rgb(74, 184, 169)",
+        backgroundColor: "#ffffff"
+    },
+    block: {
+        color: "rgb(80, 80, 80)",
+        backgroundColor: "#ffffff"
     }
 
 }));
-const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
+const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     useEffect(() => {
         getDeviceList()
-      }, [])    
+    }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
     const [groupView, setGroupView] = React.useState(false)
+    const columns = [
+        { field: 'deviceName', title: 'Device name', width: 130 },
+        { field: 'userName', title: 'User name', width: 130 },
+    ];
     const [compuserList, setCompUserList] = React.useState([
         {
             deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD", "Abdak 2344"]
@@ -158,9 +180,11 @@ const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
     const [childList, setChildList] = React.useState([])
     const [compUserDetail, setCompUserDetail] = React.useState([])
     const [open, setOpen] = React.useState(false);
+    const [deleteOpen,setDeleteOpen] = React.useState(false)
     const [selectedIndex, setSelected] = React.useState(null)
     const [selectedComp, setSelectedComp] = React.useState(null)
-    const [newGroup,setNewGroup] = React.useState('')
+    const [selectedForEdit, setSelectedForEdit] = React.useState()
+    const [newGroup, setNewGroup] = React.useState('')
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -181,6 +205,7 @@ const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
     }
     const handleComputerUser = (index) => {
         setSelectedComp(index)
+        setSelectedForEdit('')
         setSelected(null)
         setCompUserDetail(compuserList[index].deviceList)
         setChildList([])
@@ -193,22 +218,39 @@ const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
         } else {
             newChecked.splice(currentIndex, 1);
         }
+        console.log(newChecked)
         setChecked(newChecked);
         console.log(value)
         console.log(checked)
     };
+    const handleCheckAll = () => {
+        setChecked(deviceList)
+    }
     const handleChange = (e) => {
         console.log(e.target.value)
         setNewGroup(e.target.value)
     }
-    const handleSubmit= (e)=>{
+    const handleSubmit = (e) => {
         e.preventDefault()
         console.log(newGroup)
         setNewGroup('')
     }
-    const handleMemberSubmit = ()=>{
+    const handleMemberSubmit = () => {
         console.log("it is working")
         console.log(checked)
+    }
+    const handleDeleteClose =()=>{
+        setDeleteOpen(false)
+    }
+    const handleDeleteOpen =()=>{
+        setDeleteOpen(true)
+    }
+    const handleEdit = (value, index) => {
+        setSelectedForEdit(index)
+        setSelected(index);
+        setSelectedComp(null)
+        setCompUserDetail([])
+        setChildList(value.deviceList)
     }
     return (
         <div className={classes.all}>
@@ -224,14 +266,15 @@ const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
                     <div className={classes.title}>Add New Group</div>
 
                     <form onSubmit={handleSubmit}>
-                        <input type="text" 
-                        onChange={handleChange}
-                        name="group" placeholder="Group Name" style={{
-                            width: "400px",
-                            padding: "8px 10px",
-                            margin: "8px 0",
-                            boxSizing: "border-box"
-                        }} />
+                        <input type="text"
+                            onChange={handleChange}
+
+                            name="group" placeholder="Group Name" style={{
+                                width: "400px",
+                                padding: "8px 10px",
+                                margin: "8px 0",
+                                boxSizing: "border-box"
+                            }} />
                         <br />
                         <div className={classes.groupButton}>
                             <Button elevation={0} type="submit" className={classes.button}>
@@ -287,16 +330,43 @@ const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
                                             classes={{ selected: classes.selected }}
                                             className={classes.tableRow}
                                             onClick={() => handleClick(data.deviceList, index)}>
-                                            <ListItemIcon className={classes.tableCell}>
-                                                <GroupIcon />
+                                            {index === selectedForEdit && (
+                                                <div >
+                                                    <ListItemIcon className={classes.tableCell} style={{ float: 'left' }}>
+                                                        <GroupIcon />
 
-                                            </ListItemIcon>
-                                            <ListItemText > <div className={classes.listProp}>{data.name}</div> </ListItemText>
-                                            <ListItemSecondaryAction>
-                                                <IconButton><Edit className={classes.editButton} /></IconButton>
-                                                <IconButton><Delete className={classes.remove} /></IconButton>
- 
-                                            </ListItemSecondaryAction>
+                                                    </ListItemIcon>
+                                                    <ListItemText style={{ float: 'left' }}>                      <input type="text"
+                                                        onChange={handleChange}
+                                                        value={data.name}
+                                                        name="group" placeholder="Group Name" style={{
+                                                            width: "200px",
+                                                            padding: "8px 10px",
+                                                            margin: "8px 0",
+                                                            boxSizing: "border-box"
+                                                        }} /></ListItemText>
+                                                    <ListItemSecondaryAction style={{ float: 'left' }}>
+                                                        <IconButton ><Check className={classes.check} /></IconButton>
+                                                        <IconButton><BlockIcon className={classes.block} /></IconButton>
+
+                                                    </ListItemSecondaryAction>
+                                                </div>
+                                            )}
+                                            {index != selectedForEdit && (
+                                                <div >
+                                                    <ListItemIcon className={classes.tableCell} style={{ float: 'left' }}>
+                                                        <GroupIcon />
+
+                                                    </ListItemIcon>
+                                                    <ListItemText style={{ float: 'left' }}> <div className={classes.listProp}>{data.name}</div> </ListItemText>
+                                                    <ListItemSecondaryAction style={{ float: 'left' }}>
+                                                        <IconButton onClick={() => handleEdit(data, index)}><Edit className={classes.editButton} /></IconButton>
+                                                        <IconButton onClick = {handleDeleteOpen}><Delete className={classes.remove} /></IconButton>
+
+                                                    </ListItemSecondaryAction>
+                                                </div>
+                                            )}
+
                                         </ListItem>
                                     ))}
                                 </List>
@@ -340,59 +410,68 @@ const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
                     </Container>
                 </Grid>
             </Grid>
-            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-                <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    Add Group Members
+            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" classes={{ paper: classes.paper }} open={open}>
+                <Container >
+                    <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                        Add Group Members
         </DialogTitle>
-                <DialogContent dividers>
-                    <Card variant="outlined">
-                        <CardActions className={classes.actions}>
-                            Device Name
-                            </CardActions>
-                        <CardContent>
-                            <List aria-label="contacts">
-                                {deviceList.map(value => (
-                                    <ListItem button className={classes.list} key={value} onClick={handleToggle(value)}>
-                                        {/* <Grid container>
-                                            <Grid xs={4}>
-                                                kal
-                                            </Grid>
-                                            <Grid xs={4}>
-                                                kal
-                                            </Grid>
-                                            <Grid xs={4}>
-                                                kal
-                                            </Grid>
-                                        </Grid> */}
-                                        <ListItemIcon className={classes.listIcon}>
-                                            <Checkbox
-                                                 edge="start"
-                                                 checked={checked.indexOf(value) !== -1}
-                                                 tabIndex={-1}
-                                                 disableRipple
-                                                //  inputProps={{ 'aria-labelledby': labelId }}
-                                            />
-                                        </ListItemIcon>
-                                        <ListItemText > 
-                                            {value.deviceName}
-                                            
-                                             </ListItemText>
-                                             <ListItemSecondaryAction>
-                                             {value.userName} 
-                  </ListItemSecondaryAction>
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </CardContent>
 
-                    </Card>
+                    <DialogContent dividers>
 
+                        <MaterialTable
+                            title=""
+                            columns={columns}
+                            data={deviceList}
+                            classes={{ table: classes.table }}
+                            options={{
+                                search: false,
+                                selection: true,
+                                filtering: true,
+                                toolbar: false,
+                                paging: true,
+                                pageSize: 5,
+                                emptyRowsWhenPaging: true,
+                                pageSizeOptions: [8, 16, 24, 50],
+                                cellStyle: {
+                                    maxHeight: "7px"
+                                },
+                                rowStyle: {
+                                    height: "5px",
+                                    color: "#a8a8a8",
+                                    maxHeight: "3px"
+                                },
+                                headerStyle: {
+                                    backgroundColor: "#f0f0f0"
+                                }
+                            }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button elevation={0} onClick={handleMemberSubmit} color="primary" className={classes.button} style={{ width: "400px", height: "80" }}>
+                            Create Group
+          </Button>
+                        <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px", height: "80" }}>
+                            Cancel
+          </Button>
+                    </DialogActions>
+                </Container>
+            </Dialog>
+            <Dialog
+                open={deleteOpen}
+                onClose={handleDeleteClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                    Are you sure you want to delete the group? This cannot be undone.
+          </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button elevation={0} onClick={handleMemberSubmit} color="primary" className={classes.button} style={{ width: "400px",height:"80" }}>
-                        Create Group
+                    <Button onClick={handleDeleteClose} color="primary" className={classes.remove}>
+                        Delete
           </Button>
-                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px",height:"80" }}>
+                    <Button onClick={handleDeleteClose} color="primary" autoFocus className={classes.block}>
                         Cancel
           </Button>
                 </DialogActions>
@@ -400,12 +479,12 @@ const Categories = ({getDeviceList,device:{deviceList,loading}}) => {
         </div>
     )
 }
-Categories.propTypes={
-    getDeviceList:PropTypes.func.isRequired,
-    device:PropTypes.object.isRequired
-  }
+Categories.propTypes = {
+    getDeviceList: PropTypes.func.isRequired,
+    device: PropTypes.object.isRequired
+}
 const mapStateToProps = state => ({
-   device: state.device
+    device: state.device
 })
-export default connect(mapStateToProps,{getDeviceList})(Categories)
-  
+export default connect(mapStateToProps, { getDeviceList })(Categories)
+
