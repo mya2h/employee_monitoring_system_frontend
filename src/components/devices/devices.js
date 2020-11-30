@@ -123,6 +123,7 @@ const Devices = ({getDeviceList,device:{deviceList,loading}}) => {
             // headerStyle: { backgroundColor: 'rgba(221, 221, 221, 0.863)' },
             rowStyle: {
               backgroundColor: 'rgb(226, 233, 122)',
+              height:"5px"
             }
           }}
           icons={tableIcons}
