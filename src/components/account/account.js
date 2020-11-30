@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import { forwardRef } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import MaterialTable from 'material-table';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
@@ -21,6 +23,7 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
 import SignUp from '../auth/signup'
+import {getAllUsers} from "../../actions/auth"
 
 
 const tableIcons = {
@@ -87,7 +90,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Account = () => {
+
+
+const Account = ({getAllUsers,users:{users,loading}}) => {
+  useEffect(() => {
+    getAllUsers()
+  }, [])
   const classes = useStyles();
   const [value, setValue] = React.useState('')
   const [selectedValue, setSelectedValue] = React.useState('a');
@@ -118,7 +126,7 @@ const Account = () => {
           options={{
             headerStyle: { backgroundColor:'rgba(221, 221, 221, 0.863)' },
           }}
-          data={data}
+          data={users}
           actions={[
             {
               icon: () => <BlockIcon style={{
@@ -148,4 +156,13 @@ const Account = () => {
 
   );
 }
-export default Account
+
+Account.propTypes={
+  getAllUsers:PropTypes.func.isRequired,
+  users:PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+  users: state.users
+})
+export default connect(mapStateToProps,{getAllUsers})(Account)
+
