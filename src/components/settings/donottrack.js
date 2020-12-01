@@ -1,10 +1,12 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { forwardRef } from 'react';
 import MaterialTable from 'material-table';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Clear from '@material-ui/icons/Clear';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Button, Paper, } from '@material-ui/core';
 import Edit from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
@@ -30,19 +32,21 @@ import Check from '@material-ui/icons/Check';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
-const useStyle =  makeStyles(theme => ({
-    root:{
-        margin:theme.spacing(3),
+import { getDeviceList } from '../../actions/devices'
+
+const useStyle = makeStyles(theme => ({
+    root: {
+        margin: theme.spacing(3),
         // float:"left"
     },
-    table:{
-        width:'70%',
-        marginTop:theme.spacing(4)
+    table: {
+        width: '70%',
+        marginTop: theme.spacing(4)
     },
-    pos:{
-        float:"left",
-        border:'1px solid #bdbdbd',
-        borderRadius:'4px',
+    pos: {
+        float: "left",
+        border: '1px solid #bdbdbd',
+        borderRadius: '4px',
         textTransform: 'capitalize',
     },
     button: {
@@ -70,37 +74,40 @@ const useStyle =  makeStyles(theme => ({
 }))
 const tableIcons = {
     Check: forwardRef((props, ref) => <Check style={{
-      color: '#2b94b1'
+        color: '#2b94b1'
     }} {...props} ref={ref} />),
     Block: forwardRef((props, ref) => <BlockIcon style={{
-      color: '#156c94'
+        color: '#156c94'
     }} {...props} ref={ref} />),
-  
+
     Delete: forwardRef((props, ref) => <Delete style={{
-      color: '#e64f47',
+        color: '#e64f47',
     }} {...props} ref={ref} />),
     Clear: forwardRef((props, ref) => <Clear style={{
-      color: '#e64f47',
+        color: '#e64f47',
     }} {...props} ref={ref} />),
     Edit: forwardRef((props, ref) => <Edit style={{
-      color: '#5a98d6',
+        color: '#5a98d6',
     }} {...props} ref={ref} />),
     Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => {}),
+    Filter: forwardRef((props, ref) => { }),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     PreviousPage: forwardRef((props, ref) => (
-      <ChevronLeft {...props} ref={ref} />
+        <ChevronLeft {...props} ref={ref} />
     )),
     ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
     Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
     SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-  };
+};
 
-const DoNotTrack = ()=> {
+const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
+    useEffect(() => {
+        getDeviceList()
+      }, [])
     const classes = useStyle()
     const [checked, setChecked] = React.useState([0]);
     const [open, setOpen] = React.useState(false);
@@ -122,19 +129,19 @@ const DoNotTrack = ()=> {
             deviceList: ["12wea 23CSD", "Dell 23CSD", "Kal 23CSD"]
         }
     ])
-    const [state,setState] = React.useState({
-        columns:[
+    const [state, setState] = React.useState({
+        columns: [
             { title: 'Device Name', field: 'deviceName' },
             { title: 'User', field: 'user' },
         ],
-        data:[
-            { deviceName: 'HP 234',user:"Kalkidan" },
-            { deviceName: 'Lenovo 123',user:"Melkams" },
-            { deviceName: 'HP 234',user:"Studows" },
-            { deviceName: 'Lenovo 123',user:"Kalkidan" },
-            { deviceName: 'Mac book pro',user:"macuser12" },
-            { deviceName: 'HP123q',user:"kalse" },
-            { deviceName: 'HP 234',user:"Kalkidan" },
+        data: [
+            { deviceName: 'HP 234', user: "Kalkidan" },
+            { deviceName: 'Lenovo 123', user: "Melkams" },
+            { deviceName: 'HP 234', user: "Studows" },
+            { deviceName: 'Lenovo 123', user: "Kalkidan" },
+            { deviceName: 'Mac book pro', user: "macuser12" },
+            { deviceName: 'HP123q', user: "kalse" },
+            { deviceName: 'HP 234', user: "Kalkidan" },
         ]
     })
     const handleClickOpen = () => {
@@ -155,50 +162,50 @@ const DoNotTrack = ()=> {
 
         setChecked(newChecked);
     };
-    return(
-        <div className = {classes.root}>
+    return (
+        <div className={classes.root}>
             <div className={classes.pos}>
-            <Button onClick={handleClickOpen} >Add Users</Button>
+                <Button onClick={handleClickOpen} >Add Users</Button>
             </div>
-        <br/>
-            <div   className={classes.table}>
-            <MaterialTable  
-          title=""
-          columns={state.columns}
-        
-          data={state.data}
-          options={{
-            headerStyle: { backgroundColor:'rgba(221, 221, 221, 0.863)' },
-            toolbar: false,
-            search: false,
-            filtering:true
-          }}
-          icons={tableIcons}
-        />
+            <br />
+            <div className={classes.table}>
+                <MaterialTable
+                    title=""
+                    columns={state.columns}
+
+                    data={state.data}
+                    options={{
+                        headerStyle: { backgroundColor: 'rgba(221, 221, 221, 0.863)' },
+                        toolbar: false,
+                        search: false,
+                        filtering: true
+                    }}
+                    icons={tableIcons}
+                />
             </div>
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                Add user to the Do Not Track List
+                    Add user to the Do Not Track List
         </DialogTitle>
                 <DialogContent dividers>
                     <Card variant="outlined">
                         <CardActions className={classes.actions}>
-                           Users List
+                            Users List
                             </CardActions>
                         <CardContent>
                             <List aria-label="contacts">
-                                {listItems.map(value => (
+                                {deviceList.map(value => (
                                     <ListItem button className={classes.list} key={value} onClick={handleToggle(value)}>
                                         <ListItemIcon className={classes.listIcon}>
                                             <Checkbox
-                                                 edge="start"
-                                                 checked={checked.indexOf(value) !== -1}
-                                                 tabIndex={-1}
-                                                 disableRipple
-                                                //  inputProps={{ 'aria-labelledby': labelId }}
+                                                edge="start"
+                                                checked={checked.indexOf(value) !== -1}
+                                                tabIndex={-1}
+                                                disableRipple
+                                            //  inputProps={{ 'aria-labelledby': labelId }}
                                             />
                                         </ListItemIcon>
-                                        <ListItemText > <div className={classes.listProp}>{value.name}</div> </ListItemText>
+                                        <ListItemText > <div className={classes.listProp}>{value.userName}</div> </ListItemText>
                                     </ListItem>
                                 ))}
                             </List>
@@ -208,10 +215,10 @@ const DoNotTrack = ()=> {
 
                 </DialogContent>
                 <DialogActions>
-                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.button} style={{ width: "400px",height:"80" }}>
+                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.button} style={{ width: "400px", height: "80" }}>
                         Save
           </Button>
-                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px",height:"80" }}>
+                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px", height: "80" }}>
                         Cancel
           </Button>
                 </DialogActions>
@@ -219,4 +226,12 @@ const DoNotTrack = ()=> {
         </div>
     )
 }
-export default DoNotTrack
+DoNotTrack.propTypes = {
+    getDeviceList: PropTypes.func.isRequired,
+    device: PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+    device: state.device
+})
+export default connect(mapStateToProps, { getDeviceList })(DoNotTrack)
+

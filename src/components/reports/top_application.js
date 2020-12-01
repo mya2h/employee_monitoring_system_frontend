@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   selected: {},
   formControl: {
-    marginleft: theme.spacing(3),
+    marginRight: theme.spacing(3),
     marginBottom:theme.spacing(8),
     minWidth: 120,
     float:"left"
