@@ -102,3 +102,7 @@ export const deactivateUser = async (value) => {
         console.log(err)
     }
 }
+
+export const getProfiles=()=>{
+    
+}
