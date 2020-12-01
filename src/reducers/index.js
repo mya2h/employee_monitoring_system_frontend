@@ -7,11 +7,13 @@ import top_application from './top_application_report_reducer'
 import top_files from './top_files_report_reducer'
 import resource from './resources'
 import device from './device'
+import activityLog from './activityLog'
 export default combineReducers({
     auth,
     users,
     device,
     alert,
+    activityLog,
     top_application,
     top_files,
     top_websites,

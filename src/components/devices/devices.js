@@ -96,11 +96,6 @@ const Devices = ({getDeviceList,device:{deviceList,loading}}) => {
   const classes = useStyles();
   const [value, setValue] = React.useState('')
   const [selectedValue, setSelectedValue] = React.useState('a');
-  const [data, setData] = React.useState([
-    { username: "Hp123a", devicename: "WINDOWS-5AUTJS3", date: "12/4/3", activeStatus: 'online' },
-    { username: "Melkam2eb", devicename: "WINDOWS-5AUTJS3", date: "21/3/4", activeStatus: 'offline' },
-    { username: "Mac231", devicename: "WINDOWS-5AUTJS3", date: "10/5/4 ", activeStatus: 'online' },
-  ])
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -122,8 +117,11 @@ const Devices = ({getDeviceList,device:{deviceList,loading}}) => {
           options={{
             // headerStyle: { backgroundColor: 'rgba(221, 221, 221, 0.863)' },
             rowStyle: {
-              backgroundColor: 'rgb(226, 233, 122)',
+          
               height:"5px"
+            },
+            headerStyle:{
+              backgroundColor:"rgba(221, 221, 221, 0.863"
             }
           }}
           icons={tableIcons}

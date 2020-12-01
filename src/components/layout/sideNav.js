@@ -169,7 +169,18 @@ const SideNav = () => {
               </ListItem>
             </Link>
             <Link
-              to="/admin/report"
+              to="/admin/report/ActivityLog"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              <ListItem button className={classes.nested}>
+                <ListItemIcon className={classes.icon}>
+                  <TodayIcon />
+                </ListItemIcon>
+                <ListItemText primary="Activity Log" />
+              </ListItem>
+            </Link>
+            <Link
+              to="/admin/report/workingHours"
               style={{ color: "inherit", textDecoration: "inherit" }}
             >
               <ListItem button className={classes.nested}>

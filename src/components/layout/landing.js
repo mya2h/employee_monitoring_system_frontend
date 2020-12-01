@@ -38,6 +38,8 @@ import TopUsers from "../reports/top_users";
 import Categories from "../settings/categories"
 import SuspiciousActivities from '../activities/suspiciousActivities'
 import RegisterSuspiciousActivities from '../activities/registerSuspiciousActivities'
+import ActivityLog from '../reports/activity_log'
+import WorkingHours from '../reports/working_hours'
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
@@ -184,7 +186,7 @@ const Dashboard = () => {
       <Route exact path="/admin/dashboard" component={GraphInfo} />
       <Route exact path="/admin/device" component={Device} />
       <Route exact path="/admin/report" component={Reports} />
-
+      <Route exac path = "/admin/report/workingHours" component={WorkingHours}/>
       <Route exact path="/admin/resource" component={Resource}/>
       <Route exact path="/admin/setting/donottrack" component={DoNotTrack}/>
       <Route exact  path="/admin/setting" component={Settings}/>
@@ -204,6 +206,7 @@ const Dashboard = () => {
       <Route exact path ="/admin/donottrack" component={DoNotTrack}/>
       <Route exact path = "/admin/suspiciousActvities" component={SuspiciousActivities}/>
       <Route exact path = "/admin/registerActivity" component ={RegisterSuspiciousActivities}/>
+      <Route exact path ="/admin/report/ActivityLog" component ={ActivityLog}/>
       <Redirect from="/admin" to="/admin/dashboard" />
     </Switch>
   );
