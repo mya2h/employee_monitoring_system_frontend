@@ -183,7 +183,7 @@ const SignUp = ({register}) => {
                 fullWidth
                 name="consirmPassword"
                 label="Confirm Password"
-                value = {user.consirmPassword}
+                value = {user.confirmPassword}
                 type="password"
                 id="password"
                 onChange={handleChange}

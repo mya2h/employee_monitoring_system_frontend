@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
         color: "rgb(80, 80, 80)",
         backgroundColor: "#ffffff"
     }
-
+    
 }));
 const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     useEffect(() => {
@@ -146,6 +146,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
+    const [selectedMember,setSelectedMember] = React.useState([])
     const [groupView, setGroupView] = React.useState(false)
     const columns = [
         { field: 'deviceName', title: 'Device name', width: 130 },
@@ -303,6 +304,10 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     }
     const handleMemberRemove = ()=>{
         console.log("removed")
+    }
+    const handleMemberSelection = (row)=>{
+        console.log(row)
+        setSelectedMember(row)
     }
     return (
         <div className={classes.all}>
@@ -484,6 +489,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                     backgroundColor: "#f0f0f0"
                                 }
                             }}
+                            onSelectionChange={(rows) => handleMemberSelection(rows)}
                         />
                     </DialogContent>
                     <DialogActions>

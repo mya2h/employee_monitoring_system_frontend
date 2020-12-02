@@ -10,7 +10,7 @@ export const register = (value) => async dispatch => {
         }
     }
     try {
-        const res = await axios.post('http://localhost:5000/api/users/hr/register', body, config)
+        const res = await axios.post('http://localhost:5000/api/user/signup', body, config)
         console.log(res.data)
         dispatch(setAlert('registered successfully','success'))
     }

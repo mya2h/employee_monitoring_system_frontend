@@ -1,7 +1,35 @@
 import {SUSPICIOUS_ACTIVITIES_LIST_SUCCESS,SUSPICIOUS_ACTIVITIES_LIST_FAIL} from './types'
 import axios from 'axios'
 
-export const assSuspiciousActivities = async (value)=>{
+export const addSuspiciousActivitiesFiles = async (value)=>{
+    const body = JSON.stringify(value)
+    const config ={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    try{
+        const res = await axios.post('', body, config)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+export const addSuspiciousActivitiesWebsites = async (value)=>{
+    const body = JSON.stringify(value)
+    const config ={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    try{
+        const res = await axios.post('', body, config)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+export const addSuspiciousActivitiesApps = async (value)=>{
     const body = JSON.stringify(value)
     const config ={
         headers:{
@@ -33,5 +61,19 @@ export const getSuspiciousActivities = () => async dispatch=>{
         dispatch({
             type: SUSPICIOUS_ACTIVITIES_LIST_FAIL,
         })
+    }
+}
+export const removeSuspiciousActivity = async (value)=>{
+    const body = JSON.stringify(value)
+    const config ={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    try{
+        const res = await axios.post('', body, config)
+    }
+    catch(err){
+        console.log(err)
     }
 }

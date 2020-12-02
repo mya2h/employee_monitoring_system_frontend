@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         marginRight: theme.spacing(3),
-        marginBottom: theme.spacing(8),
+        // marginBottom: theme.spacing(8),
         minWidth: 120,
         float: "left"
 
@@ -124,6 +124,9 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         float: "left"
+    },
+    suspicious:{
+        marginTop:theme.spacing(5)
     }
 
 }));
@@ -131,6 +134,7 @@ const SuspiciousActivities = () => {
     const classes = useStyles();
     const [checked, setChecked] = React.useState([0]);
     const [groupView, setGroupView] = React.useState(false)
+    const [activtyType,setActvityType] = React.useState('application')
     const [compuserList, setCompUserList] = React.useState([
         {
             deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD", "Abdak 2344"]
@@ -140,10 +144,6 @@ const SuspiciousActivities = () => {
         },
     ])
     const [listItems, SetListItems] = React.useState([
-        {
-            name: "All Users",
-            deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        },
         {
             name: "Toshiba 23CSD",
             deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"]
@@ -161,19 +161,30 @@ const SuspiciousActivities = () => {
             deviceList: ["12wea 23CSD", "Dell 23CSD", "Kal 23CSD"]
         }
     ])
-    const [childList, setChildList] = React.useState([])
+    const [childList, setChildList] = React.useState(["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"])
     const [compUserDetail, setCompUserDetail] = React.useState([])
+    const [website,setWebsite] = React.useState({
+        url:''
+    })
+    const [file,setFile] = React.useState({
+        path:''
+    })
+    const [app,setApp] = React.useState({
+        name:''
+    })
+    const [menu,setMenu] = React.useState('all')
     const [open, setOpen] = React.useState(false);
-    const [selectedIndex, setSelected] = React.useState(null)
+    const [selectedIndex, setSelected] = React.useState(0)
     const [selectedComp, setSelectedComp] = React.useState(null)
     const handleClickOpen = () => {
+        console.log(listItems[selectedIndex])
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
     const handleClick = (event, index) => {
-        setChildList(event)
+        setChildList(event.deviceList)
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
@@ -202,15 +213,39 @@ const SuspiciousActivities = () => {
 
         setChecked(newChecked);
     };
+    const handleChange = (event) =>{
+        console.log(event.target.value)
+        setMenu(event.target.value)
+    }
+    const handleActivityRemove = (data) =>{
+        console.log(data)
+    }
+    const handleActivityType = (event) =>{
+        console.log(event.target.value)
+        setActvityType(event.target.value)
+    }
+    const handleSuspiciousWebsites = (event)=>{
+        setWebsite({url:event.target.value})
+    }
+    const handleSuspiciousApplications = (event)=>{
+        setApp({name:event.target.value})
+    }
+    const handleSuspciousSubmit = (event) =>{
+        event.preventDefault()
+        if(activtyType == 'application'){
+            console.log(app)
+        }
+        if(activtyType == 'websites'){
+            console.log(website)
+        }
+        if(activtyType == 'files'){
+            console.log(file)
+        }
+    }
     return (
         <div className={classes.all}>
             <div className={classes.top}>
-                {/* <Link
-          to="/admin/registerActivity"
-          style={{ color: "inherit", textDecoration: "inherit" }}> */}
                 <Button elevation={0} className={classes.button} disabled={selectedIndex == null} onClick={handleClickOpen}>Add Suspicious Activities</Button>
-                {/* </Link> */}
-
             </div>
             <br />
             <Grid container spacing={2}>
@@ -228,7 +263,7 @@ const SuspiciousActivities = () => {
                                             selected={selectedIndex === index}
                                             classes={{ selected: classes.selected }}
                                             className={classes.tableRow}
-                                            onClick={() => handleClick(data.deviceList, index)}>
+                                            onClick={() => handleClick(data, index)}>
                                             <ListItemIcon className={classes.tableCell}>
                                                 <GroupIcon />
 
@@ -250,10 +285,11 @@ const SuspiciousActivities = () => {
                                 Registered Suspicious Activities
                             </CardActions>
                             <CardContent>
-                                <div className={classes.root}>
+                                <div >
                                     <FormControl variant="outlined" className={classes.formControl} >
                                         <Select
-                                            defaultValue={10}
+                                            value={menu}
+                                            onChange={handleChange}
                                             className={classes.select}
                                             variant="outlined"
                                             inputProps={{
@@ -261,20 +297,19 @@ const SuspiciousActivities = () => {
                                                 id: 'uncontrolled-native',
                                             }}
                                         >
-                                            <option value={10}>Applications</option>
-                                            <option value={20}>Files</option>
-                                            <option value={30}>Websites</option>
+                                            <option value='all'>All</option>
+                                            <option value='applications'>Applications</option>
+                                            <option value='files'>Files</option>
+                                            <option value='websites'>Websites</option>
                                         </Select>
                                     </FormControl>
 
                                     <br />
-                                    <List size="small" component="nav" aria-label="contacts">
+                                    <List className = {classes.suspicious} size="small" component="nav" aria-label="contacts">
                                         {childList.length != 0 && childList != null && childList.map(data => (
                                             <ListItem button className={classes.list}>
                                                 <ListItemText > <div className={classes.listProp}>{data}</div> </ListItemText>
-                                                <ListItemSecondaryAction>
-                                                <IconButton><RemoveIcon className={classes.remove} /></IconButton>
-                                                </ListItemSecondaryAction>
+                                                <ListItemSecondaryAction><IconButton onClick= {() =>{handleActivityRemove(data)}}><RemoveIcon className={classes.remove} /></IconButton></ListItemSecondaryAction>
                                             </ListItem>
                                         ))}
                                     </List>
@@ -297,53 +332,49 @@ const SuspiciousActivities = () => {
                         <CardContent>
                             <FormControl variant="outlined" className={classes.formControl} >
                                 <Select
-                                    defaultValue={10}
+                                    defaultValue={activtyType}
                                     className={classes.select}
+                                    onChange = {handleActivityType}
                                     variant="outlined"
                                     inputProps={{
                                         name: 'date',
                                         id: 'uncontrolled-native',
                                     }}
                                 >
-                                    <option value={10}>All Users</option>
-                                    <option value={20}>Toshiba 23CSD</option>
-                                    <option value={30}>Dell 23CSD</option>
-                                    <option value={20}>Kal 23CSD</option>
-                                    <option value={30}>Office4 23CSD</option>
-                                </Select>
-                            </FormControl>
-                            <FormControl variant="outlined" className={classes.formControl} >
-                                <Select
-                                    defaultValue={10}
-                                    className={classes.select}
-                                    variant="outlined"
-                                    inputProps={{
-                                        name: 'date',
-                                        id: 'uncontrolled-native',
-                                    }}
-                                >
-                                    <option value={10}>Applications</option>
-                                    <option value={20}>Files</option>
-                                    <option value={30}>Websites</option>
+                                    <option value='application'>Applications</option>
+                                    <option value='files'>Files</option>
+                                    <option value='websites'>Websites</option>
                                 </Select>
                             </FormControl>
                             {/* <br/> */}
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                id="URL"
-                                fullWidth
-                                label="Please enter the URL"
-                                name="URL"
-                            />
+                            {activtyType === 'application' && (
+                                         <TextField
+                                         variant="outlined"
+                                         margin="normal"
+                                         required
+                                         fullWidth
+                                         onChange = {handleSuspiciousApplications}
+                                         label="Please Enter The Application Name"
+                                         name="appName"
+                                     />
+                            )}
+                              {activtyType === 'websites' && (
+                                         <TextField
+                                         variant="outlined"
+                                         margin="normal"
+                                         onChange = {handleSuspiciousWebsites}
+                                         required
+                                         fullWidth
+                                         label="Please Enter The URL"
+                                         name="url"
+                                     />
+                            )}
                         </CardContent>
-
                     </Card>
 
                 </DialogContent>
                 <DialogActions>
-                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.button} style={{ width: "400px", height: "80" }}>
+                    <Button elevation={0} onClick={handleSuspciousSubmit} color="primary" className={classes.button} style={{ width: "400px", height: "80" }}>
                         Add
           </Button>
                     <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px", height: "80" }}>

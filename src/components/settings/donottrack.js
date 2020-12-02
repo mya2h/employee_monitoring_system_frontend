@@ -9,18 +9,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Paper, } from '@material-ui/core';
 import Edit from '@material-ui/icons/Edit';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Checkbox from '@material-ui/core/Checkbox';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import Container from '@material-ui/core/Container';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import BlockIcon from '@material-ui/icons/Block';
 import FirstPage from '@material-ui/icons/FirstPage';
@@ -111,6 +103,11 @@ const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
     const classes = useStyle()
     const [checked, setChecked] = React.useState([0]);
     const [open, setOpen] = React.useState(false);
+    const [selectedMember,setSelectedMember] = React.useState([])
+    const columns = [
+        { field: 'deviceName', title: 'Device name', width: 130 },
+        { field: 'userName', title: 'User name', width: 130 },
+    ];
     const [listItems, SetListItems] = React.useState([
         {
             name: "Office1 laptops",
@@ -162,6 +159,13 @@ const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
 
         setChecked(newChecked);
     };
+    const handleMemberSelection = (rows) =>{
+        console.log(rows)
+        setSelectedMember(rows)
+    }
+    const handleSubmit = () =>{
+        console.log(selectedMember)
+    }
     return (
         <div className={classes.root}>
             <div className={classes.pos}>
@@ -183,45 +187,52 @@ const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
                     icons={tableIcons}
                 />
             </div>
-            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-                <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    Add user to the Do Not Track List
+               <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" classes={{ paper: classes.paper }} open={open}>
+                <Container >
+                    <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                        Add Group Members
         </DialogTitle>
-                <DialogContent dividers>
-                    <Card variant="outlined">
-                        <CardActions className={classes.actions}>
-                            Users List
-                            </CardActions>
-                        <CardContent>
-                            <List aria-label="contacts">
-                                {deviceList.map(value => (
-                                    <ListItem button className={classes.list} key={value} onClick={handleToggle(value)}>
-                                        <ListItemIcon className={classes.listIcon}>
-                                            <Checkbox
-                                                edge="start"
-                                                checked={checked.indexOf(value) !== -1}
-                                                tabIndex={-1}
-                                                disableRipple
-                                            //  inputProps={{ 'aria-labelledby': labelId }}
-                                            />
-                                        </ListItemIcon>
-                                        <ListItemText > <div className={classes.listProp}>{value.userName}</div> </ListItemText>
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </CardContent>
 
-                    </Card>
+                    <DialogContent dividers>
 
-                </DialogContent>
-                <DialogActions>
-                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.button} style={{ width: "400px", height: "80" }}>
-                        Save
+                        <MaterialTable
+                            title=""
+                            columns={columns}
+                            data={deviceList}
+                            classes={{ table: classes.table }}
+                            options={{
+                                search: false,
+                                selection: true,
+                                filtering: true,
+                                toolbar: false,
+                                paging: true,
+                                pageSize: 5,
+                                emptyRowsWhenPaging: true,
+                                pageSizeOptions: [8, 16, 24, 50],
+                                cellStyle: {
+                                    maxHeight: "7px"
+                                },
+                                rowStyle: {
+                                    height: "5px",
+                                    color: "#a8a8a8",
+                                    maxHeight: "3px"
+                                },
+                                headerStyle: {
+                                    backgroundColor: "#f0f0f0"
+                                }
+                            }}
+                            onSelectionChange={(rows) => handleMemberSelection(rows)}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button elevation={0} onClick = {handleSubmit} color="primary" className={classes.button} style={{ width: "400px", height: "80" }}>
+                            Save
           </Button>
-                    <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px", height: "80" }}>
-                        Cancel
+                        <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px", height: "80" }}>
+                            Cancel
           </Button>
-                </DialogActions>
+                    </DialogActions>
+                </Container>
             </Dialog>
         </div>
     )
