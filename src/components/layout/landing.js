@@ -34,12 +34,14 @@ import TopWebsite from "../reports/top_website"
 import TopApplications from "../reports/top_application"
 import TopCategories from "../reports/top_categories"
 import Account from "../account/account";
+import Profile from "../account/profile"
 import TopUsers from "../reports/top_users";
 import Categories from "../settings/categories"
 import SuspiciousActivities from '../activities/suspiciousActivities'
 import RegisterSuspiciousActivities from '../activities/registerSuspiciousActivities'
 import ActivityLog from '../reports/activity_log'
 import WorkingHours from '../reports/working_hours'
+
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
@@ -203,6 +205,7 @@ const Dashboard = () => {
       <Route exact path ="/admin/categories" component={Categories}/>
 
       <Route exact path="/admin/account" component={Account} />
+      <Route exact path="/admin/profile" component={Profile}/>
       <Route exact path ="/admin/donottrack" component={DoNotTrack}/>
       <Route exact path = "/admin/suspiciousActvities" component={SuspiciousActivities}/>
       <Route exact path = "/admin/registerActivity" component ={RegisterSuspiciousActivities}/>
@@ -352,8 +355,8 @@ const Dashboard = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-
-            <MenuItem >Profile</MenuItem>
+<Link  to="/admin/profile" variant='body2' style={{ color: 'inherit', textDecoration: 'inherit' }}> <MenuItem >Profile</MenuItem></Link>
+           
             <Link to="/" variant='body2' style={{ color: 'inherit', textDecoration: 'inherit' }}>
               <MenuItem>Logout</MenuItem>
               </Link>
