@@ -162,28 +162,68 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     const [listItems, SetListItems] = React.useState([
         {
             name: "Office1 laptops",
-            deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"]
+            deviceList: [
+                {
+                    userName:"Toshiba 23CSD"
+                },
+                {
+                    userName:"Dell 23CSD"
+                },
+                {
+                    userName:"Kal 23CSD"
+                }
+            ]
         },
         {
             name: "Office2 laptops",
-            deviceList: ["Toshiba kal", "Dell wea", "Kal 23CSD"]
+            deviceList: [
+                {
+                    userName:"Toshiba kal"
+                },
+                {
+                    userName:"Dell wea"
+                },
+                {
+                    userName:"Kal 23CSD"
+                }
+            ]
         },
         {
             name: "Office3 laptops",
-            deviceList: ["bagf 23CSD", "Dell 23CSD", "Kal 23CSD"]
+            deviceList: [
+                {
+                    userName:"bagf 23CSD"
+                },
+                {
+                    userName:"Dell 23CSD"
+                },
+                {
+                    userName: "Kal 23CSD"
+                }
+            ]
         },
         {
             name: "Office4 laptops",
-            deviceList: ["12wea 23CSD", "Dell 23CSD", "Kal 23CSD"]
+            deviceList: [
+                {
+                    userName:"12wea 23CSD"
+                },
+                {
+                    userName:"Dell 23CSD"
+                },
+                {
+                    userName:"Kal 23CSD"
+                }
+            ]
         }
     ])
     const [childList, setChildList] = React.useState([])
     const [compUserDetail, setCompUserDetail] = React.useState([])
     const [open, setOpen] = React.useState(false);
-    const [deleteOpen,setDeleteOpen] = React.useState(false)
+    const [deleteOpen, setDeleteOpen] = React.useState(false)
     const [selectedIndex, setSelected] = React.useState(null)
-    const [selectedComp, setSelectedComp] = React.useState(null)
-    const [selectedForEdit, setSelectedForEdit] = React.useState()
+    const [selectedComp, setSelectedComp] = React.useState(0)
+    const [selectedForEdit, setSelectedForEdit] = React.useState(null)
     const [newGroup, setNewGroup] = React.useState('')
     const handleClickOpen = () => {
         setOpen(true);
@@ -205,7 +245,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     }
     const handleComputerUser = (index) => {
         setSelectedComp(index)
-        setSelectedForEdit('')
+        setSelectedForEdit(null)
         setSelected(null)
         setCompUserDetail(compuserList[index].deviceList)
         setChildList([])
@@ -239,10 +279,10 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
         console.log("it is working")
         console.log(checked)
     }
-    const handleDeleteClose =()=>{
+    const handleDeleteClose = () => {
         setDeleteOpen(false)
     }
-    const handleDeleteOpen =()=>{
+    const handleDeleteOpen = () => {
         setDeleteOpen(true)
     }
     const handleEdit = (value, index) => {
@@ -251,6 +291,18 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
         setSelectedComp(null)
         setCompUserDetail([])
         setChildList(value.deviceList)
+    }
+    const handleConfirm = ()=>{
+        setSelectedForEdit(null)
+    }
+    const handleCancel = ()=>{
+        setSelectedForEdit(null)
+    }
+    const handleGroupChange =(e,data)=>{
+        console.log(data)
+    }
+    const handleMemberRemove = ()=>{
+        console.log("removed")
     }
     return (
         <div className={classes.all}>
@@ -312,18 +364,6 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                         </ListItemIcon>
                                         <ListItemText > <div className={classes.listProp}>All Users</div> </ListItemText>
                                     </ListItem>
-                                    <ListItem button
-                                        selected={selectedComp === 1}
-                                        classes={{ selected: classes.selected }}
-                                        className={classes.tableRow}
-                                        onClick={() => handleComputerUser(1)}
-                                    >
-                                        <ListItemIcon className={classes.tableCell}>
-                                            <ImportantDevicesIcon />
-                                        </ListItemIcon>
-                                        <ListItemText > <div className={classes.listProp}>All Computers</div> </ListItemText>
-
-                                    </ListItem>
                                     {listItems != null && listItems.length != 0 && listItems.map((data, index) => (
                                         <ListItem button
                                             selected={selectedIndex === index}
@@ -337,8 +377,8 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
 
                                                     </ListItemIcon>
                                                     <ListItemText style={{ float: 'left' }}>                      <input type="text"
-                                                        onChange={handleChange}
-                                                        value={data.name}
+                                                        onChange={(e)=>{handleGroupChange(e,data)}}
+                                                        defaultValue={data.name}
                                                         name="group" placeholder="Group Name" style={{
                                                             width: "200px",
                                                             padding: "8px 10px",
@@ -346,8 +386,8 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                                             boxSizing: "border-box"
                                                         }} /></ListItemText>
                                                     <ListItemSecondaryAction style={{ float: 'left' }}>
-                                                        <IconButton ><Check className={classes.check} /></IconButton>
-                                                        <IconButton><BlockIcon className={classes.block} /></IconButton>
+                                                        <IconButton onClick= {handleConfirm}><Check className={classes.check} /></IconButton>
+                                                        <IconButton onClick = {handleCancel}><BlockIcon className={classes.block} /></IconButton>
 
                                                     </ListItemSecondaryAction>
                                                 </div>
@@ -361,7 +401,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                                     <ListItemText style={{ float: 'left' }}> <div className={classes.listProp}>{data.name}</div> </ListItemText>
                                                     <ListItemSecondaryAction style={{ float: 'left' }}>
                                                         <IconButton onClick={() => handleEdit(data, index)}><Edit className={classes.editButton} /></IconButton>
-                                                        <IconButton onClick = {handleDeleteOpen}><Delete className={classes.remove} /></IconButton>
+                                                        <IconButton onClick={handleDeleteOpen}><Delete className={classes.remove} /></IconButton>
 
                                                     </ListItemSecondaryAction>
                                                 </div>
@@ -388,18 +428,18 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                             <ListItemIcon className={classes.listIcon}>
                                                 <GroupIcon />
                                             </ListItemIcon>
-                                            <ListItemText > <div className={classes.listProp}>{data}</div> </ListItemText>
+                                            <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
                                             <ListItemSecondaryAction>
-                                                <IconButton><Delete className={classes.remove} /></IconButton>
+                                                <IconButton onClick ={handleMemberRemove}><Delete className={classes.remove} /></IconButton>
                                             </ListItemSecondaryAction>
                                         </ListItem>
                                     ))}
-                                    {compUserDetail.length != 0 && compUserDetail != null && compUserDetail.map(data => (
+                                    {childList.length === 0  && deviceList.map(data => (
                                         <ListItem button className={classes.list}>
                                             <ListItemIcon className={classes.listIcon}>
                                                 <GroupIcon />
                                             </ListItemIcon>
-                                            <ListItemText > <div className={classes.listProp}>{data}</div> </ListItemText>
+                                            <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
 
                                         </ListItem>
                                     ))}
@@ -464,7 +504,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
             >
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to delete the group? This cannot be undone.
+                        Are you sure you want to delete the group? This cannot be undone.
           </DialogContentText>
                 </DialogContent>
                 <DialogActions>
