@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { USER_LOADED_SUCCESS, USER_LOADED_FAIL, AUTH_SUCCESS, AUTH_FAIL } from './types'
+import { USER_LOADED_SUCCESS, USER_LOADED_FAIL,LOGOUT,AUTH_SUCCESS, AUTH_FAIL } from './types'
 import {setAlert} from './alert'
 export const register = (value) => async dispatch => {
     const body = JSON.stringify(value)
@@ -19,15 +19,17 @@ export const register = (value) => async dispatch => {
         dispatch(setAlert('unable to register user','error'))
     }
 }
-export const authenticate = (value) => async dispatch => {
+export const authenticate = (value) => async dispatch=>{
     const body = JSON.stringify(value)
+    console.log(body)
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
     try {
-        const res = await axios.post('http://localhost:5000/api/user/authenticate', body, config)
+        const res = await axios.post('http://localhost:5000/api/user/signin', body, config)
+        console.log(res.data)
         dispatch({
             type: AUTH_SUCCESS,
             payload: res.data
@@ -102,7 +104,9 @@ export const deactivateUser = async (value) => {
         console.log(err)
     }
 }
-
+export const logout = () => dispatch=>{
+    dispatch({type:LOGOUT})
+}
 export const getProfiles=()=>{
     
 }

@@ -8,10 +8,14 @@ import top_files from './top_files_report_reducer'
 import resource from './resources'
 import device from './device'
 import activityLog from './activityLog'
+import deviceGroup from './deviceGroup'
+import deviceMembers from './deviceMembers'
 export default combineReducers({
     auth,
     users,
     device,
+    deviceGroup,
+    deviceMembers,
     alert,
     activityLog,
     top_application,

@@ -1,18 +1,17 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import image from '../../assets/images/admin.png'
 import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
+import {Redirect} from 'react-router'
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import { Paper } from '@material-ui/core';
+import {authenticate} from '../../actions/auth'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -50,10 +49,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn = () => {
+const SignIn = ({authenticate,auth:{isAuthenticated}}) => {
   const classes = useStyles();
   const [value, setValue] = React.useState({
-    email: '',
+    userName: '',
     password: ''
   })
   const handleChange = (e) => {
@@ -62,7 +61,13 @@ const SignIn = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
+    authenticate(value)
     console.log(value)
+  }
+  if(isAuthenticated){
+    return(
+      <Redirect to="/admin"/>
+    )
   }
   return (
     <div className={classes.main}>
@@ -72,15 +77,15 @@ const SignIn = () => {
             <img src={image} alt="logo" className={classes.logo} />
           </Grid>
           <Grid item xs={8}>
-            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <form className={classes.form} onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
+                id="userName"
+                label="User Name"
+                name="userName"
                 onChange={handleChange}
               />
               <TextField
@@ -100,7 +105,7 @@ const SignIn = () => {
                 style={{ marginRight: '50px' }}
               />
               <br />
-              <Link to="/admin" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+              {/* <Link to="/admin" style={{ color: 'inherit', textDecoration: 'inherit' }}> */}
                 <Button
                   type="submit"
                   // fullWidth
@@ -110,7 +115,7 @@ const SignIn = () => {
                 >
                   Sign In
           </Button>
-              </Link>
+              {/* </Link> */}
 
             </form>
           </Grid>
@@ -120,4 +125,11 @@ const SignIn = () => {
     </div>
   );
 }
-export default SignIn
+SignIn.propTypes ={
+  authenticate:PropTypes.func.isRequired,
+  auth:PropTypes.object.isRequired
+}
+const mapStateToProps = state =>({
+  auth:state.auth
+})
+export default connect(mapStateToProps,{authenticate})(SignIn)

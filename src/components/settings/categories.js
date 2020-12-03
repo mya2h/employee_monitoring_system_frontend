@@ -30,7 +30,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getDeviceList } from '../../actions/devices'
+import { getDeviceList } from '../../actions/devices';
+import {addNewGroup,getDeviceGroupList} from '../../actions/category'
 const useStyles = makeStyles((theme) => ({
     root: {
         maxHeight: "500px",
@@ -140,9 +141,10 @@ const useStyles = makeStyles((theme) => ({
     }
     
 }));
-const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
+const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { deviceList, loading },deviceGroup:{groups} }) => {
     useEffect(() => {
         getDeviceList()
+        getDeviceGroupList()
     }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
@@ -225,7 +227,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     const [selectedIndex, setSelected] = React.useState(null)
     const [selectedComp, setSelectedComp] = React.useState(0)
     const [selectedForEdit, setSelectedForEdit] = React.useState(null)
-    const [newGroup, setNewGroup] = React.useState('')
+    const [newGroup, setNewGroup] = React.useState({categoryName:''})
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -268,13 +270,13 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
         setChecked(deviceList)
     }
     const handleChange = (e) => {
-        console.log(e.target.value)
-        setNewGroup(e.target.value)
+        setNewGroup({categoryName:e.target.value})
     }
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(newGroup)
-        setNewGroup('')
+        addNewGroup(newGroup)
+        setNewGroup({categoryName:''})
     }
     const handleMemberSubmit = () => {
         console.log("it is working")
@@ -325,8 +327,8 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                     <form onSubmit={handleSubmit}>
                         <input type="text"
                             onChange={handleChange}
-
-                            name="group" placeholder="Group Name" style={{
+                            value={newGroup.categoryName}
+                            name="categoryName" placeholder="Group Name" style={{
                                 width: "400px",
                                 padding: "8px 10px",
                                 margin: "8px 0",
@@ -369,7 +371,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                         </ListItemIcon>
                                         <ListItemText > <div className={classes.listProp}>All Users</div> </ListItemText>
                                     </ListItem>
-                                    {listItems != null && listItems.length != 0 && listItems.map((data, index) => (
+                                    {groups != null && groups.length != 0 && groups.map((data, index) => (
                                         <ListItem button
                                             selected={selectedIndex === index}
                                             classes={{ selected: classes.selected }}
@@ -403,7 +405,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                                         <GroupIcon />
 
                                                     </ListItemIcon>
-                                                    <ListItemText style={{ float: 'left' }}> <div className={classes.listProp}>{data.name}</div> </ListItemText>
+                                                    <ListItemText style={{ float: 'left' }}> <div className={classes.listProp}>{data.categoryName}</div> </ListItemText>
                                                     <ListItemSecondaryAction style={{ float: 'left' }}>
                                                         <IconButton onClick={() => handleEdit(data, index)}><Edit className={classes.editButton} /></IconButton>
                                                         <IconButton onClick={handleDeleteOpen}><Delete className={classes.remove} /></IconButton>
@@ -527,10 +529,14 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
 }
 Categories.propTypes = {
     getDeviceList: PropTypes.func.isRequired,
-    device: PropTypes.object.isRequired
+    device: PropTypes.object.isRequired,
+    addNewGroup:PropTypes.func.isRequired,
+    getDeviceGroupList:PropTypes.func.isRequired,
+    deviceGroup:PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
-    device: state.device
+    device: state.device,
+    deviceGroup:state.deviceGroup
 })
-export default connect(mapStateToProps, { getDeviceList })(Categories)
+export default connect(mapStateToProps, {addNewGroup,getDeviceList,getDeviceGroupList })(Categories)
 
