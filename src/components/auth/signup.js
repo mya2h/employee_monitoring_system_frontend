@@ -14,7 +14,6 @@ import FormLabel from '@material-ui/core/FormLabel'
 import { connect } from 'react-redux';
 import {register} from '../../actions/auth'
 
-
 const useStyles = makeStyles(theme => ({
   all: {
     margin: theme.spacing(4)
@@ -65,7 +64,7 @@ const SignUp = ({register}) => {
     roleType: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirm_password: ''
   })
 
   const handleChange = (event) => {
@@ -80,7 +79,6 @@ const SignUp = ({register}) => {
     e.preventDefault()
     console.log(user)
     register(user)
-    window.location.reload();
     setUser({
       firstName: '',
       lastName: '',
@@ -88,7 +86,7 @@ const SignUp = ({register}) => {
       roleType: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirm_password: ''
     })
     setValue('')
   }
@@ -100,7 +98,7 @@ const SignUp = ({register}) => {
       roleType: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirm_password: ''
     })
     setValue('')
   }
@@ -161,7 +159,7 @@ const SignUp = ({register}) => {
             <Grid item xs={12}>
               <FormControl  component="fieldset">
               <FormLabel component="legend">Role</FormLabel>
-                <RadioGroup  aria-label="roleType" name="roleType" value={value.roleType} onChange={handelRadioChange} row>
+                <RadioGroup  aria-label="role" name="roleType" value={value} onChange={handelRadioChange} row>
                   <FormControlLabel value="superAdmin" control={<Radio />} label="Super Admin" className={classes.radio} />
                   <FormControlLabel value="hrPersonnel" control={<Radio />} label="HR Personnel" className={classes.radio} />
                 </RadioGroup>
@@ -183,9 +181,9 @@ const SignUp = ({register}) => {
               <TextField
                 required
                 fullWidth
-                name="consirmPassword"
+                name="confirm_password"
                 label="Confirm Password"
-                value = {user.confirmPassword}
+                value = {user.confirm_password}
                 type="password"
                 id="password"
                 onChange={handleChange}

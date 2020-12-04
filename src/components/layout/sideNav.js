@@ -18,6 +18,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import CategoryIcon from "@material-ui/icons/Category";
+import '../../assets/css/scroll.css'
 import { Link } from "react-router-dom";
 const theme = createMuiTheme({
   typography: {

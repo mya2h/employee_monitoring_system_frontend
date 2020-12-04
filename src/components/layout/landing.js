@@ -13,8 +13,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Person from '@material-ui/icons/Person';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
@@ -41,7 +41,8 @@ import SuspiciousActivities from '../activities/suspiciousActivities'
 import RegisterSuspiciousActivities from '../activities/registerSuspiciousActivities'
 import ActivityLog from '../reports/activity_log'
 import WorkingHours from '../reports/working_hours'
-
+import {logout} from '../../actions/auth'
+import { Button } from "@material-ui/core";
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
@@ -177,7 +178,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = () => {
+const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -258,8 +259,17 @@ const Dashboard = () => {
     notification[index].seen = true
     console.log(notification)
   }
+  const handleLogout = ()=>{
+    logout()
+  }
   const openNotification = Boolean(anchorNotification);
   const id = openNotification ? 'simple-popover' : undefined;
+  
+  if (token == null) {
+    return (
+      <Redirect to="/" />
+    )
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -356,10 +366,8 @@ const Dashboard = () => {
               onClose={handleClose}
             >
 <Link  to="/admin/profile" variant='body2' style={{ color: 'inherit', textDecoration: 'inherit' }}> <MenuItem >Profile</MenuItem></Link>
-           
-            <Link to="/" variant='body2' style={{ color: 'inherit', textDecoration: 'inherit' }}>
-              <MenuItem>Logout</MenuItem>
-              </Link>
+          
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
         </Toolbar>
       </AppBar>
@@ -393,4 +401,14 @@ const Dashboard = () => {
     </div>
   );
 };
-export default Dashboard;
+Dashboard.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
+}
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth
+})
+export default connect(mapStateToProps, {logout})(Dashboard)
+

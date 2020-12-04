@@ -2,7 +2,7 @@ import { AUTH_SUCCESS, AUTH_FAIL, LOGOUT } from '../actions/types'
 
 const initialState = {
     token: localStorage.getItem('token'),
-    role: localStorage.getItem('role'),
+    // role: localStorage.getItem('role'),
     isAuthenticated: null,
     loading: true,
 }
@@ -12,7 +12,7 @@ export default function (state = initialState, action) {
     switch (type) {
         case AUTH_SUCCESS:
             localStorage.setItem('token', payload.token)
-            localStorage.setItem('role', payload.role)
+            // localStorage.setItem('role', payload.role)
             return {
                 ...state,
                 ...payload,
@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
             }
         case AUTH_FAIL:
             localStorage.removeItem('token')
-            localStorage.removeItem('role')
+            // localStorage.removeItem('role')
             return {
                 ...state,
                 token: null,
@@ -35,7 +35,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 token: null,
-                role: null,
+                // role: null,
                 isAuthenticated: false,
                 loading: false
             }

@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import MaterialTable from 'material-table';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { forwardRef } from 'react';
 import GroupIcon from '@material-ui/icons/Group';
 import Container from '@material-ui/core/Container';
 import Check from '@material-ui/icons/Check';
@@ -12,6 +13,17 @@ import BlockIcon from '@material-ui/icons/Block';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import ViewColumn from '@material-ui/icons/ViewColumn';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -30,7 +42,40 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getDeviceList } from '../../actions/devices'
+import { getDeviceList } from '../../actions/devices';
+import {addNewGroup,getDeviceGroupList,getDeviceMembers,updateGroup,deleteCategory,deleteMember} from '../../actions/category'
+
+const tableIcons = {
+    Check: forwardRef((props, ref) => <Check style={{
+      color: '#2b94b1'
+    }} {...props} ref={ref} />),
+    Block: forwardRef((props, ref) => <BlockIcon style={{
+      color: '#156c94'
+    }} {...props} ref={ref} />),
+  
+    Delete: forwardRef((props, ref) => <Delete style={{
+      color: '#e64f47',
+    }} {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear style={{
+      color: '#e64f47',
+    }} {...props} ref={ref} />),
+    Edit: forwardRef((props, ref) => <Edit style={{
+      color: '#5a98d6',
+    }} {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => (
+      <ChevronLeft {...props} ref={ref} />
+    )),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  };
 const useStyles = makeStyles((theme) => ({
     root: {
         maxHeight: "500px",
@@ -138,14 +183,16 @@ const useStyles = makeStyles((theme) => ({
         color: "rgb(80, 80, 80)",
         backgroundColor: "#ffffff"
     }
-
+    
 }));
-const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
+const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupList,addNewGroup,device: { deviceList, loading },deviceGroup:{groups},deviceMembers:{members} }) => {
     useEffect(() => {
         getDeviceList()
+        getDeviceGroupList()
     }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
+    const [selectedMember,setSelectedMember] = React.useState([])
     const [groupView, setGroupView] = React.useState(false)
     const columns = [
         { field: 'deviceName', title: 'Device name', width: 130 },
@@ -162,29 +209,75 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     const [listItems, SetListItems] = React.useState([
         {
             name: "Office1 laptops",
-            deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"]
+            deviceList: [
+                {
+                    userName:"Toshiba 23CSD"
+                },
+                {
+                    userName:"Dell 23CSD"
+                },
+                {
+                    userName:"Kal 23CSD"
+                }
+            ]
         },
         {
             name: "Office2 laptops",
-            deviceList: ["Toshiba kal", "Dell wea", "Kal 23CSD"]
+            deviceList: [
+                {
+                    userName:"Toshiba kal"
+                },
+                {
+                    userName:"Dell wea"
+                },
+                {
+                    userName:"Kal 23CSD"
+                }
+            ]
         },
         {
             name: "Office3 laptops",
-            deviceList: ["bagf 23CSD", "Dell 23CSD", "Kal 23CSD"]
+            deviceList: [
+                {
+                    userName:"bagf 23CSD"
+                },
+                {
+                    userName:"Dell 23CSD"
+                },
+                {
+                    userName: "Kal 23CSD"
+                }
+            ]
         },
         {
             name: "Office4 laptops",
-            deviceList: ["12wea 23CSD", "Dell 23CSD", "Kal 23CSD"]
+            deviceList: [
+                {
+                    userName:"12wea 23CSD"
+                },
+                {
+                    userName:"Dell 23CSD"
+                },
+                {
+                    userName:"Kal 23CSD"
+                }
+            ]
         }
     ])
     const [childList, setChildList] = React.useState([])
     const [compUserDetail, setCompUserDetail] = React.useState([])
     const [open, setOpen] = React.useState(false);
-    const [deleteOpen,setDeleteOpen] = React.useState(false)
+    const [deleteOpen, setDeleteOpen] = React.useState(false)
     const [selectedIndex, setSelected] = React.useState(null)
-    const [selectedComp, setSelectedComp] = React.useState(null)
-    const [selectedForEdit, setSelectedForEdit] = React.useState()
-    const [newGroup, setNewGroup] = React.useState('')
+    const [selectedComp, setSelectedComp] = React.useState(0)
+    const [idForDelete,setIdForDelete] = React.useState('')
+    const [selectedForEdit, setSelectedForEdit] = React.useState(null)
+    const [newGroup, setNewGroup] = React.useState({categoryName:''})
+    const [selectedCategory,setSelectedCategory] = React.useState('')
+    const [groupEdit,setGroupEdit] = React.useState({
+        categoryName:'',
+        id:''
+    })
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -192,7 +285,9 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
         setOpen(false);
     };
     const handleClick = (event, index) => {
-        setChildList(event)
+        getDeviceMembers(event._id)
+        console.log(event)
+        setSelectedCategory(event._id)
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
@@ -205,7 +300,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
     }
     const handleComputerUser = (index) => {
         setSelectedComp(index)
-        setSelectedForEdit('')
+        setSelectedForEdit(null)
         setSelected(null)
         setCompUserDetail(compuserList[index].deviceList)
         setChildList([])
@@ -227,30 +322,77 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
         setChecked(deviceList)
     }
     const handleChange = (e) => {
-        console.log(e.target.value)
-        setNewGroup(e.target.value)
+        setNewGroup({categoryName:e.target.value})
     }
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(newGroup)
-        setNewGroup('')
+        let promise = new Promise(resolve => {
+            addNewGroup(newGroup)
+            setTimeout(() => {
+                getDeviceGroupList()
+            }, 600);
+        })
+        setNewGroup({categoryName:''})
     }
     const handleMemberSubmit = () => {
         console.log("it is working")
         console.log(checked)
     }
-    const handleDeleteClose =()=>{
+    const handleDeleteClose = () => {
         setDeleteOpen(false)
     }
-    const handleDeleteOpen =()=>{
+    const handleDeleteOpen = (data) => {
+        setIdForDelete(data._id)
         setDeleteOpen(true)
+    }
+    const handleDeleteCategory = () => {
+        console.log(idForDelete)
+        let promise = new Promise(resolve => {
+            deleteCategory(idForDelete)
+            setTimeout(() => {
+                getDeviceGroupList()
+            }, 600);
+        })
+        setDeleteOpen(false)
     }
     const handleEdit = (value, index) => {
         setSelectedForEdit(index)
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
-        setChildList(value.deviceList)
+        // getDeviceMembers(value._id)
+    }
+    const handleConfirm = ()=>{
+        console.log(groupEdit)
+        let promise = new Promise(resolve => {
+            updateGroup(groupEdit)
+            setTimeout(() => {
+                getDeviceGroupList()
+            }, 600);
+        })
+        setSelectedForEdit(null)
+    }
+    const handleCancel = ()=>{
+        setSelectedForEdit(null)
+    }
+    const handleGroupChange =(e,data)=>{
+        console.log(data)
+        console.log(e.target.value)
+        setGroupEdit({...groupEdit,id:data._id,categoryName:e.target.value})
+    }
+    const handleMemberRemove = (data)=>{
+        console.log("removed")
+        let promise = new Promise(resolve => {
+            deleteMember(data)
+            setTimeout(() => {
+                getDeviceMembers(selectedCategory)
+            }, 600);
+        })
+    }
+    const handleMemberSelection = (row)=>{
+        console.log(row)
+        setSelectedMember(row)
     }
     return (
         <div className={classes.all}>
@@ -268,8 +410,8 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                     <form onSubmit={handleSubmit}>
                         <input type="text"
                             onChange={handleChange}
-
-                            name="group" placeholder="Group Name" style={{
+                            value={newGroup.categoryName}
+                            name="categoryName" placeholder="Group Name" style={{
                                 width: "400px",
                                 padding: "8px 10px",
                                 margin: "8px 0",
@@ -312,24 +454,12 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                         </ListItemIcon>
                                         <ListItemText > <div className={classes.listProp}>All Users</div> </ListItemText>
                                     </ListItem>
-                                    <ListItem button
-                                        selected={selectedComp === 1}
-                                        classes={{ selected: classes.selected }}
-                                        className={classes.tableRow}
-                                        onClick={() => handleComputerUser(1)}
-                                    >
-                                        <ListItemIcon className={classes.tableCell}>
-                                            <ImportantDevicesIcon />
-                                        </ListItemIcon>
-                                        <ListItemText > <div className={classes.listProp}>All Computers</div> </ListItemText>
-
-                                    </ListItem>
-                                    {listItems != null && listItems.length != 0 && listItems.map((data, index) => (
+                                    {groups != null && groups.length != 0 && groups.map((data, index) => (
                                         <ListItem button
                                             selected={selectedIndex === index}
                                             classes={{ selected: classes.selected }}
                                             className={classes.tableRow}
-                                            onClick={() => handleClick(data.deviceList, index)}>
+                                            onClick={() => handleClick(data, index)}>
                                             {index === selectedForEdit && (
                                                 <div >
                                                     <ListItemIcon className={classes.tableCell} style={{ float: 'left' }}>
@@ -337,8 +467,8 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
 
                                                     </ListItemIcon>
                                                     <ListItemText style={{ float: 'left' }}>                      <input type="text"
-                                                        onChange={handleChange}
-                                                        value={data.name}
+                                                        onChange={(e)=>{handleGroupChange(e,data)}}
+                                                        defaultValue={data.categoryName}
                                                         name="group" placeholder="Group Name" style={{
                                                             width: "200px",
                                                             padding: "8px 10px",
@@ -346,8 +476,8 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                                             boxSizing: "border-box"
                                                         }} /></ListItemText>
                                                     <ListItemSecondaryAction style={{ float: 'left' }}>
-                                                        <IconButton ><Check className={classes.check} /></IconButton>
-                                                        <IconButton><BlockIcon className={classes.block} /></IconButton>
+                                                        <IconButton onClick= {handleConfirm}><Check className={classes.check} /></IconButton>
+                                                        <IconButton onClick = {handleCancel}><BlockIcon className={classes.block} /></IconButton>
 
                                                     </ListItemSecondaryAction>
                                                 </div>
@@ -358,10 +488,10 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                                         <GroupIcon />
 
                                                     </ListItemIcon>
-                                                    <ListItemText style={{ float: 'left' }}> <div className={classes.listProp}>{data.name}</div> </ListItemText>
+                                                    <ListItemText style={{ float: 'left' }}> <div className={classes.listProp}>{data.categoryName}</div> </ListItemText>
                                                     <ListItemSecondaryAction style={{ float: 'left' }}>
                                                         <IconButton onClick={() => handleEdit(data, index)}><Edit className={classes.editButton} /></IconButton>
-                                                        <IconButton onClick = {handleDeleteOpen}><Delete className={classes.remove} /></IconButton>
+                                                        <IconButton onClick={() => handleDeleteOpen(data)}><Delete className={classes.remove} /></IconButton>
 
                                                     </ListItemSecondaryAction>
                                                 </div>
@@ -383,23 +513,28 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                             </CardActions>
                             <CardContent>
                                 <List size="small" component="nav" className={classes.root} aria-label="contacts">
-                                    {childList.length != 0 && childList != null && childList.map(data => (
+                                    {members.length != 0 && members != null && selectedIndex != null && members.map(data => (
                                         <ListItem button className={classes.list}>
                                             <ListItemIcon className={classes.listIcon}>
                                                 <GroupIcon />
                                             </ListItemIcon>
-                                            <ListItemText > <div className={classes.listProp}>{data}</div> </ListItemText>
+                                            <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
                                             <ListItemSecondaryAction>
-                                                <IconButton><Delete className={classes.remove} /></IconButton>
+                                                <IconButton onClick ={() =>handleMemberRemove(data._id)}><Delete className={classes.remove} /></IconButton>
                                             </ListItemSecondaryAction>
                                         </ListItem>
                                     ))}
-                                    {compUserDetail.length != 0 && compUserDetail != null && compUserDetail.map(data => (
+                                    {members.length === 0 && selectedComp != 0 &&(
+                                        <div>
+                                            No Members Found
+                                        </div>
+                                    ) }
+                                    {selectedComp === 0  && deviceList.map(data => (
                                         <ListItem button className={classes.list}>
                                             <ListItemIcon className={classes.listIcon}>
                                                 <GroupIcon />
                                             </ListItemIcon>
-                                            <ListItemText > <div className={classes.listProp}>{data}</div> </ListItemText>
+                                            <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
 
                                         </ListItem>
                                     ))}
@@ -423,6 +558,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                             columns={columns}
                             data={deviceList}
                             classes={{ table: classes.table }}
+                            icons={tableIcons}
                             options={{
                                 search: false,
                                 selection: true,
@@ -444,6 +580,7 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
                                     backgroundColor: "#f0f0f0"
                                 }
                             }}
+                            onSelectionChange={(rows) => handleMemberSelection(rows)}
                         />
                     </DialogContent>
                     <DialogActions>
@@ -464,11 +601,11 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
             >
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to delete the group? This cannot be undone.
+                        Are you sure you want to delete the group? This cannot be undone.
           </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleDeleteClose} color="primary" className={classes.remove}>
+                    <Button onClick={handleDeleteCategory} color="primary" className={classes.remove}>
                         Delete
           </Button>
                     <Button onClick={handleDeleteClose} color="primary" autoFocus className={classes.block}>
@@ -481,10 +618,20 @@ const Categories = ({ getDeviceList, device: { deviceList, loading } }) => {
 }
 Categories.propTypes = {
     getDeviceList: PropTypes.func.isRequired,
-    device: PropTypes.object.isRequired
+    device: PropTypes.object.isRequired,
+    addNewGroup:PropTypes.func.isRequired,
+    getDeviceGroupList:PropTypes.func.isRequired,
+    deviceGroup:PropTypes.object.isRequired,
+    getDeviceMembers:PropTypes.func.isRequired,
+    deviceMembers:PropTypes.object.isRequired,
+    updateGroup:PropTypes.func.isRequired,
+    
+    // deleteCategory:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
-    device: state.device
+    device: state.device,
+    deviceGroup:state.deviceGroup,
+    deviceMembers:state.deviceMembers
 })
-export default connect(mapStateToProps, { getDeviceList })(Categories)
+export default connect(mapStateToProps, {addNewGroup,updateGroup,getDeviceMembers,getDeviceList,getDeviceGroupList })(Categories)
 
