@@ -31,7 +31,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getDeviceList } from '../../actions/devices';
-import {addNewGroup,getDeviceGroupList} from '../../actions/category'
+import {addNewGroup,getDeviceGroupList,getDeviceMembers,updateGroup,deleteCategory,deleteMember} from '../../actions/category'
 const useStyles = makeStyles((theme) => ({
     root: {
         maxHeight: "500px",
@@ -141,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
     }
     
 }));
-const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { deviceList, loading },deviceGroup:{groups} }) => {
+const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupList,addNewGroup,device: { deviceList, loading },deviceGroup:{groups},deviceMembers:{members} }) => {
     useEffect(() => {
         getDeviceList()
         getDeviceGroupList()
@@ -226,8 +226,14 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
     const [deleteOpen, setDeleteOpen] = React.useState(false)
     const [selectedIndex, setSelected] = React.useState(null)
     const [selectedComp, setSelectedComp] = React.useState(0)
+    const [idForDelete,setIdForDelete] = React.useState('')
     const [selectedForEdit, setSelectedForEdit] = React.useState(null)
     const [newGroup, setNewGroup] = React.useState({categoryName:''})
+    const [selectedCategory,setSelectedCategory] = React.useState('')
+    const [groupEdit,setGroupEdit] = React.useState({
+        categoryName:'',
+        id:''
+    })
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -235,7 +241,9 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
         setOpen(false);
     };
     const handleClick = (event, index) => {
-        setChildList(event)
+        getDeviceMembers(event._id)
+        console.log(event)
+        setSelectedCategory(event._id)
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
@@ -275,7 +283,12 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(newGroup)
-        addNewGroup(newGroup)
+        let promise = new Promise(resolve => {
+            addNewGroup(newGroup)
+            setTimeout(() => {
+                getDeviceGroupList()
+            }, 600);
+        })
         setNewGroup({categoryName:''})
     }
     const handleMemberSubmit = () => {
@@ -285,17 +298,35 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
     const handleDeleteClose = () => {
         setDeleteOpen(false)
     }
-    const handleDeleteOpen = () => {
+    const handleDeleteOpen = (data) => {
+        setIdForDelete(data._id)
         setDeleteOpen(true)
+    }
+    const handleDeleteCategory = () => {
+        console.log(idForDelete)
+        let promise = new Promise(resolve => {
+            deleteCategory(idForDelete)
+            setTimeout(() => {
+                getDeviceGroupList()
+            }, 600);
+        })
+        setDeleteOpen(false)
     }
     const handleEdit = (value, index) => {
         setSelectedForEdit(index)
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
-        setChildList(value.deviceList)
+        // getDeviceMembers(value._id)
     }
     const handleConfirm = ()=>{
+        console.log(groupEdit)
+        let promise = new Promise(resolve => {
+            updateGroup(groupEdit)
+            setTimeout(() => {
+                getDeviceGroupList()
+            }, 600);
+        })
         setSelectedForEdit(null)
     }
     const handleCancel = ()=>{
@@ -303,9 +334,17 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
     }
     const handleGroupChange =(e,data)=>{
         console.log(data)
+        console.log(e.target.value)
+        setGroupEdit({...groupEdit,id:data._id,categoryName:e.target.value})
     }
-    const handleMemberRemove = ()=>{
+    const handleMemberRemove = (data)=>{
         console.log("removed")
+        let promise = new Promise(resolve => {
+            deleteMember(data)
+            setTimeout(() => {
+                getDeviceMembers(selectedCategory)
+            }, 600);
+        })
     }
     const handleMemberSelection = (row)=>{
         console.log(row)
@@ -376,7 +415,7 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
                                             selected={selectedIndex === index}
                                             classes={{ selected: classes.selected }}
                                             className={classes.tableRow}
-                                            onClick={() => handleClick(data.deviceList, index)}>
+                                            onClick={() => handleClick(data, index)}>
                                             {index === selectedForEdit && (
                                                 <div >
                                                     <ListItemIcon className={classes.tableCell} style={{ float: 'left' }}>
@@ -385,7 +424,7 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
                                                     </ListItemIcon>
                                                     <ListItemText style={{ float: 'left' }}>                      <input type="text"
                                                         onChange={(e)=>{handleGroupChange(e,data)}}
-                                                        defaultValue={data.name}
+                                                        defaultValue={data.categoryName}
                                                         name="group" placeholder="Group Name" style={{
                                                             width: "200px",
                                                             padding: "8px 10px",
@@ -408,7 +447,7 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
                                                     <ListItemText style={{ float: 'left' }}> <div className={classes.listProp}>{data.categoryName}</div> </ListItemText>
                                                     <ListItemSecondaryAction style={{ float: 'left' }}>
                                                         <IconButton onClick={() => handleEdit(data, index)}><Edit className={classes.editButton} /></IconButton>
-                                                        <IconButton onClick={handleDeleteOpen}><Delete className={classes.remove} /></IconButton>
+                                                        <IconButton onClick={() => handleDeleteOpen(data)}><Delete className={classes.remove} /></IconButton>
 
                                                     </ListItemSecondaryAction>
                                                 </div>
@@ -430,18 +469,18 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
                             </CardActions>
                             <CardContent>
                                 <List size="small" component="nav" className={classes.root} aria-label="contacts">
-                                    {childList.length != 0 && childList != null && childList.map(data => (
+                                    {members.length != 0 && members != null && selectedIndex != null && members.map(data => (
                                         <ListItem button className={classes.list}>
                                             <ListItemIcon className={classes.listIcon}>
                                                 <GroupIcon />
                                             </ListItemIcon>
                                             <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
                                             <ListItemSecondaryAction>
-                                                <IconButton onClick ={handleMemberRemove}><Delete className={classes.remove} /></IconButton>
+                                                <IconButton onClick ={() =>handleMemberRemove(data._id)}><Delete className={classes.remove} /></IconButton>
                                             </ListItemSecondaryAction>
                                         </ListItem>
                                     ))}
-                                    {childList.length === 0  && deviceList.map(data => (
+                                    {selectedComp === 0  && deviceList.map(data => (
                                         <ListItem button className={classes.list}>
                                             <ListItemIcon className={classes.listIcon}>
                                                 <GroupIcon />
@@ -516,7 +555,7 @@ const Categories = ({ getDeviceList,getDeviceGroupList,addNewGroup,device: { dev
           </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleDeleteClose} color="primary" className={classes.remove}>
+                    <Button onClick={handleDeleteCategory} color="primary" className={classes.remove}>
                         Delete
           </Button>
                     <Button onClick={handleDeleteClose} color="primary" autoFocus className={classes.block}>
@@ -532,11 +571,17 @@ Categories.propTypes = {
     device: PropTypes.object.isRequired,
     addNewGroup:PropTypes.func.isRequired,
     getDeviceGroupList:PropTypes.func.isRequired,
-    deviceGroup:PropTypes.object.isRequired
+    deviceGroup:PropTypes.object.isRequired,
+    getDeviceMembers:PropTypes.func.isRequired,
+    deviceMembers:PropTypes.object.isRequired,
+    updateGroup:PropTypes.func.isRequired,
+    
+    // deleteCategory:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     device: state.device,
-    deviceGroup:state.deviceGroup
+    deviceGroup:state.deviceGroup,
+    deviceMembers:state.deviceMembers
 })
-export default connect(mapStateToProps, {addNewGroup,getDeviceList,getDeviceGroupList })(Categories)
+export default connect(mapStateToProps, {addNewGroup,updateGroup,getDeviceMembers,getDeviceList,getDeviceGroupList })(Categories)
 
