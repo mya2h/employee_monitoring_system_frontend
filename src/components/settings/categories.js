@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import MaterialTable from 'material-table';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { forwardRef } from 'react';
 import GroupIcon from '@material-ui/icons/Group';
 import Container from '@material-ui/core/Container';
 import Check from '@material-ui/icons/Check';
@@ -12,6 +13,17 @@ import BlockIcon from '@material-ui/icons/Block';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import ViewColumn from '@material-ui/icons/ViewColumn';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -32,6 +44,38 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getDeviceList } from '../../actions/devices';
 import {addNewGroup,getDeviceGroupList,getDeviceMembers,updateGroup,deleteCategory,deleteMember} from '../../actions/category'
+
+const tableIcons = {
+    Check: forwardRef((props, ref) => <Check style={{
+      color: '#2b94b1'
+    }} {...props} ref={ref} />),
+    Block: forwardRef((props, ref) => <BlockIcon style={{
+      color: '#156c94'
+    }} {...props} ref={ref} />),
+  
+    Delete: forwardRef((props, ref) => <Delete style={{
+      color: '#e64f47',
+    }} {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear style={{
+      color: '#e64f47',
+    }} {...props} ref={ref} />),
+    Edit: forwardRef((props, ref) => <Edit style={{
+      color: '#5a98d6',
+    }} {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => (
+      <ChevronLeft {...props} ref={ref} />
+    )),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  };
 const useStyles = makeStyles((theme) => ({
     root: {
         maxHeight: "500px",
@@ -480,6 +524,11 @@ const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupL
                                             </ListItemSecondaryAction>
                                         </ListItem>
                                     ))}
+                                    {members.length === 0 && selectedComp != 0 &&(
+                                        <div>
+                                            No Members Found
+                                        </div>
+                                    ) }
                                     {selectedComp === 0  && deviceList.map(data => (
                                         <ListItem button className={classes.list}>
                                             <ListItemIcon className={classes.listIcon}>
@@ -509,6 +558,7 @@ const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupL
                             columns={columns}
                             data={deviceList}
                             classes={{ table: classes.table }}
+                            icons={tableIcons}
                             options={{
                                 search: false,
                                 selection: true,

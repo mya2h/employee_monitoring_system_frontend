@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Button, Paper, } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import GroupIcon from '@material-ui/icons/Group';
 import Container from '@material-ui/core/Container';
 import RemoveIcon from '@material-ui/icons/Remove';
-import Delete from '@material-ui/icons/Delete';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -26,6 +27,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { getDeviceList } from '../../actions/devices';
 const useStyles = makeStyles((theme) => ({
     root: {
         maxHeight: "500px",
@@ -130,7 +132,10 @@ const useStyles = makeStyles((theme) => ({
     }
 
 }));
-const SuspiciousActivities = () => {
+const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) => {
+    useEffect(() => {
+        getDeviceList()
+    }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([0]);
     const [groupView, setGroupView] = React.useState(false)
@@ -385,5 +390,11 @@ const SuspiciousActivities = () => {
         </div>
     )
 }
-
-export default SuspiciousActivities
+SuspiciousActivities.propTypes = {
+    getDeviceList: PropTypes.func.isRequired,
+    device: PropTypes.object.isRequired,
+}
+const mapStateToProps = state => ({
+    device: state.device,
+})
+export default connect(mapStateToProps, {getDeviceList})(SuspiciousActivities)

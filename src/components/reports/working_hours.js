@@ -199,10 +199,6 @@ const WorkingHours = ({getDeviceList,device:{deviceList,loading}}) => {
           options={{
               search:false,
               toolbar: false,
-            rowStyle: {
-              backgroundColor: 'rgb(226, 233, 122)',
-              height:"5px"
-            },
             cellStyle: {
                 width: 300,
                 minWidth: 300
@@ -211,6 +207,9 @@ const WorkingHours = ({getDeviceList,device:{deviceList,loading}}) => {
                 width: 300,
                 minWidth: 300
                 },
+                headerStyle:{
+                  backgroundColor:"rgba(221, 221, 221, 0.863"
+                }
           }}
           icons={tableIcons}
         />

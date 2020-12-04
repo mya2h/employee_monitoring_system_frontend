@@ -61,10 +61,10 @@ const SignUp = ({register}) => {
     firstName: '',
     lastName: '',
     userName: '',
-    role: '',
+    roleType: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirm_password: ''
   })
 
   const handleChange = (event) => {
@@ -72,7 +72,7 @@ const SignUp = ({register}) => {
     setUser({ ...user, [event.target.name]: event.target.value })
   };
   const handelRadioChange = (event) => {
-    setUser({ ...user, role: event.target.value })
+    setUser({ ...user, roleType: event.target.value })
     setValue(event.target.value);
   }
   const handleSubmit = (e) => {
@@ -83,10 +83,10 @@ const SignUp = ({register}) => {
       firstName: '',
       lastName: '',
       userName: '',
-      role: '',
+      roleType: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirm_password: ''
     })
     setValue('')
   }
@@ -95,10 +95,10 @@ const SignUp = ({register}) => {
       firstName: '',
       lastName: '',
       userName: '',
-      role: '',
+      roleType: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirm_password: ''
     })
     setValue('')
   }
@@ -159,7 +159,7 @@ const SignUp = ({register}) => {
             <Grid item xs={12}>
               <FormControl  component="fieldset">
               <FormLabel component="legend">Role</FormLabel>
-                <RadioGroup  aria-label="role" name="role" value={value} onChange={handelRadioChange} row>
+                <RadioGroup  aria-label="role" name="roleType" value={value} onChange={handelRadioChange} row>
                   <FormControlLabel value="superAdmin" control={<Radio />} label="Super Admin" className={classes.radio} />
                   <FormControlLabel value="hrPersonnel" control={<Radio />} label="HR Personnel" className={classes.radio} />
                 </RadioGroup>
@@ -181,9 +181,9 @@ const SignUp = ({register}) => {
               <TextField
                 required
                 fullWidth
-                name="consirmPassword"
+                name="confirm_password"
                 label="Confirm Password"
-                value = {user.confirmPassword}
+                value = {user.confirm_password}
                 type="password"
                 id="password"
                 onChange={handleChange}

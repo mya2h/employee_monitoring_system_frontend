@@ -26,6 +26,7 @@ import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
 import { getDeviceList } from '../../actions/devices'
 
+
 const useStyle = makeStyles(theme => ({
     root: {
         margin: theme.spacing(3),
@@ -199,6 +200,7 @@ const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
                             title=""
                             columns={columns}
                             data={deviceList}
+                            icons={tableIcons}
                             classes={{ table: classes.table }}
                             options={{
                                 search: false,
