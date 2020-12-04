@@ -14,6 +14,7 @@ import FormLabel from '@material-ui/core/FormLabel'
 import { connect } from 'react-redux';
 import {register} from '../../actions/auth'
 
+
 const useStyles = makeStyles(theme => ({
   all: {
     margin: theme.spacing(4)
@@ -61,7 +62,7 @@ const SignUp = ({register}) => {
     firstName: '',
     lastName: '',
     userName: '',
-    role: '',
+    roleType: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -72,18 +73,19 @@ const SignUp = ({register}) => {
     setUser({ ...user, [event.target.name]: event.target.value })
   };
   const handelRadioChange = (event) => {
-    setUser({ ...user, role: event.target.value })
+    setUser({ ...user, roleType: event.target.value })
     setValue(event.target.value);
   }
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(user)
     register(user)
+    window.location.reload();
     setUser({
       firstName: '',
       lastName: '',
       userName: '',
-      role: '',
+      roleType: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -95,7 +97,7 @@ const SignUp = ({register}) => {
       firstName: '',
       lastName: '',
       userName: '',
-      role: '',
+      roleType: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -159,7 +161,7 @@ const SignUp = ({register}) => {
             <Grid item xs={12}>
               <FormControl  component="fieldset">
               <FormLabel component="legend">Role</FormLabel>
-                <RadioGroup  aria-label="role" name="role" value={value} onChange={handelRadioChange} row>
+                <RadioGroup  aria-label="roleType" name="roleType" value={value.roleType} onChange={handelRadioChange} row>
                   <FormControlLabel value="superAdmin" control={<Radio />} label="Super Admin" className={classes.radio} />
                   <FormControlLabel value="hrPersonnel" control={<Radio />} label="HR Personnel" className={classes.radio} />
                 </RadioGroup>
@@ -183,7 +185,7 @@ const SignUp = ({register}) => {
                 fullWidth
                 name="consirmPassword"
                 label="Confirm Password"
-                value = {user.consirmPassword}
+                value = {user.confirmPassword}
                 type="password"
                 id="password"
                 onChange={handleChange}

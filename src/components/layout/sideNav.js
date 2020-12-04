@@ -10,12 +10,10 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import TodayIcon from "@material-ui/icons/Today";
 import LocalActivityIcon from "@material-ui/icons/LocalActivity";
 import SettingsIcon from "@material-ui/icons/Settings";
-import ViewWeekIcon from "@material-ui/icons/ViewWeek";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import DevicesOtherIcon from "@material-ui/icons/DevicesOther";
-import DateRangeIcon from "@material-ui/icons/DateRange";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
@@ -81,7 +79,7 @@ const SideNav = () => {
         component="nav"
         aria-labelledby="nested-list-subheader"
         className={classes.sideNav}
-        activeClassName="active"
+        activeclassname="active"
       >
         <Link
           to="/admin/dashboard"
