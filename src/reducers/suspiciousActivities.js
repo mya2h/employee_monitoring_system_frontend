@@ -3,7 +3,7 @@ import {SUSPICIOUS_ACTIVITIES_LIST_SUCCESS,SUSPICIOUS_ACTIVITIES_LIST_FAIL} from
 const initialState = {
     loading:true,
     isItemLoaded:null,
-    suspiciousActivities:[]
+    suspiciousActivity:[]
 }
 
 export default function(state=initialState,action){
@@ -12,7 +12,7 @@ export default function(state=initialState,action){
         case SUSPICIOUS_ACTIVITIES_LIST_SUCCESS:
             return{
                 ...state,
-                suspiciousActivities:payload,
+                suspiciousActivity:payload,
                 isItemLoaded:true,
                 loading:false
             }

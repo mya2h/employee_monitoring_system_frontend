@@ -43,7 +43,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getDeviceList } from '../../actions/devices';
-import {addNewGroup,getDeviceGroupList,getDeviceMembers,updateGroup,deleteCategory,deleteMember} from '../../actions/category'
+import {addNewGroup,getDeviceGroupList,addGroupMember,getDeviceMembers,updateGroup,deleteCategory,deleteMember} from '../../actions/category'
 
 const tableIcons = {
     Check: forwardRef((props, ref) => <Check style={{
@@ -78,7 +78,7 @@ const tableIcons = {
   };
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxHeight: "500px",
+        // maxHeight: "500px",
         minHeight: "500px",
         backgroundColor: theme.palette.background.paper,
     },
@@ -185,7 +185,7 @@ const useStyles = makeStyles((theme) => ({
     }
     
 }));
-const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupList,addNewGroup,device: { deviceList, loading },deviceGroup:{groups},deviceMembers:{members} }) => {
+const Categories = ({ getDeviceList,addGroupMember,updateGroup,getDeviceMembers,getDeviceGroupList,addNewGroup,device: { deviceList, loading },deviceGroup:{groups},deviceMembers:{members} }) => {
     useEffect(() => {
         getDeviceList()
         getDeviceGroupList()
@@ -206,64 +206,6 @@ const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupL
             deviceList: ["MAC 23CSD", "Toshiba 23CSD", "Dell 23CSD", "Lenovo 12"]
         },
     ])
-    const [listItems, SetListItems] = React.useState([
-        {
-            name: "Office1 laptops",
-            deviceList: [
-                {
-                    userName:"Toshiba 23CSD"
-                },
-                {
-                    userName:"Dell 23CSD"
-                },
-                {
-                    userName:"Kal 23CSD"
-                }
-            ]
-        },
-        {
-            name: "Office2 laptops",
-            deviceList: [
-                {
-                    userName:"Toshiba kal"
-                },
-                {
-                    userName:"Dell wea"
-                },
-                {
-                    userName:"Kal 23CSD"
-                }
-            ]
-        },
-        {
-            name: "Office3 laptops",
-            deviceList: [
-                {
-                    userName:"bagf 23CSD"
-                },
-                {
-                    userName:"Dell 23CSD"
-                },
-                {
-                    userName: "Kal 23CSD"
-                }
-            ]
-        },
-        {
-            name: "Office4 laptops",
-            deviceList: [
-                {
-                    userName:"12wea 23CSD"
-                },
-                {
-                    userName:"Dell 23CSD"
-                },
-                {
-                    userName:"Kal 23CSD"
-                }
-            ]
-        }
-    ])
     const [childList, setChildList] = React.useState([])
     const [compUserDetail, setCompUserDetail] = React.useState([])
     const [open, setOpen] = React.useState(false);
@@ -274,12 +216,16 @@ const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupL
     const [selectedForEdit, setSelectedForEdit] = React.useState(null)
     const [newGroup, setNewGroup] = React.useState({categoryName:''})
     const [selectedCategory,setSelectedCategory] = React.useState('')
+    const [deviceMember,setDeviceMember] = React.useState({
+        deviceId:[]
+    })
     const [groupEdit,setGroupEdit] = React.useState({
         categoryName:'',
         id:''
     })
     const handleClickOpen = () => {
         setOpen(true);
+        console.log(selectedCategory);
     };
     const handleClose = () => {
         setOpen(false);
@@ -327,17 +273,15 @@ const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupL
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(newGroup)
-        let promise = new Promise(resolve => {
-            addNewGroup(newGroup)
-            setTimeout(() => {
-                getDeviceGroupList()
-            }, 600);
-        })
+        addNewGroup(newGroup)
         setNewGroup({categoryName:''})
     }
     const handleMemberSubmit = () => {
         console.log("it is working")
-        console.log(checked)
+        console.log(selectedMember)
+        console.log(selectedCategory)
+        console.log(deviceMember)
+        addGroupMember(selectedCategory,deviceMember)
     }
     const handleDeleteClose = () => {
         setDeleteOpen(false)
@@ -392,8 +336,15 @@ const Categories = ({ getDeviceList,updateGroup,getDeviceMembers,getDeviceGroupL
     }
     const handleMemberSelection = (row)=>{
         console.log(row)
-        setSelectedMember(row)
+        const member = []
+        row.map(data=>{
+            member.push(data._id)
+        })
+        setSelectedMember(member)
+        setDeviceMember({deviceId:member})
+        console.log(selectedMember)
     }
+    console.log("kal", groups)
     return (
         <div className={classes.all}>
             {groupView == false && (
@@ -625,7 +576,7 @@ Categories.propTypes = {
     getDeviceMembers:PropTypes.func.isRequired,
     deviceMembers:PropTypes.object.isRequired,
     updateGroup:PropTypes.func.isRequired,
-    
+    addGroupMember:PropTypes.func.isRequired
     // deleteCategory:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
@@ -633,5 +584,5 @@ const mapStateToProps = state => ({
     deviceGroup:state.deviceGroup,
     deviceMembers:state.deviceMembers
 })
-export default connect(mapStateToProps, {addNewGroup,updateGroup,getDeviceMembers,getDeviceList,getDeviceGroupList })(Categories)
+export default connect(mapStateToProps, {addGroupMember,addNewGroup,updateGroup,getDeviceMembers,getDeviceList,getDeviceGroupList })(Categories)
 

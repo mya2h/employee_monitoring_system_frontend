@@ -1,4 +1,4 @@
-import {DEVICE_GROUP_SUCCESS,DEVICE_GROUP_FAIL} from '../actions/types'
+import {DEVICE_GROUP_SUCCESS,DEVICE_GROUP_FAIL, NEW_GROUP_ADDED} from '../actions/types'
 
 
 const initialState = {
@@ -23,6 +23,11 @@ export default function(state=initialState,action){
                 isItemLoaded:false,
                 loading:false
             } 
+        case NEW_GROUP_ADDED:
+            return {
+                ...state,
+                groups: [...state.groups, payload]
+            }
         default:
             return state       
     }

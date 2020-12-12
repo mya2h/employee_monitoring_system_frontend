@@ -191,7 +191,7 @@ const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
                <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" classes={{ paper: classes.paper }} open={open}>
                 <Container >
                     <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        Add Group Members
+                        Add Users To Do Not Track
         </DialogTitle>
 
                     <DialogContent dividers>

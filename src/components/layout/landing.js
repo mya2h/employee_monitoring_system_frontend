@@ -2,6 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Notifications, { success } from 'react-notification-system-redux';
 import Drawer from "@material-ui/core/Drawer";
 import Divider from '@material-ui/core/Divider';
 import Popover from '@material-ui/core/Popover';
@@ -177,7 +178,17 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 }));
-
+const notificationOpts = {
+  // uid: 'once-please', // you can specify your own uid if required
+  title: 'Hey, it\'s good to see you!',
+  message: 'Now you can see how easy it is to use notifications in React!',
+  position: 'tr',
+  autoDismiss: 0,
+  action: {
+    label: 'Click me!!',
+    callback: () => alert('clicked!')
+  }
+};
 const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -233,18 +244,15 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
   const [anchorNotification, setAnchorNotififcation] = React.useState(null);
   const [notification,setNotification] = React.useState([
     {
-      message:`Truncation should be conditionally applicable on this long line of text
-      as this is a much longer line than what the container can support.`,
+      message:`DeviceUser Desktop12 is delete file.js at time 3:12 2020/12/04.`,
       seen:false
     },
     {
-      message:`Truncation should be conditionally applicable on this long line of text
-      as this is a much longer line than what the container can support.`,
+      message:`DeviceUser Desktop12as is watching Youtube.com at time 3:12 2020/12/04`,
       seen:false
     },
     {
-      message:`Truncation should be conditionally applicable on this long line of text
-      as this is a much longer line than what the container can support.`,
+      message:`DeviceUser Desktop12as is watching Syber.exe at time 3:12 2020/12/04`,
       seen:true
     }
   ])
