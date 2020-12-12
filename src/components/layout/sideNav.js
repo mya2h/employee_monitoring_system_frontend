@@ -80,7 +80,7 @@ const SideNav = () => {
         component="nav"
         aria-labelledby="nested-list-subheader"
         className={classes.sideNav}
-        activeClassName="active"
+        activeclassname="active"
       >
         <Link
           to="/admin/dashboard"

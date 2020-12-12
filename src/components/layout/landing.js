@@ -29,7 +29,7 @@ import GraphInfo from "../dashboard/dashboard";
 import Device from "../devices/devices";
 import Resource from "../resources/resources"
 import DoNotTrack from "../settings/donottrack"
-import Settings from "../settings/settings"
+import Settings from "../settings/settings";
 import Reports from "../reports/reports";
 import TopWebsite from "../reports/top_website"
 import TopApplications from "../reports/top_application"
@@ -203,7 +203,7 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
       <Route exac path = "/admin/report/workingHours" component={WorkingHours}/>
       <Route exact path="/admin/resource" component={Resource}/>
       <Route exact path="/admin/setting/donottrack" component={DoNotTrack}/>
-      <Route exact  path="/admin/setting" component={Settings}/>
+      <Route exact path="/admin/setting" component={Settings}/>
       <Route exact path="/admin/report/topwebsite" component={TopWebsite}/>
       <Route exact path ="/admin/report/topapplication" component={TopApplications}/>
       <Route exact path="/admin/report/topusers" component={TopUsers}/>
@@ -323,10 +323,10 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
       >
         <div  className={classes.popup}>
         {notification.length > 0 && notification.map((item,index)=>(
-          <div>
+          <div >
                {item.seen == true && 
                <div>
-                      <Link style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}>
+                      <Link to="" style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}>
                       <Paper className={classes.paperNotificationSeen} elevation={0}>
                           <Grid container wrap="nowrap" spacing={2}>
                            <Grid item xs>
@@ -341,7 +341,7 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
                }
                {item.seen == false && 
                <div>
-               <Link style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}>
+               <Link to="" style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}>
                       <Paper className={classes.paperNotification} elevation={0}>
                           <Grid container wrap="nowrap" spacing={2}>
                            <Grid item xs>

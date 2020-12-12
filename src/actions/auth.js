@@ -10,7 +10,11 @@ export const register = (value) => async dispatch => {
         }
     }
     try {
+
+        // const res = await axios.post('http://localhost:5000/api/v1/hr/register', body, config)
+
         const res = await axios.post('http://localhost:5000/api/user/signup', body, config)
+
         console.log(res.data)
         dispatch(setAlert('registered successfully','success'))
     }
@@ -28,8 +32,12 @@ export const authenticate = (value) => async dispatch=>{
         }
     }
     try {
+
+        // const res = await axios.post('http://localhost:5000/api/v1/user/authenticate', body, config)
+
         const res = await axios.post('http://localhost:5000/api/user/signin', body, config)
         console.log(res.data)
+
         dispatch({
             type: AUTH_SUCCESS,
             payload: res.data
@@ -76,7 +84,7 @@ export const editUser = async (value) => {
         console.log(err)
     }
 }
-export const activateUser = async (value) => {
+export const activateUser = async (id,value) => {
     const body = JSON.stringify(value)
     const config = {
         headers: {
@@ -84,13 +92,13 @@ export const activateUser = async (value) => {
         }
     }
     try {
-        const res = await axios.put('http://localhost:5000/api/users/hr/activate/:id', body, config)
+        const res = await axios.put(`http://localhost:5000/api/v1/hr/activate/${id}`, body, config)
     }
     catch (err) {
         console.log(err)
     }
 }
-export const deactivateUser = async (value) => {
+export const deactivateUser = async (id,value) => {
     const body = JSON.stringify(value)
     const config = {
         headers: {
@@ -98,7 +106,7 @@ export const deactivateUser = async (value) => {
         }
     }
     try {
-        const res = await axios.put('http://localhost:5000/api/users/hr/deactivate/:id', body, config)
+        const res = await axios.put(`http://localhost:5000/api/v1/hr/deactivate/${id}`, body, config)
     }
     catch (err) {
         console.log(err)
@@ -108,5 +116,5 @@ export const logout = () => dispatch=>{
     dispatch({type:LOGOUT})
 }
 export const getProfiles=()=>{
-    
+
 }

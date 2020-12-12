@@ -34,3 +34,4 @@ export const RNS_REMOVE_ALL_NOTIFICATIONS = 'RNS_REMOVE_ALL_NOTIFICATIONS'
 
 // group related
 export const NEW_GROUP_ADDED = 'NEW_GROUP_ADDED'
+
