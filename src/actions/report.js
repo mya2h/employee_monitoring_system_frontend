@@ -29,7 +29,7 @@ export const getTopWebsites = () => async dispatch=> {
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/activeWindows/websites/4', config)
+        const res = await axios.get('http://localhost:5000/api/activeWindows/websites/13', config)
         console.log(res.data)
         dispatch({
             type: TOP_WEBSITE_LIST_REPORT_SUCCESS,
@@ -50,7 +50,7 @@ export const getTopApplications = () => async dispatch=> {
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/activeWindows/apps/4', config)
+        const res = await axios.get('http://localhost:5000/api/activeWindows/apps/13', config)
         console.log(res.data)
         dispatch({
             type: TOP_APPLICATION_LIST_REPORT_SUCCESS,

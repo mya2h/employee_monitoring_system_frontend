@@ -1,4 +1,4 @@
-import {SUSPICIOUS_ACTIVITIES_LIST_SUCCESS,SUSPICIOUS_ACTIVITIES_LIST_FAIL} from './types'
+import {SUSPICIOUS_ACTIVITIES_LIST_SUCCESS,SUSPICIOUS_ACTIVITIES_LIST_FAIL,SUSPICIOUS_FILES_LIST_SUCCESS,SUSPICIOUS_FILES_LIST_FAIL} from './types'
 import axios from 'axios'
 import {setAlert} from './alert'
 
@@ -11,9 +11,10 @@ export const addSuspiciousActivities = (value) => async dispatch=>{
         }
     }
     try{
-        const res = await axios.post('http://localhost:5000/api/suspiciousActivityRegisteration', body, config)
+        const res = await axios.post('http://localhost:5000/api/suspiciousWindowRegister', body, config)
         console.log(res.data)
         dispatch(setAlert('activity registered successfully','success'))
+        getSuspiciousActivities()(dispatch)
     }
     catch(err){
         console.log(err.response)
@@ -33,7 +34,7 @@ export const getSuspiciousActivities = () => async dispatch=>{
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/suspiciousActivityRegisteration', config)
+        const res = await axios.get('http://localhost:5000/api/suspiciousWindowRegister', config)
         dispatch({
             type: SUSPICIOUS_ACTIVITIES_LIST_SUCCESS,
             payload: res.data
@@ -43,6 +44,27 @@ export const getSuspiciousActivities = () => async dispatch=>{
         console.log(err)
         dispatch({
             type: SUSPICIOUS_ACTIVITIES_LIST_FAIL,
+        })
+    }
+}
+export const getSuspiciousActivitiesFiles = (value) => async dispatch=>{
+    const id = value
+    const config = {
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.get('http://localhost:5000/api/suspiciousWindowRegister'+id, config)
+        dispatch({
+            type: SUSPICIOUS_FILES_LIST_SUCCESS,
+            payload: res.data
+        })
+    }
+    catch (err) {
+        console.log(err)
+        dispatch({
+            type: SUSPICIOUS_FILES_LIST_FAIL,
         })
     }
 }

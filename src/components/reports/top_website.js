@@ -69,7 +69,8 @@ const useStyles = makeStyles((theme) => ({
   table: {
     "& .MuiTableCell-root": {
       padding: "8px"
-    }
+    },
+
   },
   root: {
     paddingTop: theme.spacing(2),
@@ -199,7 +200,7 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
           <MaterialTable
           title=""
           columns={[
-            { title: "Website", field: "app" },
+            { title: "Website", field: "host" },
             { title: "Duration", field: "duration",filtering: false },
             { title: "%", field: "percent",filtering: false },
             { title: "Date", field: "date",filtering: false },
@@ -212,13 +213,24 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
             toolbar: false,     // make initial page size
             emptyRowsWhenPaging: true,   //to make page size fix in case of less data rows
             pageSizeOptions:[10,16,26,50],    // rows selection options    
-            headerStyle:{
-              backgroundColor:"rgba(221, 221, 221, 0.863"
-            },
+            cellStyle: {
+              width: 100,
+              maxWidth: 300
+              },
+              headerStyle: {
+              backgroundColor:"rgba(221, 221, 221, 0.863",
+              width: 100,
+              maxWidth: 300
+              },
             rowStyle: rowData => ({
               backgroundColor: (selectedID === rowData.tableData.id) ? '#1a2038a1' : '#FFF',
-              color:(selectedID === rowData.tableData.id) ? '#ffffff' : '#000'
-            })
+              color:(selectedID === rowData.tableData.id) ? '#ffffff' : '#000',
+              maxWidth:'20px'
+            }),
+            // cellStyle: {
+            //   // width: 20,
+            //   maxWidth: 20
+            // },
           }}
           onRowClick={((evt, selectedRow) => onRowSelection(evt, selectedRow))}
           icons={tableIcons}
@@ -229,11 +241,11 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
           <Typography variant="h5" component="h2" style = {{marginBottom:"10px"}}>
          {title}
         </Typography>
-        {top_websites.length !=0 && top_websites.length != null && (
+        {/* {top_websites.length !=0 && top_websites.length != null && (
           <div>
             {top_websites[selectedID].title}
             </div>
-        )}
+        )} */}
         {top_websites.length !=0 && top_websites.length != null &&(
           <div className={classes.table}>
             <MaterialTable
@@ -253,7 +265,15 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
             pageSizeOptions:[10,16,26,50],    // rows selection options    
             headerStyle:{
               backgroundColor:"rgba(221, 221, 221, 0.863"
-            }
+            },
+            // cellStyle: {
+            //   width: 50,
+            //   maxWidth: 50
+            // },
+            // headerStyle: {
+            //   width:50,
+            //   maxWidth: 50
+            // }
           }}
           icons={tableIcons}
         />

@@ -141,6 +141,9 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
     console.log(event.target.value)
     setApp(event.target.value)
   }
+  const refreshReport= () =>{
+    getTopApplications()
+  }
   return (
     <div className={classes.root}>
       <Grid container >
@@ -180,7 +183,7 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
             </Select>
 
           </FormControl>
-          <Button  className={classes.select}  variant="outlined" style={{float:"left"}}>  
+          <Button  className={classes.select}  variant="outlined" style={{float:"left"}} onClick ={refreshReport}>  
           <IconButton aria-label="delete" >
             <RefreshIcon fontSize="small" />
           </IconButton>Refresh</Button>

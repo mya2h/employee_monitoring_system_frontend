@@ -57,6 +57,7 @@ export const addGroupMember =  (groupId,value)=> async dispatch =>{
         const res = await axios.post('http://localhost:5000/api/member/register/'+id, body, config)
         console.log(res.data)
         dispatch(setAlert('member added successfully','success'))
+        getDeviceMembers(groupId)(dispatch)
     }
     catch(err){
         console.log(err.response)

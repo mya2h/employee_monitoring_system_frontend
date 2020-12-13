@@ -44,10 +44,11 @@ export const authenticate = (value) => async dispatch=>{
         })
     }
     catch (err) {
-        console.log(err)
+        console.log(err.response)
         dispatch({
             type: AUTH_FAIL,
         })
+        dispatch(setAlert('unable to log in','error'))
     }
 }
 export const getAllUsers = () => async dispatch => {
@@ -57,10 +58,10 @@ export const getAllUsers = () => async dispatch => {
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/v1/hr/allusers', config)
+        const res = await axios.get('http://localhost:5000/api/user/allusers', config)
         dispatch({
             type: USER_LOADED_SUCCESS,
-            payload: res.data
+            payload: res.data.result
         })
     }
     catch (err) {

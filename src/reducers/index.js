@@ -13,11 +13,13 @@ import deviceMembers from './deviceMembers'
 import notification from './notification'
 import topWebsites from './top_website_report_reducer'
 import suspicious from './suspiciousActivities'
+import suspiciousFiles from './suspiciousFile'
 export default combineReducers({
     auth,
     users,
     device,
     notification,
+    suspiciousFiles,
     suspicious,
     notifications,
     topWebsites,
