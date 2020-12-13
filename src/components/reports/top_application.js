@@ -1,6 +1,7 @@
 import React, { useState, useEffect, forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+// import DateRangePicker from 'rsuite-daterangepicker';
 import Grid from "@material-ui/core/Grid"
 import Select from '@material-ui/core/Select';
 import MaterialTable from 'material-table';
@@ -28,6 +29,7 @@ import IconButton from '@material-ui/core/IconButton';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import Divider from '@material-ui/core/Divider';
 import {getTopApplications} from '../../actions/report'
+import {getDeviceList} from '../../actions/devices'
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check style={{
     color: '#2b94b1'
@@ -110,18 +112,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
 }));
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: 'rgba(221, 221, 221, 0.863)',
-    // color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-const TopApplications = ({getTopApplications,topApplication:{top_applications,loading}}) => {
+const TopApplications = ({getTopApplications,getDeviceList,device:{deviceList,loading},topApplication:{top_applications}}) => {
   useEffect(()=>{
     getTopApplications()
+    getDeviceList()
   },[])
   const classes = useStyles();
   const [detailData, setDetailData] = React.useState([])
@@ -134,8 +128,6 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
     console.log(index)
     setDetailData(row.name)
     setSelectedID(row.tableData.id);
-    // console.log(index)
-    // setTitle(row.app)
   }
   const handleFilterName = (event) =>{
     console.log(event.target.value)
@@ -144,11 +136,14 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
   const refreshReport= () =>{
     getTopApplications()
   }
+  const handleDeviceChange = (event) =>{
+    console.log(event.target.value)
+  }
   return (
     <div className={classes.root}>
       <Grid container >
         <Grid item xs={12}>
-          <FormControl variant="outlined" className={classes.formControl} >
+          {/* <FormControl variant="outlined" className={classes.formControl} >
             <Select
               defaultValue={20}
               className={classes.select}
@@ -165,21 +160,30 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
               <option value={30}>Last year</option>
             </Select>
 
-          </FormControl>
+          </FormControl> */}
+            {/* <DateRangePicker
+      appearance="default"
+      placeholder="Default"
+      style={{ width: 280 }}
+    /> */}
 
           <FormControl className={classes.formControl}  variant="outlined">
 
             <Select
             className={classes.select}
-              defaultValue={10}
+              defaultValue='allDevices'
+              onChange = {handleDeviceChange}
               inputProps={{
                 name: 'device',
                 id: 'uncontrolled-native',
               }}
             >
-              <option value={10}>All computers</option>
-              <option value={20}>WINDOWS-5AUTJS3</option>
-              <option value={30}>WINDOWS-6AUTJS34</option>
+              <option value='allDevices'>All Devices</option>
+              {deviceList.length != 0 && deviceList!= null && deviceList.map((data)=>(
+              <option value={data._id}>{data.userName}</option>
+              ))}
+              {/* <option value={20}>WINDOWS-5AUTJS3</option>
+              <option value={30}>WINDOWS-6AUTJS34</option> */}
             </Select>
 
           </FormControl>
@@ -192,7 +196,13 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
         </Grid>
         <Grid container spacing={3}>
         <Divider />
-        <Grid item xs={6} className={classes.table}>
+        <Grid item xs={6} className={classes.table}
+          style={{
+            flexGrow: 1,
+            height: '70vh',
+            overflow: 'auto',
+          }}
+        >
         <MaterialTable
           title=""
           columns={[
@@ -210,8 +220,15 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
             emptyRowsWhenPaging: true,   //to make page size fix in case of less data rows
             pageSizeOptions:[10,16,26,50],    // rows selection options    
             headerStyle:{
-              backgroundColor:"rgba(221, 221, 221, 0.863"
+              backgroundColor:"rgba(221, 221, 221, 0.863",
+              position: "sticky", 
+              top: 0
             },
+            cellStyle: {
+              width: 50,
+              maxWidth: 300, 
+              wordWrap:'break-word'
+              },
             rowStyle: rowData => ({
               backgroundColor: (selectedID === rowData.tableData.id) ? '#1a2038a1' : '#FFF',
               color:(selectedID === rowData.tableData.id) ? '#ffffff' : '#000'
@@ -248,9 +265,16 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
             filtering: true,
             toolbar: false,     // make initial page size
             emptyRowsWhenPaging: true,   //to make page size fix in case of less data rows
-            pageSizeOptions:[10,16,26,50],    // rows selection options    
+            pageSizeOptions:[10,16,26,50],    // rows selection options   
+            cellStyle: {
+              width: 50,
+              maxWidth: 300, 
+              wordWrap:'break-word'
+              }, 
             headerStyle:{
-              backgroundColor:"rgba(221, 221, 221, 0.863"
+              backgroundColor:"rgba(221, 221, 221, 0.863",
+              position: "sticky", 
+              top: 0
             }
           }}
           icons={tableIcons}
@@ -268,11 +292,14 @@ const TopApplications = ({getTopApplications,topApplication:{top_applications,lo
 
 TopApplications.propTypes={
   getTopApplications:PropTypes.func.isRequired,
-  topApplication:PropTypes.object.isRequired
+  topApplication:PropTypes.object.isRequired,
+  getDeviceList:PropTypes.func.isRequired,
+  device:PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
-  topApplication: state.topApplication
+  topApplication: state.topApplication,
+  device:state.device
 })
-export default connect(mapStateToProps,{getTopApplications})(TopApplications)
+export default connect(mapStateToProps,{getTopApplications,getDeviceList})(TopApplications)
 
 

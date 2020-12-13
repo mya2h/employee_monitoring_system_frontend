@@ -31,9 +31,12 @@ import {addSuspiciousActivities,getSuspiciousActivities} from '../../actions/act
 import { getDeviceList } from '../../actions/devices';
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxHeight: "500px",
-        minHeight: "500px",
+        // // maxHeight: "500px",
+        // minHeight: "500px",
         backgroundColor: theme.palette.background.paper,
+        flexGrow: 1,
+        height: '450px',
+        overflow: 'auto',
     },
     all: {
         paddingTop: theme.spacing(2)
@@ -245,11 +248,11 @@ const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { d
                 <Grid xs={6}>
                     <CssBaseline />
                     <Container maxWidth="sm" >
-                        <Card className={classes.root} variant="outlined">
+                        <Card variant="outlined">
                             <CardActions className={classes.actions}>
                                 Device List
                             </CardActions>
-                            <CardContent>
+                            <CardContent className={classes.root}>
                                 <List size="small" component="nav" className={classes.root} aria-label="contacts">
                                     {deviceList !== null && deviceList.length !=0 && deviceList.map((data,index)=>(
                                                      <ListItem button
@@ -273,11 +276,11 @@ const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { d
                 <Grid xs={6}>
 
                     <Container maxWidth="sm" >
-                        <Card className={classes.root} variant="outlined">
+                        <Card variant="outlined">
                             <CardActions className={classes.actions}>
                                 Registered Suspicious Activities
                             </CardActions>
-                            <CardContent>
+                            <CardContent className={classes.root} >
                                 <div >
                                     <FormControl variant="outlined" className={classes.formControl} >
                                         <Select
@@ -348,7 +351,7 @@ const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { d
                     <Card variant="outlined">
                         <CardActions className={classes.actions}>
                         </CardActions>
-                        <CardContent>
+                        <CardContent >
                             {activtyType === 'files' && (
                                 <FormControl variant="outlined" className={classes.formControl} >
                                        <InputLabel id="demo-simple-select-label" className={classes.label}>Select Device</InputLabel>

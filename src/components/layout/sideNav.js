@@ -98,7 +98,7 @@ const SideNav = () => {
           </ListItem>
         </NavLink>
         <NavLink
-          to="/admin/dashboasdrd"
+          to="/admin/resource"
           className="Nav_link"
           activeClassName="activeRoute"
           activeStyle={{ color: 'rgb(253, 184, 81)' }}

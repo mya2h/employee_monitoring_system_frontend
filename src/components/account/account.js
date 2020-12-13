@@ -141,13 +141,6 @@ const Account = ({getAllUsers,users:{users,loading}}) => {
     _id:'',
     status:''
   });
- 
-  const [data, setData] = React.useState([
-    { firstName: 'Kalkidan', lastName: 'Mesfin', email: 'kal@gmail', userName: 'kal234', role: 'Super Admin', activated: true },
-    { firstName: 'Melkam', lastName: 'Beyene', email: 'melkam@gmail', userName: 'melkam12we', role: 'HR Personnel', activated: false },
-    { firstName: 'G/tsadik', lastName: 'Alebel', email: 'gebre@gmail', userName: 'Gebre34', role: 'Super Admin', activated: true },
-    { firstName: 'Kalkidan', lastName: 'Getinet', email: 'kalG@gmail', userName: 'kalG34', role: 'HR Personnel', activated: false },
-  ])
   // const handleChange = (event) => {
   //   setValue(event.target.value);
   // };
@@ -226,7 +219,7 @@ const handleClose=()=>{
             { title: 'Last Name', field: 'lastName' },
             { title: 'Email', field: 'email' },
             { title: 'User Name', field: 'userName' },
-            { title: 'Role', field: 'role' },
+            // { title: 'Role', field: 'role' },
             {title:'Status',field:'status'}
           ]}
           options={{

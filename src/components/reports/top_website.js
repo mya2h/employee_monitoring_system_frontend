@@ -68,9 +68,8 @@ const tableIcons = {
 const useStyles = makeStyles((theme) => ({
   table: {
     "& .MuiTableCell-root": {
-      padding: "8px"
+      padding: "8px",
     },
-
   },
   root: {
     paddingTop: theme.spacing(2),
@@ -133,16 +132,13 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
   const [selectedID, setSelectedID] = useState(0);
   const [title,setTitle] = React.useState('')
   const onRowSelection = (e,row) =>{
-    // console.log(row.tableData.id)
-    // console.log(index)
-    // setDetailData(row.name)
-    // setSelectedID(row.tableData.id);
-    // console.log(index)
-    // setTitle(row.app)
     console.log(row)
     setDetailData(row.names)
     setSelectedID(row.tableData.id);
     setTitle(row.website)
+  }
+  const refreshReport= () =>{
+    getTopWebsites()
   }
   return (
     <div className={classes.root}>
@@ -183,7 +179,7 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
             </Select>
 
           </FormControl>
-          <Button  className={classes.select}  variant="outlined" style={{float:"left"}}>  
+          <Button  className={classes.select}  variant="outlined" style={{float:"left"}} onClick ={refreshReport}>  
           <IconButton aria-label="delete" >
             <RefreshIcon fontSize="small" />
           </IconButton>Refresh</Button>
@@ -214,8 +210,9 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
             emptyRowsWhenPaging: true,   //to make page size fix in case of less data rows
             pageSizeOptions:[10,16,26,50],    // rows selection options    
             cellStyle: {
-              width: 100,
-              maxWidth: 300
+              width: 50,
+              maxWidth: 300, 
+              wordWrap:'break-word'
               },
               headerStyle: {
               backgroundColor:"rgba(221, 221, 221, 0.863",
@@ -236,7 +233,13 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
           icons={tableIcons}
         />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6}
+        style={{
+          flexGrow: 1,
+          height: '70vh',
+          overflow: 'auto',
+        }}
+        >
           <div>
           <Typography variant="h5" component="h2" style = {{marginBottom:"10px"}}>
          {title}
@@ -266,10 +269,11 @@ const TopWebsites = ({getTopWebsites,topWebsites:{top_websites}}) => {
             headerStyle:{
               backgroundColor:"rgba(221, 221, 221, 0.863"
             },
-            // cellStyle: {
-            //   width: 50,
-            //   maxWidth: 50
-            // },
+            cellStyle: {
+              width: 50,
+              maxWidth: 300, 
+              wordWrap:'break-word'
+              },
             // headerStyle: {
             //   width:50,
             //   maxWidth: 50

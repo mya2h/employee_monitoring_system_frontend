@@ -156,15 +156,15 @@ const SignUp = ({register}) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <FormControl  component="fieldset">
               <FormLabel component="legend">Role</FormLabel>
                 <RadioGroup  aria-label="role" name="roleType" value={value} onChange={handelRadioChange} row>
                   <FormControlLabel value="superAdmin" control={<Radio />} label="Super Admin" className={classes.radio} />
-                  <FormControlLabel value="hrPersonnel" control={<Radio />} label="HR Personnel" className={classes.radio} />
+                  <FormControlLabel value="HRpersonnel" control={<Radio />} label="HR Personnel" className={classes.radio} />
                 </RadioGroup>
               </FormControl>
-            </Grid>
+            </Grid> */}
             <Grid item xs={6}>
               <TextField
                 required

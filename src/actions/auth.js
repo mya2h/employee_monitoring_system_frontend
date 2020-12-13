@@ -10,13 +10,10 @@ export const register = (value) => async dispatch => {
         }
     }
     try {
-
-        // const res = await axios.post('http://localhost:5000/api/v1/hr/register', body, config)
-
-        const res = await axios.post('http://localhost:5000/api/user/signup', body, config)
-
+        const res = await axios.post('http://localhost:5000/api/HR/register', body, config)
         console.log(res.data)
         dispatch(setAlert('registered successfully','success'))
+        getAllUsers()(dispatch)
     }
     catch (err) {
         console.log(err.response)
@@ -116,6 +113,6 @@ export const deactivateUser = async (id,value) => {
 export const logout = () => dispatch=>{
     dispatch({type:LOGOUT})
 }
-export const getProfiles=()=>{
+export const getUserById = (value)=>{
 
 }
