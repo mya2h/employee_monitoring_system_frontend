@@ -12,7 +12,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from "@material-ui/core/IconButton";
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import { Link } from "react-router-dom";
+import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
@@ -27,12 +27,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {addSuspiciousActivities,getSuspiciousActivitiesFilesById,getSuspiciousActivities,addSuspiciousFiles,getSuspiciousActivitiesFiles} from '../../actions/activities'
 import { getDeviceList } from '../../actions/devices';
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxHeight: "500px",
-        minHeight: "500px",
+        // // maxHeight: "500px",
+        // minHeight: "500px",
         backgroundColor: theme.palette.background.paper,
+        flexGrow: 1,
+        height: '450px',
+        overflow: 'auto',
     },
     all: {
         paddingTop: theme.spacing(2)
@@ -129,60 +133,39 @@ const useStyles = makeStyles((theme) => ({
     },
     suspicious:{
         marginTop:theme.spacing(5)
+    },
+    label:{
+        fontSize:'13px',
+        marginTop:'-12px'
     }
 
 }));
-const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) => {
+const SuspiciousActivities = ({addSuspiciousActivities,getSuspiciousActivitiesFilesById,getSuspiciousActivitiesFiles,addSuspiciousFiles,getDeviceList,device: { deviceList, loading },getSuspiciousActivities,suspicious:{suspiciousActivity},suspiciousFiles:{suspiciousFile}}) => {
     useEffect(() => {
         getDeviceList()
+        getSuspiciousActivities()
+        getSuspiciousActivitiesFiles()
     }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([0]);
     const [groupView, setGroupView] = React.useState(false)
     const [activtyType,setActvityType] = React.useState('application')
-    const [compuserList, setCompUserList] = React.useState([
-        {
-            deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD", "Abdak 2344"]
-        },
-        {
-            deviceList: ["MAC 23CSD", "Toshiba 23CSD", "Dell 23CSD", "Lenovo 12"]
-        },
-    ])
-    const [listItems, SetListItems] = React.useState([
-        {
-            name: "Toshiba 23CSD",
-            deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        },
-        {
-            name: "Dell 23CSD",
-            deviceList: ["Toshiba kal", "Dell wea", "Kal 23CSD"]
-        },
-        {
-            name: "Kal 23CSD",
-            deviceList: ["bagf 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        },
-        {
-            name: "Office4 laptops",
-            deviceList: ["12wea 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        }
-    ])
+    const [file,setFile] = React.useState('')
+    const [device,setDevice] = React.useState('')
     const [childList, setChildList] = React.useState(["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"])
     const [compUserDetail, setCompUserDetail] = React.useState([])
     const [website,setWebsite] = React.useState({
-        url:''
-    })
-    const [file,setFile] = React.useState({
-        path:''
+        title:''
     })
     const [app,setApp] = React.useState({
-        name:''
+        app:''
     })
-    const [menu,setMenu] = React.useState('all')
+    const [menu,setMenu] = React.useState('applications')
     const [open, setOpen] = React.useState(false);
-    const [selectedIndex, setSelected] = React.useState(0)
+    const [selectedIndex, setSelected] = React.useState()
     const [selectedComp, setSelectedComp] = React.useState(null)
     const handleClickOpen = () => {
-        console.log(listItems[selectedIndex])
+        // console.log(listItems[selectedIndex])
         setOpen(true);
     };
     const handleClose = () => {
@@ -193,6 +176,9 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
+        if(activtyType == 'files'){
+            getSuspiciousActivitiesFilesById(event._id)
+        }  
     }
     const handleGroupView = () => {
         setGroupView(true)
@@ -203,7 +189,7 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
     const handleComputerUser = (index) => {
         setSelectedComp(index)
         setSelected(null)
-        setCompUserDetail(compuserList[index].deviceList)
+        // setCompUserDetail(compuserList[index].deviceList)
         setChildList([])
     }
     const handleToggle = (value) => () => {
@@ -221,6 +207,7 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
     const handleChange = (event) =>{
         console.log(event.target.value)
         setMenu(event.target.value)
+        getSuspiciousActivitiesFiles()
     }
     const handleActivityRemove = (data) =>{
         console.log(data)
@@ -229,53 +216,66 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
         console.log(event.target.value)
         setActvityType(event.target.value)
     }
+    const handleDevice = (event) =>{
+        setDevice(event.target.value)
+        console.log(event.target.value)
+    }
     const handleSuspiciousWebsites = (event)=>{
-        setWebsite({url:event.target.value})
+        setWebsite({title:event.target.value})
     }
     const handleSuspiciousApplications = (event)=>{
-        setApp({name:event.target.value})
+        setApp({app:event.target.value})
+    }
+    const handleSuspiciousFiles = (event)=>{
+        setFile(event.target.value)
     }
     const handleSuspciousSubmit = (event) =>{
         event.preventDefault()
         if(activtyType == 'application'){
-            console.log(app)
+            console.log("app",app)
+            addSuspiciousActivities(app)
         }
         if(activtyType == 'websites'){
-            console.log(website)
+            console.log("my value",website)
+            addSuspiciousActivities(website)
         }
         if(activtyType == 'files'){
-            console.log(file)
+            const value = {
+                deviceId:device,
+                file:file
+            }
+            addSuspiciousFiles(value)
         }
     }
     return (
         <div className={classes.all}>
             <div className={classes.top}>
-                <Button elevation={0} className={classes.button} disabled={selectedIndex == null} onClick={handleClickOpen}>Add Suspicious Activities</Button>
+                <Button elevation={0} className={classes.button}  onClick={handleClickOpen}>Add Suspicious Activities</Button>
             </div>
             <br />
             <Grid container spacing={2}>
                 <Grid xs={6}>
                     <CssBaseline />
                     <Container maxWidth="sm" >
-                        <Card className={classes.root} variant="outlined">
+                        <Card variant="outlined">
                             <CardActions className={classes.actions}>
                                 Device List
                             </CardActions>
-                            <CardContent>
+                            <CardContent className={classes.root}>
                                 <List size="small" component="nav" className={classes.root} aria-label="contacts">
-                                    {listItems != null && listItems.length != 0 && listItems.map((data, index) => (
-                                        <ListItem button
-                                            selected={selectedIndex === index}
-                                            classes={{ selected: classes.selected }}
-                                            className={classes.tableRow}
-                                            onClick={() => handleClick(data, index)}>
-                                            <ListItemIcon className={classes.tableCell}>
-                                                <GroupIcon />
-
-                                            </ListItemIcon>
-                                            <ListItemText > <div className={classes.listProp}>{data.name}</div> </ListItemText>
-
-                                        </ListItem>
+                                    {deviceList !== null && deviceList.length !=0 && deviceList.map((data,index)=>(
+                                                     <ListItem button
+                                                     selected={selectedIndex === index}
+                                                     classes={{ selected: classes.selected }}
+                                                     className={classes.tableRow}
+                                                     onClick={() => handleClick(data, index)}>
+                                                     <ListItemIcon className={classes.tableCell}>
+                                                         <GroupIcon />
+         
+                                                     </ListItemIcon>
+                                                     <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
+         
+                                                 </ListItem>
                                     ))}
                                 </List>
                             </CardContent>
@@ -285,11 +285,11 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
                 <Grid xs={6}>
 
                     <Container maxWidth="sm" >
-                        <Card className={classes.root} variant="outlined">
+                        <Card variant="outlined">
                             <CardActions className={classes.actions}>
                                 Registered Suspicious Activities
                             </CardActions>
-                            <CardContent>
+                            <CardContent className={classes.root} >
                                 <div >
                                     <FormControl variant="outlined" className={classes.formControl} >
                                         <Select
@@ -302,7 +302,7 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
                                                 id: 'uncontrolled-native',
                                             }}
                                         >
-                                            <option value='all'>All</option>
+                                            {/* <option value='all'>All</option> */}
                                             <option value='applications'>Applications</option>
                                             <option value='files'>Files</option>
                                             <option value='websites'>Websites</option>
@@ -311,12 +311,50 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
 
                                     <br />
                                     <List className = {classes.suspicious} size="small" component="nav" aria-label="contacts">
-                                        {childList.length != 0 && childList != null && childList.map(data => (
-                                            <ListItem button className={classes.list}>
-                                                <ListItemText > <div className={classes.listProp}>{data}</div> </ListItemText>
+                                        {menu === 'applications' && (
+                                            <div>
+                                                 {suspiciousActivity.length != 0 && suspiciousActivity != null && suspiciousActivity.map(data => (
+                                            <div>
+                                                {data.app && (
+                                                         <ListItem button className={classes.list}>
+                                                
+                                                <ListItemText > <div className={classes.listProp}>{data.app}</div> </ListItemText>
                                                 <ListItemSecondaryAction><IconButton onClick= {() =>{handleActivityRemove(data)}}><RemoveIcon className={classes.remove} /></IconButton></ListItemSecondaryAction>
                                             </ListItem>
+                                                )}
+                                            </div>
+                                       
                                         ))}
+                                            </div>
+                                        )}
+                                         {menu === 'websites' && (
+                                            <div>
+                                                 {suspiciousActivity.length != 0 && suspiciousActivity != null && suspiciousActivity.map(data => (
+                                            <div>
+                                                {data.title && (
+                                                         <ListItem button className={classes.list}>
+                                                
+                                                <ListItemText > <div className={classes.listProp}>{data.title}</div> </ListItemText>
+                                                <ListItemSecondaryAction><IconButton onClick= {() =>{handleActivityRemove(data)}}><RemoveIcon className={classes.remove} /></IconButton></ListItemSecondaryAction>
+                                            </ListItem>
+                                                )}
+                                            </div>
+                                       
+                                        ))}
+                                            </div>
+                                        )}
+                                        {menu === 'files' && (
+                                            <div>
+                                                {suspiciousFile.length !=0 && suspiciousFile!= null && suspiciousFile.map(data=>
+                                                   <ListItem button className={classes.list}>
+                                                
+                                                   <ListItemText > <div className={classes.listProp}>{data.file}</div> </ListItemText>
+                                                   <ListItemSecondaryAction><IconButton onClick= {() =>{handleActivityRemove(data)}}><RemoveIcon className={classes.remove} /></IconButton></ListItemSecondaryAction>
+                                               </ListItem>
+                                           )
+                                                     }
+                                            </div>
+                                        )}
                                     </List>
                                 </div>
                             </CardContent>
@@ -326,15 +364,36 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
                 </Grid>
             </Grid>
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+            <form onSubmit = {handleSuspciousSubmit}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}>
                     Add Suspicious Activity
         </DialogTitle>
                 <DialogContent dividers>
                     <Card variant="outlined">
                         <CardActions className={classes.actions}>
-
                         </CardActions>
-                        <CardContent>
+                        <CardContent >
+                            {activtyType === 'files' && (
+                                <FormControl variant="outlined" className={classes.formControl} >
+                                       <InputLabel id="demo-simple-select-label" className={classes.label}>Select Device</InputLabel>
+                                <Select
+                                    className={classes.select}
+                                    onChange = {handleDevice}
+                                    variant="outlined"
+                                    inputProps={{
+                                        name: 'date',
+                                        id: 'uncontrolled-native',
+                                    }}
+                                >
+                                    {deviceList.map(data=>(
+                                         <option value={data._id}>{data.userName}</option>
+                                    ))}
+                                   
+                                    {/* <option value='files'>Files</option>
+                                    <option value='websites'>Websites</option> */}
+                                </Select>
+                            </FormControl>
+                            ) }
                             <FormControl variant="outlined" className={classes.formControl} >
                                 <Select
                                     defaultValue={activtyType}
@@ -347,11 +406,12 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
                                     }}
                                 >
                                     <option value='application'>Applications</option>
-                                    <option value='files'>Files</option>
                                     <option value='websites'>Websites</option>
+                                    <option value='files'>Files</option>
                                 </Select>
                             </FormControl>
                             {/* <br/> */}
+                        
                             {activtyType === 'application' && (
                                          <TextField
                                          variant="outlined"
@@ -374,18 +434,30 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
                                          name="url"
                                      />
                             )}
+                              {activtyType === 'files' && (
+                                         <TextField
+                                         variant="outlined"
+                                         margin="normal"
+                                         onChange = {handleSuspiciousFiles}
+                                         required
+                                         fullWidth
+                                         label="Please Enter The File Path"
+                                         name="path"
+                                     />
+                            )}
                         </CardContent>
                     </Card>
 
                 </DialogContent>
                 <DialogActions>
-                    <Button elevation={0} onClick={handleSuspciousSubmit} color="primary" className={classes.button} style={{ width: "400px", height: "80" }}>
+                    <Button elevation={0} type="submit" color="primary" className={classes.button} style={{ width: "400px", height: "80" }}>
                         Add
           </Button>
                     <Button elevation={0} onClick={handleClose} color="primary" className={classes.cancelButton} style={{ width: "400px", height: "80" }}>
                         Cancel
           </Button>
                 </DialogActions>
+                </form>
             </Dialog>
         </div>
     )
@@ -393,8 +465,17 @@ const SuspiciousActivities = ({getDeviceList,device: { deviceList, loading }}) =
 SuspiciousActivities.propTypes = {
     getDeviceList: PropTypes.func.isRequired,
     device: PropTypes.object.isRequired,
+    addSuspiciousActivities:PropTypes.func.isRequired,
+    getSuspiciousActivities:PropTypes.func.isRequired,
+    getSuspiciousActivitiesFiles:PropTypes.func.isRequired,
+    addSuspiciousFiles:PropTypes.func.isRequired,
+    suspicious:PropTypes.object.isRequired,
+    suspiciousFiles:PropTypes.object.isRequired,
+    getSuspiciousActivitiesFilesById:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     device: state.device,
+    suspicious: state.suspicious,
+    suspiciousFiles:state.suspiciousFiles
 })
-export default connect(mapStateToProps, {getDeviceList})(SuspiciousActivities)
+export default connect(mapStateToProps, {getDeviceList,getSuspiciousActivitiesFilesById,getSuspiciousActivitiesFiles,addSuspiciousFiles,getSuspiciousActivities,addSuspiciousActivities})(SuspiciousActivities)

@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import List from "@material-ui/core/List";
+import { NavLink } from 'react-router-dom';
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -18,6 +19,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import CategoryIcon from "@material-ui/icons/Category";
+import '../../assets/css/sideNav.css'
 import '../../assets/css/scroll.css'
 import { Link } from "react-router-dom";
 const theme = createMuiTheme({
@@ -82,9 +84,11 @@ const SideNav = () => {
         className={classes.sideNav}
         activeclassname="active"
       >
-        <Link
+        <NavLink
           to="/admin/dashboard"
-          style={{ color: "inherit", textDecoration: "inherit" }}
+          className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}
         >
           <ListItem button className={classes.listitem}>
             <ListItemIcon className={classes.icon}>
@@ -92,10 +96,12 @@ const SideNav = () => {
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
-        </Link>
-        <Link
-          style={{ color: "inherit", textDecoration: "inherit" }}
-          to="/admin/dashboard"
+        </NavLink>
+        <NavLink
+          to="/admin/resource"
+          className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}
         >
           <ListItem button className={classes.listitem}>
             <ListItemIcon className={classes.icon}>
@@ -103,10 +109,12 @@ const SideNav = () => {
             </ListItemIcon>
             <ListItemText primary="Resources" />
           </ListItem>
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/admin/device"
-          style={{ color: "inherit", textDecoration: "inherit" }}
+          className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)'}}
         >
           <ListItem button className={classes.listitem}>
             <ListItemIcon className={classes.icon}>
@@ -114,17 +122,19 @@ const SideNav = () => {
             </ListItemIcon>
             <ListItemText primary="Devices" />
           </ListItem>
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/admin/suspiciousActvities"
-          style={{ color: "inherit", textDecoration: "inherit" }}>
+           className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}>
           <ListItem button className={classes.listitem}>
             <ListItemIcon className={classes.icon}>
               <LocalActivityIcon />
             </ListItemIcon>
             <ListItemText primary="Suspicious Activities" />
           </ListItem>
-        </Link>
+        </NavLink>
         <ListItem button onClick={handleOrder} className={classes.listitem}>
           <ListItemIcon className={classes.icon}>
             <LibraryBooksIcon />
@@ -134,9 +144,11 @@ const SideNav = () => {
         </ListItem>
         <Collapse in={openReport} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <Link
+            <NavLink
               to="/admin/report/topwebsite"
-              style={{ color: "inherit", textDecoration: "inherit" }}
+               className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}
             >
               <ListItem button className={classes.nested}>
                 <ListItemIcon className={classes.icon}>
@@ -144,10 +156,12 @@ const SideNav = () => {
                 </ListItemIcon>
                 <ListItemText primary="Top Websites" />
               </ListItem>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to="/admin/report/topapplication"
-              style={{ color: "inherit", textDecoration: "inherit" }}
+               className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}
             >
               <ListItem button className={classes.nested}>
                 <ListItemIcon className={classes.icon}>
@@ -155,10 +169,12 @@ const SideNav = () => {
                 </ListItemIcon>
                 <ListItemText primary="Top Application" />
               </ListItem>
-            </Link>
-            <Link
-              to="/admin/report"
-              style={{ color: "inherit", textDecoration: "inherit" }}
+            </NavLink>
+            {/* <NavLink
+              to="/admin/report/devci"
+               className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}
             >
               <ListItem button className={classes.nested}>
                 <ListItemIcon className={classes.icon}>
@@ -166,10 +182,12 @@ const SideNav = () => {
                 </ListItemIcon>
                 <ListItemText primary="Top Files" />
               </ListItem>
-            </Link>
-            <Link
+            </NavLink> */}
+            <NavLink
               to="/admin/report/ActivityLog"
-              style={{ color: "inherit", textDecoration: "inherit" }}
+               className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}
             >
               <ListItem button className={classes.nested}>
                 <ListItemIcon className={classes.icon}>
@@ -177,10 +195,12 @@ const SideNav = () => {
                 </ListItemIcon>
                 <ListItemText primary="Activity Log" />
               </ListItem>
-            </Link>
-            <Link
+            </NavLink>
+            {/* <NavLink
               to="/admin/report/workingHours"
-              style={{ color: "inherit", textDecoration: "inherit" }}
+               className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}
             >
               <ListItem button className={classes.nested}>
                 <ListItemIcon className={classes.icon}>
@@ -188,7 +208,7 @@ const SideNav = () => {
                 </ListItemIcon>
                 <ListItemText primary="Working Hours" />
               </ListItem>
-            </Link>
+            </NavLink> */}
 
           </List>
         </Collapse>
@@ -201,27 +221,33 @@ const SideNav = () => {
         </ListItem>
         <Collapse in={openSide} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <Link to="/admin/categories" style={{ color: "inherit", textDecoration: "inherit" }}>
+            <NavLink to="/admin/categories"  className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}>
               <ListItem button className={classes.nested}>
                 <ListItemIcon className={classes.icon}>
                   <CategoryIcon />
                 </ListItemIcon>
                 <ListItemText primary="Categories" />
               </ListItem>
-            </Link>
-            <Link to="/admin/donottrack" style={{ color: "inherit", textDecoration: "inherit" }}>
+            </NavLink>
+            <NavLink to="/admin/donottrack"  className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}>
               <ListItem button className={classes.nested}>
                 <ListItemIcon className={classes.icon}>
                   <NotInterestedIcon />
                 </ListItemIcon>
                 <ListItemText primary="Do Not Track" />
               </ListItem>
-            </Link>
+            </NavLink>
           </List>
         </Collapse>
-        <Link
+        <NavLink
           to="/admin/account"
-          style={{ color: "inherit", textDecoration: "inherit" }}
+           className="Nav_link"
+          activeClassName="activeRoute"
+          activeStyle={{ color: 'rgb(253, 184, 81)' }}
         >
           <ListItem button>
             <ListItemIcon className={classes.icon}>
@@ -229,7 +255,7 @@ const SideNav = () => {
             </ListItemIcon>
             <ListItemText primary="Account" />
           </ListItem>
-        </Link>
+        </NavLink>
       </List>
     </MuiThemeProvider>
 

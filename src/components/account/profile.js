@@ -52,6 +52,10 @@ const useStyles = makeStyles((theme) => ({
     height: 100,
     width: 100
   },
+  all:{
+    margin:theme.spacing(10),
+    padding:theme.spacing(10)
+  },
   container: {
     display: 'grid',
     gridTemplateColumns: 'repeat(12, 1fr)',
@@ -90,8 +94,8 @@ const Profile=()=>{
     return(
         <Grid container spacing={3}>
             
-      <Grid item xs={4}>
-      <Card
+  {/* <Grid item xs={4}>
+   <Card
         className={classes.root}
        
       >
@@ -139,8 +143,8 @@ const Profile=()=>{
         </CardActions>
       </Card>
 
-      </Grid>
-     <Grid item xs={8}>
+      </Grid> */}
+     <Grid item xs={8} className={classes.all}>
      <form
       autoComplete="off"
       noValidate

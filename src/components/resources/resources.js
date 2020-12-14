@@ -147,79 +147,7 @@ const Resource = () => {
     };
     return (
         <div className={classes.all}>
-            {groupView == false && (
-                <div className={classes.top}>
                     <Button elevation={0} className={classes.button} onClick={handleGroupView}>Register Resource</Button>
-                    <Button elevation={0} className={classes.button} onClick={handleClickOpen}>Add Member</Button>
-                </div>
-            )}
-            <br />
-            {groupView == true && (
-                <div className={classes.addGroup}>
-                    <div className={classes.title}>Upload Resource</div>
-
-                    <form>
-                        <input type="file" name="resource"  style={{
-                            width: "400px",
-                            padding: "8px 10px",
-                            margin: "8px 0",
-                            boxSizing: "border-box"
-                        }} />
-                        <br />
-                        <div className={classes.groupButton}>
-                        <Button elevation={0} onClick={handleClose} className={classes.button}>
-                            Upload
-          </Button>
-                        <Button  elevation={0} onClick={handleGroupViewClose} className={classes.cancelButton}>
-                            Cancel
-          </Button>
-                        </div>
-                    
-                    </form>
-                    <FormControl className={classes.formControl}>
-        
-        <NativeSelect
-          defaultValue={0}
-          inputProps={{
-            name: 'date',
-            id: 'uncontrolled-native',
-          }}
-        >
-          <option value={10}>Today</option>
-          <option value={20}>Yestarday</option>
-          <option value={30}>Last 7 days</option>
-          <option value={30}>Last 30 days</option>
-          <option value={30}>Last year</option>
-        </NativeSelect>
-        
-      </FormControl>
-
-      <FormControl className={classes.formControl}>
-        
-        <NativeSelect
-          defaultValue={30}
-          inputProps={{
-            name: 'device',
-            id: 'uncontrolled-native',
-          }}
-        >
-          <option value={10}>All computers</option>
-          <option value={20}>WINDOWS-5AUTJS3</option>
-          <option value={30}>WINDOWS-6AUTJS34</option>
-        </NativeSelect>
-       
-      </FormControl>
-
-      
-
-      <Button className={classes.formControl} variant="outlined" > <RefreshIcon  />Refresh</Button>
-      
-
-                </div>
-
-            )}
-
-            
         </div>
     )
 }

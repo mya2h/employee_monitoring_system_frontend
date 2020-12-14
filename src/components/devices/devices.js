@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import { forwardRef } from 'react';
+import '../../assets/css/table.css'
 import MaterialTable from 'material-table';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
@@ -56,6 +57,11 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 const useStyles = makeStyles(theme => ({
+  // root: {
+  //   "& .MuiTableCell-root": {
+  //     padding: "8px"
+  //   }
+  // },
   all: {
     margin: theme.spacing(4)
   },
@@ -104,7 +110,7 @@ const Devices = ({getDeviceList,device:{deviceList,loading}}) => {
   }
   return (
     <div className={classes.all}>
-      <div className={classes.table}>
+      <div className={classes.root}>
         <MaterialTable
           title="Registered Devices List"
           columns={[

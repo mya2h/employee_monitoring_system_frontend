@@ -1,33 +1,27 @@
-import {DEVICE_GROUP_SUCCESS,DEVICE_GROUP_FAIL, NEW_GROUP_ADDED} from '../actions/types'
-
+import {SUSPICIOUS_FILES_LIST_SUCCESS,SUSPICIOUS_FILES_LIST_FAIL} from '../actions/types'
 
 const initialState = {
     loading:true,
     isItemLoaded:null,
-    groups:[]
+    suspiciousFile:[]
 }
 
 export default function(state=initialState,action){
     const {type,payload} = action
     switch (type){
-        case DEVICE_GROUP_SUCCESS:
+        case SUSPICIOUS_FILES_LIST_SUCCESS:
             return{
                 ...state,
-                groups:payload,
+                suspiciousFile:payload,
                 isItemLoaded:true,
                 loading:false
             }
-        case DEVICE_GROUP_FAIL:
+        case SUSPICIOUS_FILES_LIST_FAIL:
             return{
                 ...state,
                 isItemLoaded:false,
                 loading:false
             } 
-        case NEW_GROUP_ADDED:
-            return {
-                ...state,
-                groups: [...state.groups, payload]
-            }
         default:
             return state       
     }

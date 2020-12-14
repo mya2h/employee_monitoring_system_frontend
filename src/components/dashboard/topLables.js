@@ -95,7 +95,7 @@ const Label = () =>{
           <Grid item xs={2}>
           </Grid>
           <Grid item xs={9} className={classes.title}>
-               All Devices
+               All Users
                 </Grid>
         </Grid>
         </Paper>
@@ -112,7 +112,7 @@ const Label = () =>{
           <Grid item xs={2}>
           </Grid>
           <Grid item xs={9} className={classes.title}>
-               All Devices
+               Device Groups
                 </Grid>
         </Grid>
         </Paper>

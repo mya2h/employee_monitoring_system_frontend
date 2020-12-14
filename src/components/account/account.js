@@ -24,7 +24,7 @@ import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from "@material-ui/core/Modal"
 import SignUp from '../auth/signup'
-import {getAllUsers,activateUser,deactivateUser} from "../../actions/auth"
+import { getAllUsers, activateUser, deactivateUser } from "../../actions/auth"
 import { Button } from '@material-ui/core';
 import { Add, Rowing } from '@material-ui/icons';
 
@@ -76,10 +76,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(5)
     // marginLeft:theme.spacing(4)
   },
-  modal:{
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center'
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   paper: {
     position: 'absolute',
@@ -87,7 +87,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
-},
+  },
 
   form: {
     width: '80%', // Fix IE 11 issue.
@@ -98,8 +98,8 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     backgroundColor: theme.palette.secondary.main,
   },
-  btn:{
- margin:theme.spacing(2)
+  btn: {
+    margin: theme.spacing(2)
   },
   label: {
     margin: theme.spacing(2),
@@ -109,116 +109,111 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     background: "#61dafb",
     '&:hover': {
-        background: "#b3d8fd",
+      background: "#b3d8fd",
     },
   },
 }));
 
-const rand =()=>{
-  return Math.round(Math.random()*20)-10;
+const rand = () => {
+  return Math.round(Math.random() * 20) - 10;
 }
 
-const getModalStyle=()=> {
+const getModalStyle = () => {
   const top = 50 + rand();
   const left = 50 + rand();
   return {
-      top: `${top}%`,
-     marigin:'auto'
+    top: `${top}%`,
+    marigin: 'auto'
   };
 }
 
-const Account = ({getAllUsers,users:{users,loading}}) => {
+const Account = ({ getAllUsers, activateUser,deactivateUser,users: { users, loading } }) => {
   useEffect(() => {
     getAllUsers()
   }, [])
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [open,setOpen]=React.useState(false)
+  const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('')
   const [selectedValue, setSelectedValue] = React.useState('a');
-  const [id,setId]=React.useState({
-    
-    _id:'',
-    status:''
+  const [id, setId] = React.useState({
+
+    _id: '',
+    status: ''
   });
- 
-  const [data, setData] = React.useState([
-    { firstName: 'Kalkidan', lastName: 'Mesfin', email: 'kal@gmail', userName: 'kal234', role: 'Super Admin', activated: true },
-    { firstName: 'Melkam', lastName: 'Beyene', email: 'melkam@gmail', userName: 'melkam12we', role: 'HR Personnel', activated: false },
-    { firstName: 'G/tsadik', lastName: 'Alebel', email: 'gebre@gmail', userName: 'Gebre34', role: 'Super Admin', activated: true },
-    { firstName: 'Kalkidan', lastName: 'Getinet', email: 'kalG@gmail', userName: 'kalG34', role: 'HR Personnel', activated: false },
-  ])
   // const handleChange = (event) => {
   //   setValue(event.target.value);
   // };
   // const handleActivation = (data) => {
   //   console.log(data)
   // }
- 
-  const handelOpen=(e)=>{
-    console.log("e",e._id)
-    console.log("e",e.status)
-    setId({...id,_id:e._id,status:e.status})
-    
-    console.log("e",e)
+
+  const handelOpen = (e) => {
+    console.log("e", e._id)
+    console.log("e", e.status)
+    setId({ ...id, _id: e._id, status: e.status })
     setOpen(true);
 
   }
-const activate=()=>{
- activateUser(id);
- console.log("the user is activated")
- window.location.reload();
- handleClose()
+  const activate = () => {
+    activateUser(id._id);
+    console.log("the user is activated")
+    handleClose()
   }
-  const deactivate=()=>{
-    deactivateUser(id);
+  const deactivate = () => {
+    deactivateUser(id._id);
     console.log("user is deactivated");
-    window.location.reload();
     handleClose()
   }
   const onRowClick = (state, rowInfo, column, instance) => {
     return {
-        onClick: e => {
-            console.log('A Td Element was clicked!')
-            console.log('it produced this event:', e)
-            console.log('It was in this column:', column)
-            console.log('It was in this row:', rowInfo)
-            console.log('It was in this table instance:', instance)
-        }
+      onClick: e => {
+        console.log('A Td Element was clicked!')
+        console.log('it produced this event:', e)
+        console.log('It was in this column:', column)
+        console.log('It was in this row:', rowInfo)
+        console.log('It was in this table instance:', instance)
+      }
     }
-}
+  }
 
-const handleClose=()=>{
-  setOpen(false)
-}
+  const handleClose = () => {
+    setOpen(false)
+  }
   return (
     <div className={classes.all}>
       <div className={classes.table}>
-      <Modal
-       style={{display:'flex',alignItems:'center',justifyContent:'center'}}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                open={open}
-                onClose={handleClose}
-            >
-                <div  className={classes.paper}>
-                     <h2>Activate / Deactivate the user</h2>
-                     {/* enable and diable one button based on the status of the user */}
-{id.status === true&&(
-  <div>
-  <Button  className={classes.btn} variant="contained" disabled={true} color="primary" onClick={activate} >Activate </Button>
-                    <Button variant="contained" color="secondary" onClick={deactivate}>Deactivate </Button>
-  </div>
-)}
-{id.status === false &&(
-  <div>
-  <Button  className={classes.btn} variant="contained" color="primary" onClick={activate} >Activate </Button>
-                    <Button variant="contained"  disabled={true} color="secondary" onClick={deactivate}>Deactivate </Button>
-  </div>
-)}
-                  
-                </div>
-            </Modal>
+        <Modal
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={open}
+          onClose={handleClose}
+        >
+          <div className={classes.paper}>
+
+            {id.status === 'activated' && (
+              <h2>Deactivate the user</h2>
+            )}
+            {id.status === 'deactivated' && (
+              <h2>Activate the user</h2>
+            )}
+            {/* enable and diable one button based on the status of the user */}
+            {id.status === 'activated' && (
+              <div>
+                <Button className={classes.btn} variant="contained" disabled={true} color="primary" onClick={activate} >Activate </Button>
+                <Button variant="contained" color="secondary" onClick={deactivate}>Deactivate </Button>
+              </div>
+            )}
+            {id.status === 'deactivated' && (
+              <div>
+                <Button className={classes.btn} variant="contained" color="primary" onClick={activate} >Activate </Button>
+                <Button variant="contained" disabled={true} color="secondary" onClick={deactivate}>Deactivate </Button>
+              </div>
+            )}
+
+          </div>
+        </Modal>
         <MaterialTable
           title="Users List"
           columns={[
@@ -226,11 +221,11 @@ const handleClose=()=>{
             { title: 'Last Name', field: 'lastName' },
             { title: 'Email', field: 'email' },
             { title: 'User Name', field: 'userName' },
-            { title: 'Role', field: 'role' },
-            {title:'Status',field:'status'}
+            // { title: 'Role', field: 'role' },
+            { title: 'Status', field: 'status' }
           ]}
           options={{
-            headerStyle: { backgroundColor:'rgba(221, 221, 221, 0.863)' },
+            headerStyle: { backgroundColor: 'rgba(221, 221, 221, 0.863)' },
           }}
           data={users}
           getTrProps={onRowClick}
@@ -240,26 +235,9 @@ const handleClose=()=>{
                 color: '#e64f47',
               }} />,
               tooltip: 'activate/deactivate User',
-              onClick: (event,rowData)=>{
-                
-                handelOpen(rowData)
-               }
-                ,
-            
+              onClick: (event, rowData) => { handelOpen(rowData) }
             }
           ]}
-          editable={{onRowAdd:()=>handelOpen(),
-            onRowUpdate: (newData, oldData) =>
-              new Promise(resolve => {
-                setTimeout(() => {
-                  const dataUpdate = [...data];
-                  const index = oldData.tableData.id;
-                  dataUpdate[index] = newData;
-                  setData([...dataUpdate]);
-                  resolve();
-                }, 600);
-              }),
-          }}
           icons={tableIcons}
         />
       </div>
@@ -269,12 +247,14 @@ const handleClose=()=>{
   );
 }
 
-Account.propTypes={
-  getAllUsers:PropTypes.func.isRequired,
-  users:PropTypes.object.isRequired
+Account.propTypes = {
+  getAllUsers: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired,
+  activateUser:PropTypes.func.isRequired,
+  deactivateUser:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   users: state.users
 })
-export default connect(mapStateToProps,{getAllUsers})(Account)
+export default connect(mapStateToProps, { activateUser,deactivateUser,getAllUsers })(Account)
 
