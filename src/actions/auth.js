@@ -51,11 +51,11 @@ export const authenticate = (value) => async dispatch=>{
     }
 }
 export const getAllUsers = () => async dispatch => {
-    const config = {
+   const config = {
         headers: {
             'Content-Type': 'application/json'
         }
-    }
+    } 
     try {
         const res = await axios.get('http://localhost:5000/api/v1/hr/allusers', config)
         dispatch({
@@ -115,6 +115,26 @@ export const deactivateUser = async (id,value) => {
 export const logout = () => dispatch=>{
     dispatch({type:LOGOUT})
 }
-export const getProfiles=()=>{
+export const getProfiles=() =>async dispatch=>{
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    } 
+    try {
+        const res = await axios.get('http://localhost:5000/api/v1/admin/profile', config)
+        dispatch({
+            type: USER_LOADED_SUCCESS,
+            payload: res.data
+        })
+        
+    } catch (err) {
+        console.log(err)
+        dispatch({
+            type: USER_LOADED_FAIL,
+        })
+        
+    }
+
 
 }
