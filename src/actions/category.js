@@ -61,6 +61,7 @@ export const addGroupMember =  (groupId,value)=> async dispatch =>{
     }
     catch(err){
         console.log(err.response)
+        dispatch(setAlert('unable to add member','error'))
     }
 }
 export const getDeviceGroupList = () => async dispatch=>{

@@ -22,7 +22,7 @@ import Check from '@material-ui/icons/Check';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
-import {getDeviceList} from '../../actions/devices'
+import {getDeviceList,getDoNotTrackList} from '../../actions/devices'
 
 
 const tableIcons = {
@@ -94,9 +94,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Devices = ({getDeviceList,device:{deviceList,loading}}) => {
+const Devices = ({getDeviceList,getDoNotTrackList,device:{deviceList,loading}}) => {
   useEffect(() => {
     getDeviceList()
+    getDoNotTrackList()
   }, [])
 
   const classes = useStyles();
@@ -144,4 +145,4 @@ Devices.propTypes={
 const mapStateToProps = state => ({
   device: state.device
 })
-export default connect(mapStateToProps,{getDeviceList})(Devices)
+export default connect(mapStateToProps,{getDoNotTrackList,getDeviceList})(Devices)

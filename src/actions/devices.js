@@ -31,7 +31,7 @@ export const doNotTrackDevice = async (value)=>{
         }
     }
     try{
-        const res = await axios.post('', body, config)
+        const res = await axios.post('http://localhost:5000/api/deviceUsers/doNotTrack', body, config)
     }
     catch(err){
         console.log(err)
@@ -44,7 +44,7 @@ export const getDoNotTrackList = () => async dispatch=>{
         }
     }
     try {
-        const res = await axios.get('', config)
+        const res = await axios.get('http://localhost:5000/api/deviceUsers/doNotTrack', config)
         dispatch({
             type: DO_NOT_TRACK_LIST_SUCCESS,
             payload: res.data

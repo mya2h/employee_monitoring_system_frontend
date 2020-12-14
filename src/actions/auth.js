@@ -29,12 +29,8 @@ export const authenticate = (value) => async dispatch=>{
         }
     }
     try {
-
-        // const res = await axios.post('http://localhost:5000/api/v1/user/authenticate', body, config)
-
         const res = await axios.post('http://localhost:5000/api/user/signin', body, config)
         console.log(res.data)
-
         dispatch({
             type: AUTH_SUCCESS,
             payload: res.data

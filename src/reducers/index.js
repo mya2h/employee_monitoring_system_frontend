@@ -14,11 +14,13 @@ import notification from './notification'
 import topWebsites from './top_website_report_reducer'
 import suspicious from './suspiciousActivities'
 import suspiciousFiles from './suspiciousFile'
+import doNotTrack from './notTracked'
 export default combineReducers({
     auth,
     users,
     device,
     notification,
+    doNotTrack,
     suspiciousFiles,
     suspicious,
     notifications,
