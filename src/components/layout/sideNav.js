@@ -170,7 +170,7 @@ const SideNav = () => {
                 <ListItemText primary="Top Application" />
               </ListItem>
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to="/admin/report/devci"
                className="Nav_link"
           activeClassName="activeRoute"
@@ -182,7 +182,7 @@ const SideNav = () => {
                 </ListItemIcon>
                 <ListItemText primary="Top Files" />
               </ListItem>
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/admin/report/ActivityLog"
                className="Nav_link"
@@ -196,7 +196,7 @@ const SideNav = () => {
                 <ListItemText primary="Activity Log" />
               </ListItem>
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to="/admin/report/workingHours"
                className="Nav_link"
           activeClassName="activeRoute"
@@ -208,7 +208,7 @@ const SideNav = () => {
                 </ListItemIcon>
                 <ListItemText primary="Working Hours" />
               </ListItem>
-            </NavLink>
+            </NavLink> */}
 
           </List>
         </Collapse>

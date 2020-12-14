@@ -55,10 +55,10 @@ export const getAllUsers = () => async dispatch => {
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/user/allusers', config)
+        const res = await axios.get('http://localhost:5000/api/HR/get', config)
         dispatch({
             type: USER_LOADED_SUCCESS,
-            payload: res.data.result
+            payload: res.data
         })
     }
     catch (err) {
@@ -77,37 +77,44 @@ export const editUser = async (value) => {
     }
     try {
         const res = await axios.put('', body, config)
+       
     }
     catch (err) {
         console.log(err)
     }
 }
-export const activateUser = async (id,value) => {
-    const body = JSON.stringify(value)
+export const activateUser = (_id) => async dispatch=>{
+    const id = _id
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
     try {
-        const res = await axios.put(`http://localhost:5000/api/v1/hr/activate/${id}`, body, config)
+        const res = await axios.put('http://localhost:5000/api/HR/activate/'+id, config)
+        dispatch(setAlert('user activated successfuly','success'))
+        getAllUsers()(dispatch)
     }
     catch (err) {
         console.log(err)
+        dispatch(setAlert('unable to activate user','error'))
     }
 }
-export const deactivateUser = async (id,value) => {
-    const body = JSON.stringify(value)
+export const deactivateUser =  (_id) => async dispatch=> {
+    const id = _id
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
     try {
-        const res = await axios.put(`http://localhost:5000/api/v1/hr/deactivate/${id}`, body, config)
+        const res = await axios.put('http://localhost:5000/api/HR/deactivate/'+id, config)
+        dispatch(setAlert('user deactivated successfuly','success'))
+        getAllUsers()(dispatch)
     }
     catch (err) {
         console.log(err)
+        dispatch(setAlert('unable to deactivate user','error'))
     }
 }
 export const logout = () => dispatch=>{

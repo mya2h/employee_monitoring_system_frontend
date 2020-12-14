@@ -27,7 +27,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {addSuspiciousActivities,getSuspiciousActivities} from '../../actions/activities'
+import {addSuspiciousActivities,getSuspiciousActivitiesFilesById,getSuspiciousActivities,addSuspiciousFiles,getSuspiciousActivitiesFiles} from '../../actions/activities'
 import { getDeviceList } from '../../actions/devices';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -140,10 +140,11 @@ const useStyles = makeStyles((theme) => ({
     }
 
 }));
-const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { deviceList, loading },getSuspiciousActivities,suspicious:{suspiciousActivity}}) => {
+const SuspiciousActivities = ({addSuspiciousActivities,getSuspiciousActivitiesFilesById,getSuspiciousActivitiesFiles,addSuspiciousFiles,getDeviceList,device: { deviceList, loading },getSuspiciousActivities,suspicious:{suspiciousActivity},suspiciousFiles:{suspiciousFile}}) => {
     useEffect(() => {
         getDeviceList()
         getSuspiciousActivities()
+        getSuspiciousActivitiesFiles()
     }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([0]);
@@ -161,7 +162,7 @@ const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { d
     })
     const [menu,setMenu] = React.useState('applications')
     const [open, setOpen] = React.useState(false);
-    const [selectedIndex, setSelected] = React.useState(0)
+    const [selectedIndex, setSelected] = React.useState()
     const [selectedComp, setSelectedComp] = React.useState(null)
     const handleClickOpen = () => {
         // console.log(listItems[selectedIndex])
@@ -175,6 +176,9 @@ const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { d
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
+        if(activtyType == 'files'){
+            getSuspiciousActivitiesFilesById(event._id)
+        }  
     }
     const handleGroupView = () => {
         setGroupView(true)
@@ -203,6 +207,7 @@ const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { d
     const handleChange = (event) =>{
         console.log(event.target.value)
         setMenu(event.target.value)
+        getSuspiciousActivitiesFiles()
     }
     const handleActivityRemove = (data) =>{
         console.log(data)
@@ -235,13 +240,17 @@ const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { d
             addSuspiciousActivities(website)
         }
         if(activtyType == 'files'){
-            console.log(file)
+            const value = {
+                deviceId:device,
+                file:file
+            }
+            addSuspiciousFiles(value)
         }
     }
     return (
         <div className={classes.all}>
             <div className={classes.top}>
-                <Button elevation={0} className={classes.button} disabled={selectedIndex == null} onClick={handleClickOpen}>Add Suspicious Activities</Button>
+                <Button elevation={0} className={classes.button}  onClick={handleClickOpen}>Add Suspicious Activities</Button>
             </div>
             <br />
             <Grid container spacing={2}>
@@ -332,6 +341,18 @@ const SuspiciousActivities = ({addSuspiciousActivities,getDeviceList,device: { d
                                             </div>
                                        
                                         ))}
+                                            </div>
+                                        )}
+                                        {menu === 'files' && (
+                                            <div>
+                                                {suspiciousFile.length !=0 && suspiciousFile!= null && suspiciousFile.map(data=>
+                                                   <ListItem button className={classes.list}>
+                                                
+                                                   <ListItemText > <div className={classes.listProp}>{data.file}</div> </ListItemText>
+                                                   <ListItemSecondaryAction><IconButton onClick= {() =>{handleActivityRemove(data)}}><RemoveIcon className={classes.remove} /></IconButton></ListItemSecondaryAction>
+                                               </ListItem>
+                                           )
+                                                     }
                                             </div>
                                         )}
                                     </List>
@@ -446,10 +467,15 @@ SuspiciousActivities.propTypes = {
     device: PropTypes.object.isRequired,
     addSuspiciousActivities:PropTypes.func.isRequired,
     getSuspiciousActivities:PropTypes.func.isRequired,
-    suspicious:PropTypes.object.isRequired
+    getSuspiciousActivitiesFiles:PropTypes.func.isRequired,
+    addSuspiciousFiles:PropTypes.func.isRequired,
+    suspicious:PropTypes.object.isRequired,
+    suspiciousFiles:PropTypes.object.isRequired,
+    getSuspiciousActivitiesFilesById:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     device: state.device,
-    suspicious: state.suspicious
+    suspicious: state.suspicious,
+    suspiciousFiles:state.suspiciousFiles
 })
-export default connect(mapStateToProps, {getDeviceList,getSuspiciousActivities,addSuspiciousActivities})(SuspiciousActivities)
+export default connect(mapStateToProps, {getDeviceList,getSuspiciousActivitiesFilesById,getSuspiciousActivitiesFiles,addSuspiciousFiles,getSuspiciousActivities,addSuspiciousActivities})(SuspiciousActivities)

@@ -12,7 +12,7 @@ export default function(state=initialState,action){
         case SUSPICIOUS_FILES_LIST_SUCCESS:
             return{
                 ...state,
-                suspiciousActivity:payload,
+                suspiciousFile:payload,
                 isItemLoaded:true,
                 loading:false
             }

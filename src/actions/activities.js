@@ -47,7 +47,52 @@ export const getSuspiciousActivities = () => async dispatch=>{
         })
     }
 }
-export const getSuspiciousActivitiesFiles = (value) => async dispatch=>{
+export const addSuspiciousFiles = (value) => async dispatch=>{
+    const body = JSON.stringify(value)
+    console.log(body)
+    const config ={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    try{
+        const res = await axios.post('http://localhost:5000/api/suspiciousWindowRegister/file', body, config)
+        console.log(res.data)
+        dispatch(setAlert('activity registered successfully','success'))
+        getSuspiciousActivitiesFiles()(dispatch)
+    }
+    catch(err){
+        console.log(err.response)
+        const errors = err.response.data.errors
+        console.log(errors);
+        if(errors){
+            errors.forEach(error => dispatch(setAlert(error.msg,'error')));
+
+    }
+    }
+}
+
+export const getSuspiciousActivitiesFiles = () => async dispatch=>{
+    const config = {
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.get('http://localhost:5000/api/suspiciousWindowRegister/file', config)
+        dispatch({
+            type: SUSPICIOUS_FILES_LIST_SUCCESS,
+            payload: res.data
+        })
+    }
+    catch (err) {
+        console.log(err)
+        dispatch({
+            type: SUSPICIOUS_FILES_LIST_FAIL,
+        })
+    }
+}
+export const getSuspiciousActivitiesFilesById = (value) => async dispatch=>{
     const id = value
     const config = {
         headers:{
@@ -55,7 +100,7 @@ export const getSuspiciousActivitiesFiles = (value) => async dispatch=>{
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/suspiciousWindowRegister'+id, config)
+        const res = await axios.get('http://localhost:5000/api/suspiciousWindowRegister/file/'+id, config)
         dispatch({
             type: SUSPICIOUS_FILES_LIST_SUCCESS,
             payload: res.data
