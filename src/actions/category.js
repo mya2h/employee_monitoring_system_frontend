@@ -121,7 +121,7 @@ export const getDeviceMembers = (value)=>async dispatch=>{
         const res = await axios.get('http://localhost:5000/api/member/getByCategory/'+value, config)
         dispatch({
             type: DEVICE_MEMBERS_SUCCESS,
-            payload: res.data
+            payload: res.data.data
         })
     }
     catch (err) {
@@ -141,6 +141,6 @@ export const deleteMember= async (value)=>{
         const res = await axios.delete('http://localhost:5000/api/member/delete/'+value, config)
     }
     catch(err){
-        console.log(err)
+        console.log(err.response)
     }
 }

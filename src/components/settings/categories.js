@@ -305,7 +305,7 @@ const Categories = ({ getDeviceList,addGroupMember,updateGroup,getDeviceMembers,
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
-        // getDeviceMembers(value._id)
+        getDeviceMembers(value._id)
     }
     const handleConfirm = ()=>{
         console.log(groupEdit)

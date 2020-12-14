@@ -29,7 +29,7 @@ export const getTopWebsites = () => async dispatch=> {
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/activeWindows/websites/14', config)
+        const res = await axios.get('http://localhost:5000/api/activeWindows/websites/14/14', config)
         console.log(res.data)
         dispatch({
             type: TOP_WEBSITE_LIST_REPORT_SUCCESS,
@@ -43,24 +43,45 @@ export const getTopWebsites = () => async dispatch=> {
         })
     }
 }
-export const getTopApplications = () => async dispatch=> {
+export const getTopApplications = (deviceId) => async dispatch=> {
+    const device = deviceId
+
+    
     const config = {
         headers:{
             'Content-Type': 'application/json'
         }
     }
-    try {
-        const res = await axios.get('http://localhost:5000/api/activeWindows/apps/14', config)
-        console.log(res.data)
-        dispatch({
-            type: TOP_APPLICATION_LIST_REPORT_SUCCESS,
-            payload: res.data
-        })
+    if(device == 'allDevices'){
+        try {
+            const res = await axios.get('http://localhost:5000/api/activeWindows/apps/14/14', config)
+            console.log(res.data)
+            dispatch({
+                type: TOP_APPLICATION_LIST_REPORT_SUCCESS,
+                payload: res.data
+            })
+        }
+        catch (err) {
+            console.log(err)
+            dispatch({
+                type: TOP_APPLICATION_LIST_REPORT_FAIL,
+            })
+        }
     }
-    catch (err) {
-        console.log(err)
-        dispatch({
-            type: TOP_APPLICATION_LIST_REPORT_FAIL,
-        })
+    else{
+        try {
+            const res = await axios.get('http://localhost:5000/api/activeWindows/apps/14/14?deviceId='+device, config)
+            console.log(res.data)
+            dispatch({
+                type: TOP_APPLICATION_LIST_REPORT_SUCCESS,
+                payload: res.data
+            })
+        }
+        catch (err) {
+            console.log(err)
+            dispatch({
+                type: TOP_APPLICATION_LIST_REPORT_FAIL,
+            })
+        }
     }
 }

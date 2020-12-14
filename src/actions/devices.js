@@ -23,7 +23,7 @@ export const getDeviceList = () => async dispatch =>{
         })
     }
 }
-export const doNotTrackDevice = async (value)=>{
+export const doNotTrackDevice = (value)=> async dispatch=>{
     const body = JSON.stringify(value)
     const config ={
         headers:{
@@ -31,10 +31,32 @@ export const doNotTrackDevice = async (value)=>{
         }
     }
     try{
-        const res = await axios.post('http://localhost:5000/api/deviceUsers/doNotTrack', body, config)
+        const res = await axios.put('http://localhost:5000/api/track/doNotTrack', body, config)
+        console.log(res.data)
+        dispatch(setAlert('added to not not track','success'))
+        getDoNotTrackList()(dispatch)
     }
     catch(err){
         console.log(err)
+        dispatch(setAlert('unable to add to not track','error'))
+    }
+}
+export const backToTrack = (value)=>  async dispatch=>{
+    const body = JSON.stringify(value)
+    const config ={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    try{
+        const res = await axios.put('http://localhost:5000/api/track/backToTrack', body, config)
+        console.log(res.data)
+        dispatch(setAlert('added to track','success'))
+        getDoNotTrackList()(dispatch)
+    }
+    catch(err){
+        console.log(err.response)
+        dispatch(setAlert('unable to add to not track ','error'))
     }
 }
 export const getDoNotTrackList = () => async dispatch=>{
@@ -44,7 +66,7 @@ export const getDoNotTrackList = () => async dispatch=>{
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/deviceUsers/doNotTrack', config)
+        const res = await axios.get('http://localhost:5000/api/track/doNotTrack', config)
         dispatch({
             type: DO_NOT_TRACK_LIST_SUCCESS,
             payload: res.data

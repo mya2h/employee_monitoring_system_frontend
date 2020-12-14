@@ -146,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const TopApplications = ({ getTopApplications, getDeviceList, device: { deviceList, loading }, topApplication: { top_applications } }) => {
   useEffect(() => {
-    getTopApplications()
+    getTopApplications('allDevices')
     getDeviceList()
   }, [])
   const classes = useStyles();
@@ -155,11 +155,12 @@ const TopApplications = ({ getTopApplications, getDeviceList, device: { deviceLi
   const [selectedID, setSelectedID] = useState(0);
   const [title, setTitle] = React.useState('')
   const [app, setApp] = React.useState('')
+  const [device,setDevice] = React.useState('')
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = useState([
     {
-      start: new Date(),
-      end: new Date(),
+      start: new Date().getDate(),
+      end: new Date().getDate(),
       key: 'selection',
     }
   ]);
@@ -174,10 +175,12 @@ const TopApplications = ({ getTopApplications, getDeviceList, device: { deviceLi
     setApp(event.target.value)
   }
   const refreshReport = () => {
-    getTopApplications()
+    getTopApplications(device)
   }
   const handleDeviceChange = (event) => {
     console.log(event.target.value)
+    setDevice(event.target.value)
+    getTopApplications(event.target.value)
   }
   const handleChange = (item) => {
     console.log([item])

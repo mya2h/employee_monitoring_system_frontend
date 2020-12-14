@@ -24,7 +24,7 @@ import Check from '@material-ui/icons/Check';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
-import { getDeviceList } from '../../actions/devices'
+import { getDeviceList,doNotTrackDevice,backToTrack,getDoNotTrackList } from '../../actions/devices'
 
 
 const useStyle = makeStyles(theme => ({
@@ -33,6 +33,11 @@ const useStyle = makeStyles(theme => ({
         // float:"left"
     },
     table: {
+        "& . MTableToolbar-highlight-39": {
+            padding: "8px",
+            color: "#000000",
+            backgroundColor: "#000000"
+        },
         width: '70%',
         marginTop: theme.spacing(4)
     },
@@ -97,50 +102,24 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
+const DoNotTrack = ({ getDeviceList,backToTrack,doNotTrackDevice,getDoNotTrackList,doNotTrack:{notTrackedList}, device: { deviceList, loading } }) => {
     useEffect(() => {
         getDeviceList()
+        getDoNotTrackList()
       }, [])
     const classes = useStyle()
     const [checked, setChecked] = React.useState([0]);
     const [open, setOpen] = React.useState(false);
-    const [selectedMember,setSelectedMember] = React.useState([])
+    const [selectedUsers,setSelectedUser] = React.useState({deviceUserId:[]})
     const columns = [
         { field: 'deviceName', title: 'Device name', width: 130 },
         { field: 'userName', title: 'User name', width: 130 },
     ];
-    const [listItems, SetListItems] = React.useState([
-        {
-            name: "Office1 laptops",
-            deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        },
-        {
-            name: "Office2 laptops",
-            deviceList: ["Toshiba kal", "Dell wea", "Kal 23CSD"]
-        },
-        {
-            name: "Office3 laptops",
-            deviceList: ["bagf 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        },
-        {
-            name: "Office4 laptops",
-            deviceList: ["12wea 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        }
-    ])
     const [state, setState] = React.useState({
         columns: [
             { title: 'Device Name', field: 'deviceName' },
-            { title: 'User', field: 'user' },
+            { title: 'User', field: 'userName' },
         ],
-        data: [
-            { deviceName: 'HP 234', user: "Kalkidan" },
-            { deviceName: 'Lenovo 123', user: "Melkams" },
-            { deviceName: 'HP 234', user: "Studows" },
-            { deviceName: 'Lenovo 123', user: "Kalkidan" },
-            { deviceName: 'Mac book pro', user: "macuser12" },
-            { deviceName: 'HP123q', user: "kalse" },
-            { deviceName: 'HP 234', user: "Kalkidan" },
-        ]
     })
     const handleClickOpen = () => {
         setOpen(true);
@@ -161,11 +140,25 @@ const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
         setChecked(newChecked);
     };
     const handleMemberSelection = (rows) =>{
-        console.log(rows)
-        setSelectedMember(rows)
+        const users = []
+        rows.map(data=>{
+            users.push(data._id)
+        })
+        setSelectedUser({deviceUserId:users})
     }
     const handleSubmit = () =>{
-        console.log(selectedMember)
+        console.log(selectedUsers)
+        doNotTrackDevice(selectedUsers)
+    }
+    const handleBackToTrack = (rows) =>{
+        const users = []
+        rows.map(data=>{
+            users.push(data._id)
+        })
+        const devcieList = {
+            deviceUserId:users
+        }
+        backToTrack(devcieList)
     }
     return (
         <div className={classes.root}>
@@ -177,14 +170,30 @@ const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
                 <MaterialTable
                     title=""
                     columns={state.columns}
-
-                    data={state.data}
+                    data={notTrackedList}
                     options={{
                         headerStyle: { backgroundColor: 'rgba(221, 221, 221, 0.863)' },
-                        toolbar: false,
+                        // toolbar: false,
                         search: false,
-                        filtering: true
+                        filtering: true,
+                        selection:true
                     }}
+                    actions={[
+                        {
+                          tooltip: 'Remove All Selected Users',
+                          icon: () => <Button variant="contained" style={{
+                            // color: '#ffffff', background: "rgba(65, 63, 63, 0.863)",
+                            // '&:hover': {
+                            //     background: "#2491c4",
+                            // },
+                        }}>
+                            Back To Track
+                          </Button>,
+                          onClick: (event, rowData) => {
+                           handleBackToTrack(rowData)
+                          }
+                        }
+                      ]}
                     icons={tableIcons}
                 />
             </div>
@@ -241,10 +250,15 @@ const DoNotTrack = ({ getDeviceList, device: { deviceList, loading } }) => {
 }
 DoNotTrack.propTypes = {
     getDeviceList: PropTypes.func.isRequired,
-    device: PropTypes.object.isRequired
+    device: PropTypes.object.isRequired,
+    getDoNotTrackList:PropTypes.func.isRequired,
+    doNotTrack:PropTypes.object.isRequired,
+    backToTrack:PropTypes.func.isRequired,
+    doNotTrackDevice:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
-    device: state.device
+    device: state.device,
+    doNotTrack:state.doNotTrack
 })
-export default connect(mapStateToProps, { getDeviceList })(DoNotTrack)
+export default connect(mapStateToProps, { getDeviceList,backToTrack,doNotTrackDevice,getDoNotTrackList })(DoNotTrack)
 
