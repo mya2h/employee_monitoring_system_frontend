@@ -24,7 +24,7 @@ const GraphInfo = () => {
       <h3 className={classes.title}>Dashboard</h3>
       <Label />
       <BarGraph />
-      <LowerLabel />
+      {/* <LowerLabel /> */}
     </div>
   );
 };

@@ -175,7 +175,16 @@ const TopApplications = ({ getTopApplications, getDeviceList, device: { deviceLi
     setApp(event.target.value)
   }
   const refreshReport = () => {
-    getTopApplications(device)
+    if(date[0].startDate &&  date[0].endDate){
+      const startDate = date[0].startDate.getDate()
+      const endDate = date[0].endDate.getDate()
+      getTopApplications(startDate,endDate,device)
+     }
+     else{
+      const startDate = date[0].start.getDate()
+      const endDate = date[0].end.getDate()
+      getTopApplications(startDate,endDate,device)
+     }
   }
   const handleDeviceChange = (event) => {
     setDevice(event.target.value)

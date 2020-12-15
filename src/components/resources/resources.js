@@ -108,8 +108,9 @@ const Resource = () => {
     const onClickHandler = () => {
         const data = new FormData()
         data.append('file', file)
-        console.log('data',data)
-        console.log('file',file)
+        for (var key of data.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+        }
     }
     return (
         <div className={classes.all}>

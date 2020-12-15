@@ -169,7 +169,16 @@ const TopWebsites = ({ getTopWebsites, getDeviceList, topWebsites: { top_website
     setTitle(row.website)
   }
   const refreshReport = () => {
-    getTopWebsites()
+    if(date[0].startDate &&  date[0].endDate){
+      const startDate = date[0].startDate.getDate()
+      const endDate = date[0].endDate.getDate()
+      getTopWebsites(startDate,endDate,device)
+     }
+     else{
+      const startDate = date[0].start.getDate()
+      const endDate = date[0].end.getDate()
+      getTopWebsites(startDate,endDate,device)
+     }
   }
   const handleChange = (item) => {
     console.log([item])

@@ -1,5 +1,4 @@
-import { Casino, TramRounded } from "@material-ui/icons"
-import {VIEW_REGISTER_RESOURCE_FAIL,VIEW_REGISTER_RESOURCE_SUCCESS} from "../actions/types"
+import {FILE_LIST_FAIL,FILE_LIST_SUCCESS} from "../actions/types"
 
 const intialState={
     registered_resource:[],
@@ -7,11 +6,11 @@ const intialState={
     loading:true
 }
 
-function resourceReducer(state=intialState,actions){
+export default function(state=intialState,actions){
     const {type,payload}=actions
 
     switch(type){
-        case VIEW_REGISTER_RESOURCE_SUCCESS:
+        case FILE_LIST_SUCCESS:
             return{
                 ...state,
                 registered_resource:payload,
@@ -19,7 +18,7 @@ function resourceReducer(state=intialState,actions){
                 loading:false
             
             }
-        case VIEW_REGISTER_RESOURCE_FAIL:
+        case FILE_LIST_FAIL:
             return{
                 ...state,
                 itemLoaded:false,
@@ -30,4 +29,3 @@ function resourceReducer(state=intialState,actions){
             return state
     }
 }
-export default resourceReducer
