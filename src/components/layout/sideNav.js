@@ -1,5 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import List from "@material-ui/core/List";
 import { NavLink } from 'react-router-dom';
@@ -65,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SideNav = () => {
+const SideNav = ({auth:{role}}) => {
   const classes = useStyles();
   const [openSide, setOpenSide] = React.useState(null);
   const [openReport, setOpenReport] = React.useState(null);
@@ -243,7 +245,8 @@ const SideNav = () => {
             </NavLink>
           </List>
         </Collapse>
-        <NavLink
+        {role == 'SuperAdmin' && (
+          <NavLink
           to="/admin/account"
            className="Nav_link"
           activeClassName="activeRoute"
@@ -256,9 +259,19 @@ const SideNav = () => {
             <ListItemText primary="Account" />
           </ListItem>
         </NavLink>
+        )}
+        
       </List>
     </MuiThemeProvider>
 
   );
 };
-export default SideNav;
+
+SideNav.propTypes = {
+  auth:PropTypes.func.isRequired
+}
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+export default connect(mapStateToProps, { })(SideNav)
+

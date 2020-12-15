@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import image from '../../assets/images/2.jpg'
-import {getUserById} from '../../actions/auth'
+import {getUserById,changeProfile} from '../../actions/auth'
 import {
   Avatar,
   Box,
@@ -52,75 +52,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile=({getUserById,individual:{singleUser}})=>{
-    useEffect(()=>{
-      getUserById()
-    },[])
+  useEffect(() => {
+    getUserById()
+    // if (singleUser!={}) {
+    //  setValues(singleUser)
+    // }
+  }, [])
+    // useEffect(()=>{
+    //   getUserById()
+    //   setValues(singleUser)
+    // },[])
     const classes = useStyles();
-    const [values, setValues] = useState(singleUser);
+    const [values, setValues] = useState(null);
 
     const handleChange = (event) => {
-        setValues({
-          ...values,
-          [event.target.name]: event.target.value
-        });
+        setValues({...values,[event.target.name]: event.target.value});
       };
     const handleSubmit = (event) =>{
       event.preventDefault()
       console.log(values)
+      changeProfile(values)
     }
     return(
         <Grid container spacing={3}>
-            
-  {/* <Grid item xs={4}>
-   <Card
-        className={classes.root}
-       
-      >
-        <CardContent>
-          <Box
-            alignItems="center"
-            display="flex"
-            flexDirection="column"
-          >
-            <Avatar
-              className={classes.avatar}
-              src={image}
-            />
-            <Typography
-              color="textPrimary"
-              gutterBottom
-              variant="h3"
-            >
-              {user.name}
-            </Typography>
-            <Typography
-              color="textSecondary"
-              variant="body1"
-            >
-              {`${user.city} ${user.country}`}
-            </Typography>
-            <Typography
-              className={classes.dateText}
-              color="textSecondary"
-              variant="body1"
-            >
-              {`${moment().format('hh:mm A')} ${user.timezone}`}
-            </Typography>
-          </Box>
-        </CardContent>
-        <Divider />
-        <CardActions>
-          <Button
-            color="primary"
-            fullWidth
-            variant="text"
-          >
-            Upload picture
-          </Button>
-        </CardActions>
-      </Card>
-
-      </Grid> */}
      <Grid item xs={8} className={classes.all}>
      <form
       onSubmit={handleSubmit}
@@ -134,6 +88,7 @@ const Profile=({getUserById,individual:{singleUser}})=>{
         />
         <Divider />
         <CardContent>
+
           <Grid
             container
             spacing={3}
@@ -144,13 +99,12 @@ const Profile=({getUserById,individual:{singleUser}})=>{
               xs={12}
             >
               <TextField
-                fullWidth
-                label="First name"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={singleUser.firstName}
-                variant="outlined"
+              fullWidth
+              variant="outlined"
+               label="First name"
+               name="firstName"
+               defaultValue={singleUser.firstName}
+               onChange={(event) => handleChange(event)}
               />
             </Grid>
             <Grid
@@ -159,12 +113,13 @@ const Profile=({getUserById,individual:{singleUser}})=>{
               xs={12}
             >
               <TextField
+              
                 fullWidth
                 label="Last name"
                 name="lastName"
-                onChange={handleChange}
+                defaultValue={singleUser.lastName}
+                onChange={(event) => handleChange(event)}
                 required
-                value={singleUser.lastName}
                 variant="outlined"
               />
             </Grid>
@@ -177,9 +132,9 @@ const Profile=({getUserById,individual:{singleUser}})=>{
                 fullWidth
                 label="User Name"
                 name="userName"
-                onChange={handleChange}
+                onChange={(event) => handleChange(event)}
                 required
-                value={singleUser.userName}
+                defaultValue={singleUser.userName}
                 variant="outlined"
               />
             </Grid>
@@ -192,13 +147,14 @@ const Profile=({getUserById,individual:{singleUser}})=>{
                 fullWidth
                 label="Email Address"
                 name="email"
-                onChange={handleChange}
                 required
-                value={singleUser.email}
+                defaultValue={singleUser.email}
+                onChange={(event) => handleChange(event)}
                 variant="outlined"
               />
             </Grid>
           </Grid>
+
         </CardContent>
         <Divider />
         <Box

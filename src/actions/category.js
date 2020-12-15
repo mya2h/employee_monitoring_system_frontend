@@ -20,7 +20,13 @@ export const addNewGroup = (value)=>async dispatch=>{
         // })
     }
     catch(err){
-        dispatch(setAlert('unable to add new category','error'))
+        console.log(err.response)
+        const errors = err.response.data.errors
+        console.log(errors);
+        if(errors){
+            errors.forEach(error => dispatch(setAlert(error.message,'error')));
+
+    }
     }
 }
 export const updateGroup = (value)=> async dispatch=>{

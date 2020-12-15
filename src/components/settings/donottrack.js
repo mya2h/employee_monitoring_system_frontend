@@ -177,6 +177,7 @@ const DoNotTrack = ({ getDeviceList,backToTrack,doNotTrackDevice,getDoNotTrackLi
                         search: false,
                         filtering: true,
                         selection:true
+                       
                     }}
                     actions={[
                         {
@@ -230,7 +231,11 @@ const DoNotTrack = ({ getDeviceList,backToTrack,doNotTrackDevice,getDoNotTrackLi
                                 },
                                 headerStyle: {
                                     backgroundColor: "#f0f0f0"
-                                }
+                                },
+                                selectionProps: rowData => ({
+                                    disabled: rowData.track === false,
+                                    color: 'primary'
+                                  })
                             }}
                             onSelectionChange={(rows) => handleMemberSelection(rows)}
                         />

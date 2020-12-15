@@ -6,7 +6,7 @@ import Notifications, { success } from 'react-notification-system-redux';
 import Drawer from "@material-ui/core/Drawer";
 import Divider from '@material-ui/core/Divider';
 import Popover from '@material-ui/core/Popover';
-import image from '../../assets/images/2.jpg'
+import image from '../../assets/images/ad.png'
 import { Link } from 'react-router-dom';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -190,7 +190,7 @@ const notificationOpts = {
     callback: () => alert('clicked!')
   }
 };
-const Dashboard = ({auth:{isAuthenticated,token},logout,getNotification,notify:{notification,count}}) => {
+const Dashboard = ({auth:{isAuthenticated,token,role},logout,getNotification,notify:{notification,count}}) => {
   useEffect(() => {
     getNotification()
   }, [])
@@ -326,7 +326,7 @@ const Dashboard = ({auth:{isAuthenticated,token},logout,getNotification,notify:{
         }}
       >
         <div  className={classes.popup}>
-        {notification.length > 0 && notification.map((item,index)=>(
+        {notification != null && notification.length > 0 && notification.map((item,index)=>(
           <div >
                {item.seen == true && 
                <div>
@@ -380,8 +380,9 @@ const Dashboard = ({auth:{isAuthenticated,token},logout,getNotification,notify:{
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-<Link  to="/admin/profile" variant='body2' style={{ color: 'inherit', textDecoration: 'inherit' }}> <MenuItem >Profile</MenuItem></Link>
-          
+              {role == 'SuperAdmin'&&(
+                <Link  to="/admin/profile" variant='body2' style={{ color: 'inherit', textDecoration: 'inherit' }}> <MenuItem >Profile</MenuItem></Link>
+              )}
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
         </Toolbar>

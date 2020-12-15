@@ -126,6 +126,7 @@ export const getUserById =  ()=> async dispatch=>{
     }
     try {
         const res = await axios.get('http://localhost:5000/api/user/profile/'+id, config)
+        console.log("valijasd",res.data)
         dispatch({
             type: INDIVIDUAL_SUCCESS,
             payload: res.data
@@ -136,5 +137,21 @@ export const getUserById =  ()=> async dispatch=>{
         dispatch({
             type: INDIVIDUAL_FAIL,
         })
+    }
+}
+export const changeProfile = async(value)=>{
+    const body =  JSON.stringify(value)
+    const id = localStorage.getItem('id')
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.put('http://localhost:5000/api/user/update/'+id,body,config)
+        console.log(res.data)
+    }
+    catch (err) {
+        console.log(err.response)
     }
 }
