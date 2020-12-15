@@ -28,7 +28,7 @@ import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
 import {getDeviceList} from '../../actions/devices'
 import {getActivityLogs} from '../../actions/report'
-
+import {getNotification} from "../../actions/notification"
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check style={{
     color: '#2b94b1'
@@ -117,10 +117,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ActivityLog = ({getDeviceList,getActivityLogs,activityLog:{activity},device:{deviceList,loading}}) => {
+const ActivityLog = ({getDeviceList,getNotification,getActivityLogs,activityLog:{activity},device:{deviceList,loading}}) => {
   useEffect(() => {
     getDeviceList()
     getActivityLogs()
+    getNotification()
   }, [])
 
   const classes = useStyles();
@@ -216,10 +217,11 @@ ActivityLog.propTypes={
   getDeviceList:PropTypes.func.isRequired,
   getActivityLogs:PropTypes.func.isRequired,
   activityLog:PropTypes.object.isRequired,
-  device:PropTypes.object.isRequired
+  device:PropTypes.object.isRequired,
+  getNotification:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   device: state.device,
   activityLog: state.activityLog
 })
-export default connect(mapStateToProps,{getActivityLogs,getDeviceList})(ActivityLog)
+export default connect(mapStateToProps,{getActivityLogs,getNotification,getDeviceList})(ActivityLog)

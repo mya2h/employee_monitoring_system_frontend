@@ -33,6 +33,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Divider from '@material-ui/core/Divider';
 import { getTopApplications } from '../../actions/report'
 import { getDeviceList } from '../../actions/devices'
+import {getNotification} from "../../actions/notification"
 import originalMoment from "moment";
 import { extendMoment } from "moment-range";
 const moment = extendMoment(originalMoment);
@@ -144,10 +145,11 @@ const useStyles = makeStyles((theme) => ({
   }
 
 }));
-const TopApplications = ({ getTopApplications, getDeviceList, device: { deviceList, loading }, topApplication: { top_applications } }) => {
+const TopApplications = ({ getTopApplications,getNotification,getDeviceList, device: { deviceList, loading }, topApplication: { top_applications } }) => {
   useEffect(() => {
     getTopApplications(new Date().getDate(),new Date().getDate(),'allDevices')
     getDeviceList()
+    getNotification()
   }, [])
   const classes = useStyles();
   const [detailData, setDetailData] = React.useState([])
@@ -383,12 +385,13 @@ TopApplications.propTypes = {
   getTopApplications: PropTypes.func.isRequired,
   topApplication: PropTypes.object.isRequired,
   getDeviceList: PropTypes.func.isRequired,
-  device: PropTypes.object.isRequired
+  device: PropTypes.object.isRequired,
+  getNotification:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   topApplication: state.topApplication,
   device: state.device
 })
-export default connect(mapStateToProps, { getTopApplications, getDeviceList })(TopApplications)
+export default connect(mapStateToProps, { getTopApplications,getNotification,getDeviceList })(TopApplications)
 
 

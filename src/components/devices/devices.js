@@ -23,7 +23,7 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
 import {getDeviceList,getDoNotTrackList} from '../../actions/devices'
-
+import {getNotification} from "../../actions/notification"
 
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check style={{
@@ -94,10 +94,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Devices = ({getDeviceList,getDoNotTrackList,device:{deviceList,loading}}) => {
+const Devices = ({getDeviceList,getNotification,getDoNotTrackList,device:{deviceList,loading}}) => {
   useEffect(() => {
     getDeviceList()
     getDoNotTrackList()
+    getNotification()
   }, [])
 
   const classes = useStyles();
@@ -140,9 +141,10 @@ const Devices = ({getDeviceList,getDoNotTrackList,device:{deviceList,loading}}) 
 }
 Devices.propTypes={
   getDeviceList:PropTypes.func.isRequired,
-  device:PropTypes.object.isRequired
+  device:PropTypes.object.isRequired,
+  getNotification:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   device: state.device
 })
-export default connect(mapStateToProps,{getDoNotTrackList,getDeviceList})(Devices)
+export default connect(mapStateToProps,{getNotification,getDoNotTrackList,getDeviceList})(Devices)

@@ -24,6 +24,7 @@ import Check from '@material-ui/icons/Check';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import Delete from '@material-ui/icons/Delete'
 import { makeStyles } from '@material-ui/core/styles';
+import {getNotification} from "../../actions/notification"
 import { getDeviceList,doNotTrackDevice,backToTrack,getDoNotTrackList } from '../../actions/devices'
 
 
@@ -102,7 +103,7 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-const DoNotTrack = ({ getDeviceList,backToTrack,doNotTrackDevice,getDoNotTrackList,doNotTrack:{notTrackedList}, device: { deviceList, loading } }) => {
+const DoNotTrack = ({ getDeviceList,getNotification,backToTrack,doNotTrackDevice,getDoNotTrackList,doNotTrack:{notTrackedList}, device: { deviceList, loading } }) => {
     useEffect(() => {
         getDeviceList()
         getDoNotTrackList()
@@ -259,11 +260,12 @@ DoNotTrack.propTypes = {
     getDoNotTrackList:PropTypes.func.isRequired,
     doNotTrack:PropTypes.object.isRequired,
     backToTrack:PropTypes.func.isRequired,
-    doNotTrackDevice:PropTypes.func.isRequired
+    doNotTrackDevice:PropTypes.func.isRequired,
+    getNotification:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     device: state.device,
     doNotTrack:state.doNotTrack
 })
-export default connect(mapStateToProps, { getDeviceList,backToTrack,doNotTrackDevice,getDoNotTrackList })(DoNotTrack)
+export default connect(mapStateToProps, { getDeviceList,getNotification,backToTrack,doNotTrackDevice,getDoNotTrackList })(DoNotTrack)
 

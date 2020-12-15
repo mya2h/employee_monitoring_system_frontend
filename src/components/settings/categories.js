@@ -43,6 +43,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getDeviceList } from '../../actions/devices';
+import {getNotification} from "../../actions/notification"
 import {addNewGroup,getDeviceGroupList,addGroupMember,getDeviceMembers,updateGroup,deleteCategory,deleteMember} from '../../actions/category'
 
 const tableIcons = {
@@ -185,10 +186,11 @@ const useStyles = makeStyles((theme) => ({
     }
     
 }));
-const Categories = ({ getDeviceList,addGroupMember,updateGroup,getDeviceMembers,getDeviceGroupList,addNewGroup,device: { deviceList, loading },deviceGroup:{groups},deviceMembers:{members} }) => {
+const Categories = ({ getDeviceList,getNotification,addGroupMember,updateGroup,getDeviceMembers,getDeviceGroupList,addNewGroup,device: { deviceList, loading },deviceGroup:{groups},deviceMembers:{members} }) => {
     useEffect(() => {
         getDeviceList()
         getDeviceGroupList()
+        getNotification()
     }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
@@ -576,7 +578,8 @@ Categories.propTypes = {
     getDeviceMembers:PropTypes.func.isRequired,
     deviceMembers:PropTypes.object.isRequired,
     updateGroup:PropTypes.func.isRequired,
-    addGroupMember:PropTypes.func.isRequired
+    addGroupMember:PropTypes.func.isRequired,
+    getNotification:PropTypes.func.isRequired
     // deleteCategory:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
@@ -584,5 +587,5 @@ const mapStateToProps = state => ({
     deviceGroup:state.deviceGroup,
     deviceMembers:state.deviceMembers
 })
-export default connect(mapStateToProps, {addGroupMember,addNewGroup,updateGroup,getDeviceMembers,getDeviceList,getDeviceGroupList })(Categories)
+export default connect(mapStateToProps, {addGroupMember,getNotification,addNewGroup,updateGroup,getDeviceMembers,getDeviceList,getDeviceGroupList })(Categories)
 

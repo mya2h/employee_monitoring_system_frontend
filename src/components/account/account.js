@@ -27,7 +27,7 @@ import SignUp from '../auth/signup'
 import { getAllUsers, activateUser, deactivateUser } from "../../actions/auth"
 import { Button } from '@material-ui/core';
 import { Add, Rowing } from '@material-ui/icons';
-
+import {getNotification} from "../../actions/notification"
 
 
 const tableIcons = {
@@ -127,9 +127,10 @@ const getModalStyle = () => {
   };
 }
 
-const Account = ({ getAllUsers, activateUser,deactivateUser,users: { users, loading } }) => {
+const Account = ({ getAllUsers,getNotification, activateUser,deactivateUser,users: { users, loading } }) => {
   useEffect(() => {
     getAllUsers()
+    getNotification()
   }, [])
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -251,10 +252,11 @@ Account.propTypes = {
   getAllUsers: PropTypes.func.isRequired,
   users: PropTypes.object.isRequired,
   activateUser:PropTypes.func.isRequired,
-  deactivateUser:PropTypes.func.isRequired
+  deactivateUser:PropTypes.func.isRequired,
+  getNotification:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   users: state.users
 })
-export default connect(mapStateToProps, { activateUser,deactivateUser,getAllUsers })(Account)
+export default connect(mapStateToProps, { getNotification,activateUser,deactivateUser,getAllUsers })(Account)
 

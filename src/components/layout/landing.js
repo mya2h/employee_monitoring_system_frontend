@@ -43,7 +43,7 @@ import RegisterSuspiciousActivities from '../activities/registerSuspiciousActivi
 import ActivityLog from '../reports/activity_log'
 import WorkingHours from '../reports/working_hours'
 import {logout} from '../../actions/auth'
-import {getNotification} from '../../actions/notification'
+import {getNotification,addToSeen} from '../../actions/notification'
 import { Button } from "@material-ui/core";
 const drawerWidth = 260;
 
@@ -190,7 +190,7 @@ const notificationOpts = {
     callback: () => alert('clicked!')
   }
 };
-const Dashboard = ({auth:{isAuthenticated,token,role},logout,getNotification,notify:{notification,count}}) => {
+const Dashboard = ({auth:{isAuthenticated,token,role},addToSeen,logout,getNotification,notify:{notification,count}}) => {
   useEffect(() => {
     getNotification()
   }, [])
@@ -269,6 +269,7 @@ const Dashboard = ({auth:{isAuthenticated,token,role},logout,getNotification,not
   };
   const handleNotification = (item,index) =>{
     // notifications[index].seen = true
+    addToSeen(item._id)
     console.log(notifications)
   }
   const handleLogout = ()=>{
@@ -348,7 +349,7 @@ const Dashboard = ({auth:{isAuthenticated,token,role},logout,getNotification,not
                }
                {item.seen == false && 
                <div>
-               {/* <Link to="" style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}> */}
+                <Link style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}> 
                       <Paper className={classes.paperNotification} elevation={0}>
                           <Grid container wrap="nowrap" spacing={2}>
                            <Grid item xs>
@@ -357,7 +358,7 @@ const Dashboard = ({auth:{isAuthenticated,token,role},logout,getNotification,not
                           
                          </Grid>
                        </Paper>
-                      {/* </Link> */}
+                      </Link>
                         <Divider light/>
                         </div>
                }
@@ -422,12 +423,13 @@ Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
   getNotification: PropTypes.func.isRequired,
-  notify:PropTypes.object.isRequired
+  notify:PropTypes.object.isRequired,
+  addToSeen:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   auth: state.auth,
   notify: state.notify
 })
-export default connect(mapStateToProps, {getNotification,logout})(Dashboard)
+export default connect(mapStateToProps, {getNotification,addToSeen,logout})(Dashboard)
 

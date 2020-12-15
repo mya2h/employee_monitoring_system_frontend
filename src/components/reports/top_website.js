@@ -37,6 +37,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import Divider from '@material-ui/core/Divider';
 import { getTopWebsites } from '../../actions/report'
 import { getDeviceList } from '../../actions/devices'
+import {getNotification} from "../../actions/notification"
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check style={{
     color: '#2b94b1'
@@ -143,10 +144,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TopWebsites = ({ getTopWebsites, getDeviceList, topWebsites: { top_websites }, device: { deviceList, loading } }) => {
+const TopWebsites = ({ getTopWebsites,getNotification, getDeviceList, topWebsites: { top_websites }, device: { deviceList, loading } }) => {
   useEffect(() => {
     getTopWebsites(new Date().getDate(),new Date().getDate(),'allDevices')
     getDeviceList()
+    getNotification()
   }, [])
   const classes = useStyles();
   const [detailData, setDetailData] = React.useState([])
@@ -372,11 +374,12 @@ TopWebsites.propTypes = {
   getTopWebsites: PropTypes.func.isRequired,
   getDeviceList: PropTypes.func.isRequired,
   topWebsites: PropTypes.object.isRequired,
-  device: PropTypes.object.isRequired
+  device: PropTypes.object.isRequired,
+  getNotification:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   topWebsites: state.topWebsites,
   device: state.device
 })
-export default connect(mapStateToProps, { getDeviceList, getTopWebsites })(TopWebsites)
+export default connect(mapStateToProps, { getDeviceList,getNotification, getTopWebsites })(TopWebsites)
 

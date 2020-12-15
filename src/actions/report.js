@@ -8,7 +8,7 @@ export const getActivityLogs = () => async dispatch=> {
         }
     }
     try {
-        const res = await axios.get('http://localhost:5000/api/changedFiles/', config)
+        const res = await axios.get('http://localhost:5000/api/changedFiles/16', config)
         console.log(res.data)
         dispatch({
             type: ACTIVTY_LOG_SUCCESS,

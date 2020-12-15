@@ -29,6 +29,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {addSuspiciousActivities,getSuspiciousActivitiesFilesById,getSuspiciousActivities,addSuspiciousFiles,getSuspiciousActivitiesFiles} from '../../actions/activities'
 import { getDeviceList } from '../../actions/devices';
+import {getNotification} from "../../actions/notification"
 const useStyles = makeStyles((theme) => ({
     root: {
         // // maxHeight: "500px",
@@ -140,10 +141,11 @@ const useStyles = makeStyles((theme) => ({
     }
 
 }));
-const SuspiciousActivities = ({addSuspiciousActivities,getSuspiciousActivitiesFilesById,getSuspiciousActivitiesFiles,addSuspiciousFiles,getDeviceList,device: { deviceList, loading },getSuspiciousActivities,suspicious:{suspiciousActivity},suspiciousFiles:{suspiciousFile}}) => {
+const SuspiciousActivities = ({addSuspiciousActivities,getNotification,getSuspiciousActivitiesFilesById,getSuspiciousActivitiesFiles,addSuspiciousFiles,getDeviceList,device: { deviceList, loading },getSuspiciousActivities,suspicious:{suspiciousActivity},suspiciousFiles:{suspiciousFile}}) => {
     useEffect(() => {
         getDeviceList()
         getSuspiciousActivities()
+        getNotification()
     }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([0]);
@@ -481,11 +483,12 @@ SuspiciousActivities.propTypes = {
     addSuspiciousFiles:PropTypes.func.isRequired,
     suspicious:PropTypes.object.isRequired,
     suspiciousFiles:PropTypes.object.isRequired,
-    getSuspiciousActivitiesFilesById:PropTypes.func.isRequired
+    getSuspiciousActivitiesFilesById:PropTypes.func.isRequired,
+    getNotification:PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     device: state.device,
     suspicious: state.suspicious,
     suspiciousFiles:state.suspiciousFiles
 })
-export default connect(mapStateToProps, {getDeviceList,getSuspiciousActivitiesFilesById,getSuspiciousActivitiesFiles,addSuspiciousFiles,getSuspiciousActivities,addSuspiciousActivities})(SuspiciousActivities)
+export default connect(mapStateToProps, {getDeviceList,getNotification,getSuspiciousActivitiesFilesById,getSuspiciousActivitiesFiles,addSuspiciousFiles,getSuspiciousActivities,addSuspiciousActivities})(SuspiciousActivities)

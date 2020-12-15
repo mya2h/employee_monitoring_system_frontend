@@ -31,38 +31,20 @@ catch (err) {
     })
 }
 }
-export function show(opts = {}, level = 'success') {
-  return {
-    type: RNS_SHOW_NOTIFICATION,
-    ...opts,
-    uid: opts.uid || Date.now(),
-    level
-  };
+export const addToSeen = (value)=> async dispatch=>{
+  const id = value
+  const config = {
+    headers:{
+        'Content-Type': 'application/json'
+    }
+  }
+try {
+  const res = await axios.put('http://localhost:5000/api/openSuspiciousWindows/'+id, config)
+  getNotification()(dispatch)
+  console.log(res.data)
+}
+catch(err){
+  console.log(err.response)
+}
 }
 
-export function success(opts) {
-  return show(opts, 'success');
-}
-
-export function error(opts) {
-  return show(opts, 'error');
-}
-
-export function warning(opts) {
-  return show(opts, 'warning');
-}
-
-export function info(opts) {
-  return show(opts, 'info');
-}
-
-export function hide(uid) {
-  return {
-    type: RNS_HIDE_NOTIFICATION,
-    uid
-  };
-}
-
-export function removeAll() {
-  return { type: RNS_REMOVE_ALL_NOTIFICATIONS };
-}
