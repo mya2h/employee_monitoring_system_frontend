@@ -147,6 +147,7 @@ const Profile=({getUserById,individual:{singleUser}})=>{
                 fullWidth
                 label="Email Address"
                 name="email"
+                type="email" 
                 required
                 defaultValue={singleUser.email}
                 onChange={(event) => handleChange(event)}

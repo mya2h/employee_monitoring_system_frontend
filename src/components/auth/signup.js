@@ -139,6 +139,7 @@ const SignUp = ({register}) => {
                 required
                 fullWidth
                 id="email"
+                type="email" 
                 label="Email Address"
                 value = {user.email}
                 name="email"
@@ -171,6 +172,7 @@ const SignUp = ({register}) => {
                 fullWidth
                 name="password"
                 label="Password"
+                pattern=".{5,15}"
                 value = {user.password}
                 type="password"
                 id="password"
