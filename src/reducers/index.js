@@ -16,10 +16,12 @@ import topWebsites from './top_website_report_reducer'
 import suspicious from './suspiciousActivities'
 import suspiciousFiles from './suspiciousFile'
 import doNotTrack from './notTracked'
+import individual from './individual'
 export default combineReducers({
     auth,
     users,
     device,
+    individual,
     notification,
     notify,
     doNotTrack,

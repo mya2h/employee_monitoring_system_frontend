@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { USER_LOADED_SUCCESS, USER_LOADED_FAIL,LOGOUT,AUTH_SUCCESS, AUTH_FAIL } from './types'
+import { USER_LOADED_SUCCESS, USER_LOADED_FAIL,LOGOUT,AUTH_SUCCESS, AUTH_FAIL,INDIVIDUAL_SUCCESS,INDIVIDUAL_FAIL } from './types'
 import {setAlert} from './alert'
 export const register = (value) => async dispatch => {
     const body = JSON.stringify(value)
@@ -116,6 +116,25 @@ export const deactivateUser =  (_id) => async dispatch=> {
 export const logout = () => dispatch=>{
     dispatch({type:LOGOUT})
 }
-export const getUserById = (value)=>{
-
+export const getUserById =  ()=> async dispatch=>{
+    const id = localStorage.getItem('id')
+    console.log(id)
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.get('http://localhost:5000/api/user/profile/'+id, config)
+        dispatch({
+            type: INDIVIDUAL_SUCCESS,
+            payload: res.data
+        })
+    }
+    catch (err) {
+        console.log(err)
+        dispatch({
+            type: INDIVIDUAL_FAIL,
+        })
+    }
 }

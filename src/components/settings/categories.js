@@ -232,9 +232,9 @@ const Categories = ({ getDeviceList,addGroupMember,updateGroup,getDeviceMembers,
     };
     const handleClick = (event, index) => {
         getDeviceMembers(event._id)
-        console.log(event)
         setSelectedCategory(event._id)
         setSelected(index);
+        console.log(selectedIndex)
         setSelectedComp(null)
         setCompUserDetail([])
     }
@@ -470,9 +470,9 @@ const Categories = ({ getDeviceList,addGroupMember,updateGroup,getDeviceMembers,
                                                 <GroupIcon />
                                             </ListItemIcon>
                                             <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
-                                            <ListItemSecondaryAction>
+                                            {/* <ListItemSecondaryAction>
                                                 <IconButton onClick ={() =>handleMemberRemove(data._id)}><Delete className={classes.remove} /></IconButton>
-                                            </ListItemSecondaryAction>
+                                            </ListItemSecondaryAction> */}
                                         </ListItem>
                                     ))}
                                     {members.length === 0 && selectedComp != 0 &&(

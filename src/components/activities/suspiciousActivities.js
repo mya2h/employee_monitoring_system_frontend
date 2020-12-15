@@ -144,7 +144,6 @@ const SuspiciousActivities = ({addSuspiciousActivities,getSuspiciousActivitiesFi
     useEffect(() => {
         getDeviceList()
         getSuspiciousActivities()
-        getSuspiciousActivitiesFiles()
     }, [])
     const classes = useStyles();
     const [checked, setChecked] = React.useState([0]);
@@ -176,9 +175,8 @@ const SuspiciousActivities = ({addSuspiciousActivities,getSuspiciousActivitiesFi
         setSelected(index);
         setSelectedComp(null)
         setCompUserDetail([])
-        if(activtyType == 'files'){
-            getSuspiciousActivitiesFilesById(event._id)
-        }  
+        console.log("detail")
+        getSuspiciousActivitiesFilesById(event._id)
     }
     const handleGroupView = () => {
         setGroupView(true)
@@ -263,7 +261,7 @@ const SuspiciousActivities = ({addSuspiciousActivities,getSuspiciousActivitiesFi
                             </CardActions>
                             <CardContent className={classes.root}>
                                 <List size="small" component="nav" className={classes.root} aria-label="contacts">
-                                    {deviceList !== null && deviceList.length !=0 && deviceList.map((data,index)=>(
+                                    {deviceList !== null && menu === "files" && deviceList.length !=0 && deviceList.map((data,index)=>(
                                                      <ListItem button
                                                      selected={selectedIndex === index}
                                                      classes={{ selected: classes.selected }}
@@ -272,6 +270,18 @@ const SuspiciousActivities = ({addSuspiciousActivities,getSuspiciousActivitiesFi
                                                      <ListItemIcon className={classes.tableCell}>
                                                          <GroupIcon />
          
+                                                     </ListItemIcon>
+                                                     <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
+         
+                                                 </ListItem>
+                                    ))}
+                                        {deviceList !== null && menu !="files" && deviceList.length !=0 && deviceList.map((data,index)=>(
+                                                     <ListItem 
+                                                     classes={{ selected: classes.selected }}
+                                                     className={classes.tableRow}
+                                                >
+                                                     <ListItemIcon className={classes.tableCell}>
+                                                         <GroupIcon />
                                                      </ListItemIcon>
                                                      <ListItemText > <div className={classes.listProp}>{data.userName}</div> </ListItemText>
          

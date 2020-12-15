@@ -84,6 +84,7 @@ export const getSuspiciousActivitiesFiles = () => async dispatch=>{
             type: SUSPICIOUS_FILES_LIST_SUCCESS,
             payload: res.data
         })
+        // http://localhost:5000/api/suspiciousWindowRegister/file/
     }
     catch (err) {
         console.log(err)
@@ -101,6 +102,7 @@ export const getSuspiciousActivitiesFilesById = (value) => async dispatch=>{
     }
     try {
         const res = await axios.get('http://localhost:5000/api/suspiciousWindowRegister/file/'+id, config)
+        console.log(res.data)
         dispatch({
             type: SUSPICIOUS_FILES_LIST_SUCCESS,
             payload: res.data

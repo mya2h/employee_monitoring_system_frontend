@@ -14,7 +14,12 @@ import {
   Legend,
 } from "recharts";
 const useStyle = makeStyles((theme) => ({
-
+  graph: {
+    marginLeft: theme.spacing(3),
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(4),
+    width: "95%",
+  },
 }));
 const data = [
   {
@@ -61,7 +66,7 @@ const data = [
   },
 ];
 
-const BarGraph = () => {
+const BarGraphFiles = () => {
   const classes = useStyle();
   const [graphFile,setGraph] = React.useState([])
   useEffect(() => {
@@ -98,10 +103,10 @@ const BarGraph = () => {
         <YAxis />
         <Tooltip cursor={{ fill: "none" }} />
         <Legend ayout="horizontal" verticalAlign="top" align="center" />
-        <Bar dataKey="Suspicous" fill="#1860a8" radius={[10, 10, 0, 0]} />
+        <Bar dataKey="Suspicous" fill="#FFAF38" radius={[10, 10, 0, 0]} />
       </BarChart>
     // </Paper>
   );
   
 };
-export default BarGraph;
+export default BarGraphFiles;
