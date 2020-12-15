@@ -146,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const TopApplications = ({ getTopApplications, getDeviceList, device: { deviceList, loading }, topApplication: { top_applications } }) => {
   useEffect(() => {
-    getTopApplications('allDevices')
+    getTopApplications(new Date().getDate(),new Date().getDate(),'allDevices')
     getDeviceList()
   }, [])
   const classes = useStyles();
@@ -159,8 +159,8 @@ const TopApplications = ({ getTopApplications, getDeviceList, device: { deviceLi
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = useState([
     {
-      start: new Date().getDate(),
-      end: new Date().getDate(),
+      start: new Date(),
+      end: new Date(),
       key: 'selection',
     }
   ]);
@@ -178,14 +178,25 @@ const TopApplications = ({ getTopApplications, getDeviceList, device: { deviceLi
     getTopApplications(device)
   }
   const handleDeviceChange = (event) => {
-    console.log(event.target.value)
     setDevice(event.target.value)
-    getTopApplications(event.target.value)
+   if(date[0].startDate &&  date[0].endDate){
+    const startDate = date[0].startDate.getDate()
+    const endDate = date[0].endDate.getDate()
+    getTopApplications(startDate,endDate,event.target.value)
+   }
+   else{
+    const startDate = date[0].start.getDate()
+    const endDate = date[0].end.getDate()
+    getTopApplications(startDate,endDate,event.target.value)
+   }
   }
   const handleChange = (item) => {
     console.log([item])
     setDate([item])
     console.log(date)
+    const startDate = item.startDate.getDate()
+    const endDate = item.endDate.getDate()
+    getTopApplications(startDate,endDate,device)
   }
   const handleClick = () => {
     setOpen((prev) => !prev);

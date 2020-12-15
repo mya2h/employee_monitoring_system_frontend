@@ -464,7 +464,7 @@ const Categories = ({ getDeviceList,addGroupMember,updateGroup,getDeviceMembers,
                             </CardActions>
                             <CardContent>
                                 <List size="small" component="nav" className={classes.root} aria-label="contacts">
-                                    {members.length != 0 && members != null && selectedIndex != null && members.map(data => (
+                                    {members.length != 0 && members != null && selectedIndex != null && members.map((data,index) => (
                                         <ListItem button className={classes.list}>
                                             <ListItemIcon className={classes.listIcon}>
                                                 <GroupIcon />

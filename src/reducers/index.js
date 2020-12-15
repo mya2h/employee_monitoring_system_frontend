@@ -10,6 +10,7 @@ import device from './device'
 import activityLog from './activityLog'
 import deviceGroup from './deviceGroup'
 import deviceMembers from './deviceMembers'
+import notify from './notifyReducer'
 import notification from './notification'
 import topWebsites from './top_website_report_reducer'
 import suspicious from './suspiciousActivities'
@@ -20,6 +21,7 @@ export default combineReducers({
     users,
     device,
     notification,
+    notify,
     doNotTrack,
     suspiciousFiles,
     suspicious,

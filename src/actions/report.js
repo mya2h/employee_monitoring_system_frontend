@@ -22,31 +22,10 @@ export const getActivityLogs = () => async dispatch=> {
         })
     }
 }
-export const getTopWebsites = () => async dispatch=> {
-    const config = {
-        headers:{
-            'Content-Type': 'application/json'
-        }
-    }
-    try {
-        const res = await axios.get('http://localhost:5000/api/activeWindows/websites/14/14', config)
-        console.log(res.data)
-        dispatch({
-            type: TOP_WEBSITE_LIST_REPORT_SUCCESS,
-            payload: res.data
-        })
-    }
-    catch (err) {
-        console.log(err)
-        dispatch({
-            type: TOP_WEBSITE_LIST_REPORT_FAIL,
-        })
-    }
-}
-export const getTopApplications = (deviceId) => async dispatch=> {
+export const getTopWebsites = (start,end,deviceId) => async dispatch=> {
     const device = deviceId
-
-    
+    const startDate = start
+    const endDate = end
     const config = {
         headers:{
             'Content-Type': 'application/json'
@@ -54,7 +33,51 @@ export const getTopApplications = (deviceId) => async dispatch=> {
     }
     if(device == 'allDevices'){
         try {
-            const res = await axios.get('http://localhost:5000/api/activeWindows/apps/14/14', config)
+            const res = await axios.get('http://localhost:5000/api/activeWindows/websites/'+startDate+'/'+endDate, config)
+            console.log(res.data)
+            dispatch({
+                type: TOP_WEBSITE_LIST_REPORT_SUCCESS,
+                payload: res.data
+            })
+        }
+        catch (err) {
+            console.log(err)
+            dispatch({
+                type: TOP_WEBSITE_LIST_REPORT_FAIL,
+            })
+        }
+    }
+    else{
+        try {
+            const res = await axios.get('http://localhost:5000/api/activeWindows/websites/'+startDate+'/'+endDate+'?deviceUser='+device, config)
+            console.log(res.data)
+            dispatch({
+                type: TOP_WEBSITE_LIST_REPORT_SUCCESS,
+                payload: res.data
+            })
+        }
+        catch (err) {
+            console.log(err)
+            dispatch({
+                type: TOP_WEBSITE_LIST_REPORT_FAIL,
+            })
+        }
+    }
+    
+}
+export const getTopApplications = (start,end,deviceId) => async dispatch=> {
+    const device = deviceId
+    const startDate = start
+    const endDate = end
+    const config = {
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }
+    if(device == 'allDevices'){
+        try {
+            console.log(startDate)
+            const res = await axios.get('http://localhost:5000/api/activeWindows/apps/'+startDate+'/'+endDate, config)
             console.log(res.data)
             dispatch({
                 type: TOP_APPLICATION_LIST_REPORT_SUCCESS,
@@ -70,7 +93,7 @@ export const getTopApplications = (deviceId) => async dispatch=> {
     }
     else{
         try {
-            const res = await axios.get('http://localhost:5000/api/activeWindows/apps/14/14?deviceId='+device, config)
+            const res = await axios.get('http://localhost:5000/api/activeWindows/apps/'+startDate+'/'+endDate+'?deviceId='+device, config)
             console.log(res.data)
             dispatch({
                 type: TOP_APPLICATION_LIST_REPORT_SUCCESS,

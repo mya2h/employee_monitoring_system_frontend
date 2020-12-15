@@ -94,60 +94,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Resource = () => {
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([0]);
-    const [groupView, setGroupView] = React.useState(false)
-    const [listItems, SetListItems] = React.useState([
-        {
-            name: "Office1 laptops",
-            deviceList: ["Toshiba 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        },
-        {
-            name: "Office2 laptops",
-            deviceList: ["Toshiba kal", "Dell wea", "Kal 23CSD"]
-        },
-        {
-            name: "Office3 laptops",
-            deviceList: ["bagf 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        },
-        {
-            name: "Office4 laptops",
-            deviceList: ["12wea 23CSD", "Dell 23CSD", "Kal 23CSD"]
-        }
-    ])
-    const [childList, SetChildList] = React.useState([])
-    const [open, setOpen] = React.useState(false);
-    const [selectedIndex,setSelected] = React.useState(0)
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-    const handleClick = (event,index)=>{
-        SetChildList(event)
-        setSelected(index);
+    const [state,setState] = React.useState({
+        selectedFile: null
+    })
+    const [file,setFile] = React.useState(null)
+    const onChangeHandler = event => {
+        console.log(event.target.files[0])
+        setFile(
+          event.target.files[0],
+        )
+    
     }
-    const handleGroupView = () => {
-        setGroupView(true)
+    const onClickHandler = () => {
+        const data = new FormData()
+        data.append('file', file)
+        console.log('data',data)
+        console.log('file',file)
     }
-    const handleGroupViewClose = () => {
-        setGroupView(false)
-    }
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
     return (
         <div className={classes.all}>
-                    <Button elevation={0} className={classes.button} onClick={handleGroupView}>Register Resource</Button>
+                    <input
+           margin="normal"
+           className={classes.input}
+           type="file"
+           name="file"
+           onChange={onChangeHandler}
+           />
+                     <Button onClick={onClickHandler}>Upload File</Button>
         </div>
     )
 }

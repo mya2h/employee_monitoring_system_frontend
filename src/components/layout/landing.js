@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -43,6 +43,7 @@ import RegisterSuspiciousActivities from '../activities/registerSuspiciousActivi
 import ActivityLog from '../reports/activity_log'
 import WorkingHours from '../reports/working_hours'
 import {logout} from '../../actions/auth'
+import {getNotification} from '../../actions/notification'
 import { Button } from "@material-ui/core";
 const drawerWidth = 260;
 
@@ -189,7 +190,10 @@ const notificationOpts = {
     callback: () => alert('clicked!')
   }
 };
-const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
+const Dashboard = ({auth:{isAuthenticated,token},logout,getNotification,notify:{notification,count}}) => {
+  useEffect(() => {
+    getNotification()
+  }, [])
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -242,7 +246,7 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorNotification, setAnchorNotififcation] = React.useState(null);
-  const [notification,setNotification] = React.useState([
+  const [notifications,setNotification] = React.useState([
     {
       message:`DeviceUser Desktop12 is delete file.js at time 3:12 2020/12/04.`,
       seen:false
@@ -264,8 +268,8 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
     setAnchorNotififcation(null);
   };
   const handleNotification = (item,index) =>{
-    notification[index].seen = true
-    console.log(notification)
+    // notifications[index].seen = true
+    console.log(notifications)
   }
   const handleLogout = ()=>{
     logout()
@@ -298,7 +302,7 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
             <MenuIcon />
           </IconButton>
           <IconButton style={{ marginLeft: "90%" }} onClick={handleClick}>
-            <Badge badgeContent={4} color="primary" 
+            <Badge badgeContent={count} color="primary" 
             classes={{ badge: classes.customBadge }}
         className={classes.margin} >
               <NotificationsIcon />
@@ -326,31 +330,34 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
           <div >
                {item.seen == true && 
                <div>
-                      <Link to="" style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}>
+                      {/* <Link to="" style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}> */}
                       <Paper className={classes.paperNotificationSeen} elevation={0}>
                           <Grid container wrap="nowrap" spacing={2}>
                            <Grid item xs>
-                             <Typography>{item.message}</Typography>
+                             {/* {item.deviceUser !=null&&( */}
+                                <Typography>Un intended actvity App {item.app} title {item.title} host {item.host} is done</Typography>
+                             {/* )} */}
+                            
                            </Grid>
                           
                          </Grid>
                        </Paper>
-                      </Link>
+                      {/* </Link> */}
                         <Divider light/>
                         </div>
                }
                {item.seen == false && 
                <div>
-               <Link to="" style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}>
+               {/* <Link to="" style={{ color: 'inherit', textDecoration: 'inherit' }} onClick = {()=> handleNotification(item,index)}> */}
                       <Paper className={classes.paperNotification} elevation={0}>
                           <Grid container wrap="nowrap" spacing={2}>
                            <Grid item xs>
-                             <Typography>{item.message}</Typography>
+                           <Typography>{item.app} title {item.title} host {item.host}</Typography>
                            </Grid>
                           
                          </Grid>
                        </Paper>
-                      </Link>
+                      {/* </Link> */}
                         <Divider light/>
                         </div>
                }
@@ -412,11 +419,14 @@ const Dashboard = ({auth:{isAuthenticated,token},logout}) => {
 Dashboard.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   auth: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  getNotification: PropTypes.func.isRequired,
+  notify:PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  auth: state.auth
+  auth: state.auth,
+  notify: state.notify
 })
-export default connect(mapStateToProps, {logout})(Dashboard)
+export default connect(mapStateToProps, {getNotification,logout})(Dashboard)
 

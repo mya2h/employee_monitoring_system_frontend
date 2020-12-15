@@ -145,13 +145,14 @@ const useStyles = makeStyles((theme) => ({
 
 const TopWebsites = ({ getTopWebsites, getDeviceList, topWebsites: { top_websites }, device: { deviceList, loading } }) => {
   useEffect(() => {
-    getTopWebsites()
+    getTopWebsites(new Date().getDate(),new Date().getDate(),'allDevices')
     getDeviceList()
   }, [])
   const classes = useStyles();
   const [detailData, setDetailData] = React.useState([])
   const [selectedID, setSelectedID] = useState(0);
   const [title, setTitle] = React.useState('')
+  const [device,setDevice] = React.useState('')
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = useState([
     {
@@ -173,12 +174,25 @@ const TopWebsites = ({ getTopWebsites, getDeviceList, topWebsites: { top_website
   const handleChange = (item) => {
     console.log([item])
     setDate([item])
+    const startDate = item.startDate.getDate()
+    const endDate = item.endDate.getDate()
+    getTopWebsites(startDate,endDate,device)
   }
   const handleClick = () => {
     setOpen((prev) => !prev);
   };
   const handleDeviceChange = (event) => {
-    console.log(event.target.value)
+   setDevice(event.target.value)
+   if(date[0].startDate &&  date[0].endDate){
+    const startDate = date[0].startDate.getDate()
+    const endDate = date[0].endDate.getDate()
+    getTopWebsites(startDate,endDate,event.target.value)
+   }
+   else{
+    const startDate = date[0].start.getDate()
+    const endDate = date[0].end.getDate()
+    getTopWebsites(startDate,endDate,event.target.value)
+   }
   }
   const handleClickAway = () => {
     setOpen(false)

@@ -1,19 +1,36 @@
-import {RNS_SHOW_NOTIFICATION, RNS_HIDE_NOTIFICATION, RNS_REMOVE_ALL_NOTIFICATIONS} from './types';
-
-//Example opts
-// {
-//   title: 'Hey, it\'s good to see you!',
-//   message: 'Now you can see how easy it is to use notifications in React!',
-//   position: 'tr',
-//   autoDismiss: 0,
-//   action: {
-//     label: 'Awesome!',
-//     callback: function() {
-//       console.log('Clicked');
-//     }
-//   }
-// }
-
+import {RNS_SHOW_NOTIFICATION, RNS_HIDE_NOTIFICATION, RNS_REMOVE_ALL_NOTIFICATIONS,NOTIFICATION_LIST_SUCCESS,NOTIFICATION_LIST_FAIL} from './types';
+import axios from 'axios'
+export const  getNotification = () => async dispatch=>{
+  const config = {
+    headers:{
+        'Content-Type': 'application/json'
+    }
+}
+try {
+    const res = await axios.get('http://localhost:5000/api/openSuspiciousWindows/', config)
+    const data = res.data
+    let unseen = []
+    let count = 0
+    data.map((index) => {
+      if(index.seen === false){
+          unseen.push(index)
+          count++
+      }
+      console.log(unseen)
+    })
+    dispatch({
+        type: NOTIFICATION_LIST_SUCCESS,
+        payload: res.data,
+        count:count
+    })
+}
+catch (err) {
+    console.log(err)
+    dispatch({
+        type: NOTIFICATION_LIST_FAIL,
+    })
+}
+}
 export function show(opts = {}, level = 'success') {
   return {
     type: RNS_SHOW_NOTIFICATION,
